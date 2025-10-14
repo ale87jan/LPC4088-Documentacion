@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ProjectWorkspace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_mpw.xsd">
+
+  <SchemaVersion>1.0</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <WorkspaceName>C:\GitHub\Docencia-LPC4088\Librerias uVision\Librerias_LPC40xx_v2\00_Librerias.uvmpw</WorkspaceName>
+
+  <project>
+    <PathAndName>.\01_GLCD.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\02_Base.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\02.1_Tetris.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\03_Base_sin_timer.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\04_ADC.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\05_UART.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\06_PWM.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\07_RTC.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\08_SPI.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\09_I2C.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\11_DAC.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\12_Teclado.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\13_Sonido.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
+  </project>
+
+  <project>
+    <PathAndName>.\99.1_Stepper.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\99.2_LCD I2C.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\99.3_DHT.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\99.4_A4988.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\99.5_Tactil.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\99.6_Ultrasonidos.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\99.7_RFID.uvprojx</PathAndName>
+  </project>
+
+</ProjectWorkspace>

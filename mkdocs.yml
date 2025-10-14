@@ -1,0 +1,166 @@
+site_name: Cicerone Airlink© Documentation
+site_url: https://atari-researchlab.github.io/cicerone-airlink
+repo_url: https://github.com/atari-researchlab/cicerone-airlink
+repo_name: atari-researchlab/cicerone-airlink
+copyright: Copyright © 2025 Grupo ATARI –
+  <a href="#__consent">Change cookie settings</a>
+
+plugins:
+  - search:
+      lang:
+        - en
+        - es
+  # - mkdoxy:
+  #     enabled: !ENV [ENABLE_MKDOXY, True]
+  #     projects:
+  #       firmware: # name of project must be alphanumeric + numbers (without spaces)
+  #         src-dirs: firmware # list of source directories (relative to the mkdocs.yml file)
+  #         doxy-cfg-file: .doxygen/Doxyfile # relative path to the Doxygen configuration file (relative to the mkdocs.yml file)s
+  #     save-api: #.mkdoxy # directory where the generated files will be saved (relative to the mkdocs.yml file)
+  #     debug: False # if True, it will print debug information
+  #     ignore-errors: False # if True, it will ignore errors and continue generating the documentation
+  # - mkdocstrings:
+  #     enabled: !ENV [ENABLE_MKDOCSTRINGS, true]
+  #     default_handler: c
+  #     locale: en
+
+extra:
+  alternate:
+    - name: English
+      link: /
+      lang: en
+    # - name: Español
+    #   link: /es/
+    #   lang: es
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+    cookies:
+      github:
+        name: GitHub
+        checked: false
+  social:
+    - icon: fontawesome/brands/instagram
+      link: https://www.instagram.com/grupoatari/
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/channel/UC44JD74j4QEr4diN6-1qpBg
+
+theme:
+  name: material
+  language: en
+  logo: img/cicerone-logo.png
+  favicon: img/cicerone-logo.png
+  icon:
+    repo: fontawesome/brands/github
+    admonition:
+      note: fontawesome/solid/note-sticky
+      abstract: fontawesome/solid/book
+      info: fontawesome/solid/circle-info
+      tip: fontawesome/solid/bullhorn
+      success: fontawesome/solid/check
+      question: fontawesome/solid/circle-question
+      warning: fontawesome/solid/triangle-exclamation
+      failure: fontawesome/solid/bomb
+      danger: fontawesome/solid/skull
+      bug: fontawesome/solid/robot
+      example: fontawesome/solid/flask
+      quote: fontawesome/solid/quote-left
+  features:
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+    - navigation.instant
+    - navigation.instant.progress
+    - search.highlight
+  custom_dir: docs/_overrides
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.snippets:
+      base_path: !relative $docs_dir
+  - pymdownx.blocks.caption
+  - pymdownx.highlight:
+      use_pygments: true
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.arithmatex:
+      generic: true
+
+nav:
+  - Home: index.md
+  - Description:
+      - description/index.md
+      - description/electronics.md
+      - description/enclosure.md
+      - description/other-information.md
+  - User Guide:
+      - user-guide/index.md
+      - user-guide/assembly.md
+      - user-guide/firmware-configuration.md
+  - Reference:
+      - firmware/index.md
+      # - Class List: firmware/annotated.md
+      # - firmware/macros.md
+      # - firmware/functions.md
+      # - firmware/files.md
+      # - firmware/links.md
+  - About:
+      - about/index.md
+      - about/citations.md
+      - about/licences.md
+      - about/authors.md
+      - about/funding.md
+
+not_in_nav: |
+  lic-*.md           # lic files
+
+# /requirements.txt  # Top-level "docs/requirements.txt".
+# *.py               # Any file with this extension anywhere.
+# !/foo/example.py   # But keep this particular file.
+
+# theme:
+#   palette:
+#     # Palette toggle for light mode
+#     - media: "(prefers-color-scheme: light)"
+#       scheme: default
+#       primary: teal
+#       accent: teal
+#       toggle:
+#         icon: material/weather-sunny
+#         name: Switch to dark mode
+
+#     # Palette toggle for dark mode
+#     - media: "(prefers-color-scheme: dark)"
+#       scheme: slate
+#       primary: teal
+#       accent: teal
+#       toggle:
+#         icon: material/weather-night
+#         name: Switch to light mode
