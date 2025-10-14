@@ -9,6 +9,7 @@
 
 # Linker output
 *.ilk
+*.lst
 *.map
 *.exp
 
@@ -17,7 +18,6 @@
 *.pch
 
 # Libraries
-*.lib
 *.a
 *.la
 *.lo
@@ -53,3 +53,18 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+#Keil uVision files
+*.uvguix.*
+Objects/
+_*/
+JLinkLog.txt
+*.bak
+*@1*
+*@2*
+*.0000
+EventRecorderStub.scvd
+
+# Custom files
+*.lnk
+~$*
