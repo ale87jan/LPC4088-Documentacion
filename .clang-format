@@ -1,0 +1,169 @@
+---
+# Configuración de clang-format para LPC4088-Documentacion
+# Basado en "Programación en C - Guía de Estilo.pdf"
+# Proyecto educativo - Universidad de Cádiz
+
+# Estilo base: K&R modificado
+BasedOnStyle: Google
+
+# Idioma: C
+Language: Cpp
+Standard: gnu11
+
+# ===== INDENTACIÓN =====
+# 2 espacios (NO tabs)
+UseTab: Never
+IndentWidth: 2
+TabWidth: 2
+ContinuationIndentWidth: 2
+
+# ===== LLAVES (K&R Style) =====
+# Llave de apertura en la misma línea
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+
+# ===== LONGITUD DE LÍNEA =====
+# Máximo 100 caracteres por línea
+ColumnLimit: 100
+
+# ===== ESPACIADO =====
+# Espacios alrededor de operadores
+SpaceBeforeAssignmentOperators: true
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceInEmptyParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInAngles: Never
+SpacesInContainerLiterals: false
+
+# Espacio después de palabras clave (if, while, for)
+# Sin espacio antes de paréntesis en llamadas a función
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterForeachMacros: true
+  AfterFunctionDefinitionName: false
+  AfterFunctionDeclarationName: false
+  AfterIfMacros: true
+  AfterOverloadedOperator: false
+  AfterRequiresInClause: false
+  AfterRequiresInExpression: false
+  BeforeNonEmptyParentheses: false
+
+# ===== ALINEACIÓN =====
+# Alinear parámetros en llamadas multilínea
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignConsecutiveMacros: None
+AlignEscapedNewlines: Right
+AlignOperands: Align
+AlignTrailingComments: true
+
+# ===== PUNTEROS Y REFERENCIAS =====
+# int *ptr; (puntero junto al tipo)
+PointerAlignment: Right
+DerivePointerAlignment: false
+
+# ===== LÍNEAS EN BLANCO =====
+# Línea en blanco después de la llave de apertura de funciones
+KeepEmptyLinesAtTheStartOfBlocks: true
+MaxEmptyLinesToKeep: 2
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: LogicalBlock
+
+# ===== COMENTARIOS =====
+# Preservar comentarios y su formato
+ReflowComments: false
+
+# ===== FORMATO DE FUNCIONES =====
+# Permitir múltiples parámetros por línea
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+
+# ===== BREAK Y WRAPPING =====
+# Romper líneas largas de forma inteligente
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: false
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: false
+BreakStringLiterals: true
+
+# Penalizaciones para decisiones de formato
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 60
+
+# ===== INCLUDES =====
+# Mantener orden de includes como está
+SortIncludes: Never
+IncludeBlocks: Preserve
+
+# ===== MACROS Y PREPROCESADOR =====
+# No indentar directivas de preprocesador
+IndentPPDirectives: AfterHash
+MacroBlockBegin: ''
+MacroBlockEnd: ''
+
+# ===== SWITCHES =====
+# Indentar case dentro de switch
+IndentCaseLabels: true
+IndentCaseBlocks: false
+
+# ===== OTRAS OPCIONES =====
+# Mantener formato de arrays/inicializadores
+Cpp11BracedListStyle: true
+BinPackArguments: true
+BinPackParameters: true
+PackConstructorInitializers: Never
+
+# Formato de declaraciones consecutivas
+AlignConsecutiveBitFields: None
+
+# Formato de goto labels
+IndentGotoLabels: true
+
+# Formato de lambdas y bloques
+LambdaBodyIndentation: Signature
+IndentWrappedFunctionNames: false
+
+# ===== CONFIGURACIÓN ESPECÍFICA PARA C =====
+# Permitir declaraciones de puntero múltiple en una línea
+# Ejemplo: int *a, *b;
+AllowAllArgumentsOnNextLine: true
+AllowAllConstructorInitializersOnNextLine: true
+
+# Romper después de definición de función si es muy larga
+AlwaysBreakAfterDefinitionReturnType: None
+
+# ===== COMENTARIOS ESPECIALES =====
+# No reformatear bloques especiales (Doxygen)
+CommentPragmas: '^ IWYU pragma:'
+
+# ===== FINAL =====
+---
