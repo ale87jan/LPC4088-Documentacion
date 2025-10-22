@@ -2,11 +2,11 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-date-released: "2025-09-01"
-title: CICERONE Airlink
+date-released: "2025-10-22"
+title: LPC4088-Documentacion
 abstract: >-
-  CICERONE AirLink© is an indoor air quality telemonitoring
-  device designed for the project CICERONE
+  LPC4088-Documentacion AirLink is an indoor air quality telemonitoring
+  device designed for the project LPC4088-Documentacion
   (PID2021-126810OB-I00).
 
   The air quality device operates by transmitting data every
@@ -27,10 +27,6 @@ message: >-
   If you use this software, please cite both the article
   from preferred-citation and the software itself.
 type: software
-
-contact:
-  - affiliation: "ATARI Research Lab"
-    email: "gruboibt@uca.es"
 
 authors:
   - name: ATARI Research Lab
@@ -79,18 +75,8 @@ authors:
       Cádiz, Spain
     orcid: 'https://orcid.org/0000-0001-5603-0936'
 
-identifiers:
-  - type: url
-    value: 'https://github.com/atari-researchlab/cicerone-airlink'
-  - type: doi
-    value: 10.3390/technologies13030122
-
-repository-code: 'https://github.com/atari-researchlab/cicerone-airlink'
-url: 'https://atari-researchlab.github.io/cicerone-airlink/'
-version: v2.0.0
-
 license:
   - GPL-3.0-or-later
   - CERN-OHL-S-2.0
   - GFDL-1.3-no-invariants-or-later
-license-url: "https://atari-researchlab.github.io/cicerone-airlink/about/licences/"
+
