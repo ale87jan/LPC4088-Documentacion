@@ -1,0 +1,96 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+date-released: "2025-09-01"
+title: CICERONE Airlink
+abstract: >-
+  CICERONE AirLink© is an indoor air quality telemonitoring
+  device designed for the project CICERONE
+  (PID2021-126810OB-I00).
+
+  The air quality device operates by transmitting data every
+  ten minutes for all the parameters collected by the
+  various sensors, thanks to the communication module
+  created in conjunction with the RTC. This way, if there
+  are no data transmission failures, a total of 144 daily
+  data points are obtained for each of the parameters
+  collected by the CO2 and PM/VOCs sensors.
+keywords:
+  - indoor air quality
+  - COPD
+  - asthma
+  - machine learning
+  - respiratory diseases
+  - exacerbations
+message: >-
+  If you use this software, please cite both the article
+  from preferred-citation and the software itself.
+type: software
+
+contact:
+  - affiliation: "ATARI Research Lab"
+    email: "gruboibt@uca.es"
+
+authors:
+  - name: ATARI Research Lab
+    address: 'Avda. Universidad de Cadiz, nº10'
+    city: Puerto Real
+    country: ES
+    post-code: '11519'
+    location: 'School of Engineering, Lab E19'
+    email: gruboibt@uca.es
+    website: 'https://tic212.uca.es/'
+    region: Campus de Puerto Real
+  - given-names: Patricia
+    family-names: Camacho-Magrinan
+    email: patricia.camacho@uca.es
+    orcid: 'https://orcid.org/0000-0002-2459-2667'
+    affiliation: >-
+      Department of Automation Engineering, Electronics and
+      Computer Architecture and Networks, School of
+      Engineering, University of Cadiz, 11519 Puerto Real,
+      Cádiz, Spain
+  - given-names: Diego
+    family-names: Sales-Lerida
+    email: diego.lerida@uca.es
+    affiliation: >-
+      Department of Automation Engineering, Electronics and
+      Computer Architecture and Networks, School of
+      Engineering, University of Cadiz, 11519 Puerto Real,
+      Cádiz, Spain
+    orcid: 'https://orcid.org/0000-0003-4293-2896'
+  - given-names: Alejandro
+    family-names: Lara-Dona
+    email: alejandro.lara@uca.es
+    affiliation: >-
+      Department of Automation Engineering, Electronics and
+      Computer Architecture and Networks, School of
+      Engineering, University of Cadiz, 11519 Puerto Real,
+      Cádiz, Spain
+    orcid: 'https://orcid.org/0000-0002-8342-9907'
+  - given-names: Daniel
+    family-names: Sanchez-Morillo
+    email: daniel.morillo@uca.es
+    affiliation: >-
+      Department of Automation Engineering, Electronics and
+      Computer Architecture and Networks, School of
+      Engineering, University of Cadiz, 11519 Puerto Real,
+      Cádiz, Spain
+    orcid: 'https://orcid.org/0000-0001-5603-0936'
+
+identifiers:
+  - type: url
+    value: 'https://github.com/atari-researchlab/cicerone-airlink'
+  - type: doi
+    value: 10.3390/technologies13030122
+
+repository-code: 'https://github.com/atari-researchlab/cicerone-airlink'
+url: 'https://atari-researchlab.github.io/cicerone-airlink/'
+version: v2.0.0
+
+license:
+  - GPL-3.0-or-later
+  - CERN-OHL-S-2.0
+  - GFDL-1.3-no-invariants-or-later
+license-url: "https://atari-researchlab.github.io/cicerone-airlink/about/licences/"
