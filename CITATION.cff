@@ -22,11 +22,11 @@ version: 0.0.2
 date-released: 2025-10-22
 abstract: Documentacion sobre las librerias para el LPC4088.
 keywords:
-  - indoor air quality
+  - "indoor air quality"
   - COPD
   - asthma
-  - machine learning
-  - respiratory diseases
+  - "machine learning"
+  - "respiratory diseases"
   - exacerbations
 
 type: software
@@ -41,3 +41,4 @@ identifiers:
   - type: url
     value: https://github.com/ale87jan/LPC4088-Documentacion
     description: URL to the GitHub repository
+
