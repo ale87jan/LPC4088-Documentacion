@@ -1,4 +1,4 @@
-cff-version: 1.2.0
+cff-version: 1.3.0
 message: If you use this software, please cite both the article from preferred-citation and the software itself.
 authors:
   - given-names: Patricia
@@ -20,7 +20,7 @@ authors:
 title: LPC4088-Documentacion
 version: 0.0.2
 date-released: 2025-10-22
-abstract: Documentación sobre las librerías para el LPC4088.
+abstract: Documentacion sobre las librerias para el LPC4088.
 keywords:
   - indoor air quality
   - COPD
@@ -31,10 +31,7 @@ keywords:
 
 type: software
 
-license: 
-- GPL-3.0-or-later
-- CERN-OHL-S-2.0
-- GFDL-1.3-no-invariants-or-later
+license: GPL-3.0-or-later
 
 identifiers:
   - type: doi
