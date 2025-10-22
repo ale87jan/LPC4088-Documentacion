@@ -1,44 +1,24 @@
-cff-version: 1.3.0
+cff-version: 1.2.0
 message: If you use this software, please cite both the article from preferred-citation and the software itself.
 authors:
-  - given-names: Patricia
-    family-names: Camacho-Magrinan
-    email: patricia.camacho@uca.es
-    orcid: https://orcid.org/0000-0002-2459-2667
-  - given-names: Diego
-    family-names: Sales-Lerida
-    email: diego.lerida@uca.es
-    orcid: https://orcid.org/0000-0003-4293-2896
   - given-names: Alejandro
     family-names: Lara-Dona
     email: alejandro.lara@uca.es
     orcid: https://orcid.org/0000-0002-8342-9907
-  - given-names: Daniel
-    family-names: Sanchez-Morillo
-    email: daniel.morillo@uca.es
-    orcid: https://orcid.org/0000-0001-5603-0936
 title: LPC4088-Documentacion
 version: 0.0.2
 date-released: 2025-10-22
-abstract: Documentacion sobre las librerias para el LPC4088.
-keywords:
-  - "indoor air quality"
-  - COPD
-  - asthma
-  - "machine learning"
-  - "respiratory diseases"
-  - exacerbations
-
 type: software
-
 license: GPL-3.0-or-later
-
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.17417179
-    description: Persistent identifier for all versions of LPC
-    relation: isPartOf
-  - type: url
-    value: https://github.com/ale87jan/LPC4088-Documentacion
-    description: URL to the GitHub repository
-
+references:
+  - authors:
+      - family-names: Spaaks
+        given-names: Jurriaan H.
+    title: The foundation of Research Software
+    type: software
+  - authors:
+      - family-names: Haines
+        given-names: Robert
+    title: Ruby CFF Library
+    type: software
+    version: 1.0
