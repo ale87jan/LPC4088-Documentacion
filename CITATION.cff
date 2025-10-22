@@ -1,17 +1,10 @@
 cff-version: 1.2.0
 title: "LPC4088-Documentacion"
-version: 0.0.2
-license: "MIT"
-type: software
-abstract: "These are the scripts used to simulate a memory bus"
+version: v0.0.2
+date-released: 2025-10-22
 message: "If you use this software, please cite it as below."
 authors:
   - given-names: Alejandro
     family-names: Lara-Dona
     affiliation: University of Cadiz
     orcid: "https://orcid.org/0000-0002-8342-9907"
-keywords:
-  - computer science
-  - psychoceramics
-  - journaling filesystems
-
