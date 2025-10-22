@@ -2,7 +2,6 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-date-released: "2025-10-22"
 title: LPC4088-Documentacion
 abstract: >-
   LPC4088-Documentacion AirLink is an indoor air quality telemonitoring
@@ -79,4 +78,5 @@ license:
   - GPL-3.0-or-later
   - CERN-OHL-S-2.0
   - GFDL-1.3-no-invariants-or-later
+
 
