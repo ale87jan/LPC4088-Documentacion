@@ -3,13 +3,11 @@ message: "If you use this software, please cite it as below."
 authors:
 - family-names: "Lara-Dona"
   given-names: "Alejandro"
-  orcid: "https://orcid.org/0000-0002-8342-9907
+  orcid: "https://orcid.org/0000-0002-8342-9907"
   email: alejandro.lara@uca.es
-- family-names: "Lisa"
-  given-names: "Mona"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
 title: "LPC4088-Documentacion"
 version: 0.0.2
 doi: 10.5281/zenodo.17417179
 date-released: 2025-10-22
 url: "https://github.com/ale87jan/LPC4088-Documentacion"
+
