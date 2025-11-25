@@ -1,0 +1,34 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: CICERONE AirLink v2.0.0
+message: >-
+  If you use this software, please cite both the article
+  from preferred-citation and the software itself.
+type: software
+authors:
+  - affiliation: Universidad de Cádiz
+    family-names: Lara-Doña
+    given-names: Alejandro
+    email: alejandro.lara@uca.es
+    orcid: 'https://orcid.org/0000-0002-8342-9907'
+repository-code: 'https://github.com/ale87jan/LPC4088-Documentacion'
+url: 'https://github.com/ale87jan/LPC4088-Documentacion'
+abstract: >-
+  Documentación sobre las librerías utilizadas en la
+  docencia de los Grados de Ingeniería Electrónica
+  Industrial e Ingeniería Informática de la Universidad de
+  Cádiz en las asignaturas de Informática Industrial,
+  Sistemas Automáticos Basados en Microcontrolador y Diseño
+  Basado en Microprocesadores.
+keywords:
+  - cortex-m4
+  - documentation
+  - microcontroller programming
+  - university subject
+  - uvision
+  - lpc4088
+  - arm
+  - uca
+license: GPL-3.0-or-later
