@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Educational embedded systems library for the **NXP LPC4088** microcontroller (ARM Cortex-M4) used at Universidad de Cádiz. The project provides high-level hardware abstraction layers for the **Embedded Artists LPC4088 Developer's Kit**, supporting courses in Industrial Computing, Microcontroller-Based Automatic Systems, and Microprocessor-Based Design.
+Educational embedded systems library for the **NXP LPC4088** microcontroller (ARM Cortex-M4) used at Universidad de Cádiz. The project provides high-level hardware abstraction layers for the **Embedded Artists LPC4088 Developer's Kit**, supporting courses in Industrial Computing, Microcontroller-Based Automatic Systems, and Microprocessor-Based Design. Targets Keil µVision IDE with ARM Compiler 6. Focus: teaching embedded systems through well-documented, Spanish-named APIs.
 
 **Hardware:** LPC4088 (ARM Cortex-M4F @ 120MHz), 4.3" TFT LCD (480x272, RGB565), 16MB SDRAM, integrated sensors (LM75B temperature), joystick, 4 LEDs, RGB LED.
 
@@ -11,6 +11,7 @@ Educational embedded systems library for the **NXP LPC4088** microcontroller (AR
 ## Architecture & Structure
 
 ### File Organization
+
 - **`Librerias/`** - All source code, libraries, and Keil projects
   - `*_lpc40xx.{h,c}` - Peripheral drivers (GPIO, UART, ADC, I2C, SPI, RTC, Timer, EEPROM)
   - `glcd.{h,c}` + `sdram.{h,c}` - LCD graphics engine with SDRAM frame buffer
@@ -21,6 +22,7 @@ Educational embedded systems library for the **NXP LPC4088** microcontroller (AR
 - **`Referencias/`** - Technical datasheets and reference materials
 
 ### Dependency Chain
+
 ```
 Application Code
     ↓
@@ -40,14 +42,18 @@ Hardware Registers
 ## Development Workflow
 
 ### Git Branch Naming Conventions
+
 Always use these branch prefixes when creating new branches:
+
 - `feature/descripcion` - For new features (e.g., `feature/nueva-libreria-dac`)
 - `fix/descripcion` - For bug fixes (e.g., `fix/corregir-error-uart`)
 - `docs/descripcion` - For documentation changes (e.g., `docs/actualizar-readme`)
 - `refactor/descripcion` - For code refactoring (e.g., `refactor/optimizar-glcd`)
 
 ### Commit Message Conventions
+
 Follow these commit type prefixes (Conventional Commits style):
+
 - `feat:` - New feature (e.g., `feat: añadir soporte para DAC`)
 - `fix:` - Bug fix (e.g., `fix: corregir baudrate UART0`)
 - `docs:` - Documentation changes (e.g., `docs: actualizar ejemplos ADC`)
@@ -57,6 +63,7 @@ Follow these commit type prefixes (Conventional Commits style):
 - `chore:` - Maintenance tasks (e.g., `chore: actualizar configuración Keil`)
 
 **Commit format:**
+
 ```
 tipo: Descripción breve
 
@@ -66,6 +73,7 @@ Fixes #123
 ```
 
 ### Building & Testing
+
 1. **Primary IDE:** Keil µVision 5.38+ with ARM Compiler 6
 2. **Workspace:** Open `Librerias/00_Librerias.uvmpw` (multi-project workspace)
 3. **Build:** F7 (Project → Build Target)
@@ -74,6 +82,7 @@ Fixes #123
 6. **No makefiles/CMake** - Pure Keil project structure
 
 ### Creating New Projects
+
 - **Base template:** Copy `02_Base.uvprojx` structure
 - **Must include:**
   - Device: NXP LPC4088FBD208
@@ -84,39 +93,80 @@ Fixes #123
 - See `docs/INSTALACION.md` for detailed project setup
 
 ### Pull Request Workflow
+
 When creating PRs, include in description:
+
 - **Type of change** checklist (bug fix, new feature, breaking change, documentation)
 - **Testing performed** on actual hardware
 - **Compatibility verification** with existing examples
 - **Documentation updates** (README.md, docs/LIBRERIAS.md, docs/EJEMPLOS.md)
 - Reference related issues using `Closes #N` or `Fixes #N`
 
-### Testing Approach
-- **No automated tests** - All validation is manual on physical hardware
-- Every change MUST be tested on LPC4088 Developer's Kit
-- Serial output via UART0 (115200 baud) for debug messages
-- Visual feedback via LCD and 4 LEDs for immediate verification
+### Common Patterns
+
+**Peripheral Initialization Flow:**
+
+```c
+// 1. Enable peripheral clock in PCONP register
+LPC_SC->PCONP |= (1 << bit_position);
+
+// 2. Configure pins via IOCON (iocon_lpc40xx.c)
+// 3. Configure peripheral registers
+// 4. Enable interrupts if needed (NVIC)
+```
+
+**Timer Usage (blocking delays vs interrupts):**
+
+```c
+// Blocking: timer_retardo_ms(TIMER0, 100);
+// Interrupt-driven: See main_base.c for TIMER0_IRQHandler pattern
+```
+
+**LCD Drawing:**
+
+```c
+glcd_inicializar();  // Must call BEFORE sdram operations
+glcd_xprintf(x, y, fg_color, bg_color, fuente, "formato %d", var);
+// Colors: RGB565 format (BLANCO, NEGRO, ROJO, etc. in clases_*.h)
+```
+
+## External Dependencies
+
+- **CMSIS**: ARM Cortex-M4 core support (`LPC407x_8x_177x_8x.h`)
+- **Hardware**: LPC4088 Developer's Kit with 4.3" LCD, joystick, LEDs
+- **No external libs**: Pure register manipulation, no HAL/SDK
+
+## Testing & Validation
+
+- **Hardware-in-loop only**: Must test on physical LPC4088 kit
+- **No unit tests**: Educational focus on observable behavior
+- Verify via:
+  - LCD output for graphics
+  - Serial terminal (115200 baud) for UART
+  - LED states for GPIO/interrupts
 
 ## Coding Conventions (CRITICAL)
 
 ### Style Guide Reference
+
 Follow **"Programación en C - Guía de Estilo.pdf"** in repository root. Key rules:
 
 #### Naming Conventions
+
 - **Functions:** `MODULO_funcion_descriptiva()` (Spanish names) - e.g., `gpio_ajustar_dir()`, `timer_retardo_ms()`
 - **Variables:** `snake_case` (Spanish) - `contador_actual`, `temperatura_ambiente`
 - **Global variables:** `g_` prefix - `g_flag_timer`, `g_valor_adc`
-- **Constants/Macros:** `UPPER_SNAKE_CASE` - `LED_PIN`, `BUFFER_SIZE`, `GLCD_TAMANO_X`
-- **Types:** `PascalCase_t` - `RTC_FechaHora_t`, `Pieza_t`, `bool_t`
-- **Enums:** `PREFIJO_VALOR` - `JOYSTICK_CENTRO`, `DIR_ENTRADA`, `COLOR_ROJO`
+- **Constants/Macros/Enums:** `UPPER_SNAKE_CASE` or `k` prefix + `PascalCase` - `LED_PIN`, `kBufferSize`, `GLCD_TAMANO_X`
+- **Types:** `snake_case` + `_t` suffix - `rtc_fechahora_t`, `pieza_t`, `bool_t`
 
 #### Formatting (K&R Style)
+
 ```c
 // Opening brace on same line, blank line after opening brace
 void funcion(uint32_t parametro) {
 
   uint32_t variable_local = 0;
-  
+
   if (condicion) {
     // código
   } else {
@@ -132,6 +182,7 @@ void funcion(uint32_t parametro) {
 ```
 
 #### Documentation (Doxygen)
+
 ```c
 /**
  * @file    archivo.c
@@ -139,9 +190,9 @@ void funcion(uint32_t parametro) {
  *
  * Descripción detallada del propósito del archivo.
  *
- * @author  Nombre - email@uca.es
- * @date    2025
- * @version 2.0
+ * @author  Nombre - email@web
+ * @date    yyyy-mm-dd
+ * @version 1.0
  *
  * @copyright GNU General Public License version 3 or later
  */
@@ -164,13 +215,14 @@ void funcion(uint32_t parametro) {
 ### Hardware-Specific Patterns
 
 #### LCD Graphics (glcd.h)
-- Frame buffer at `SDRAM_BASE + 0x0010000` (must initialize SDRAM first!)
+
 - Always call `glcd_inicializar()` before any graphics operations
 - Colors in RGB565 format: `(R5<<11) | (G6<<5) | B5`
 - Coordinate system: (0,0) = top-left, (479, 271) = bottom-right
-- Use `glcd_xprintf()` for formatted text output (like printf)
+- Use `glcd_printf()` for formatted text output (like printf)
 
 #### Interrupt Handling Pattern
+
 ```c
 // In main():
 NVIC_ClearPendingIRQ(TIMER0_IRQn);
@@ -182,12 +234,13 @@ __enable_irq();  // Enable global interrupts
 void TIMER0_IRQHandler(void) {
 
   // ... handle interrupt ...
-  
+
   TIMER0->IR = 1;  // Clear interrupt flag (CRITICAL!)
 }
 ```
 
 #### GPIO Pattern
+
 ```c
 // Use PORT macros, not direct register access
 gpio_ajustar_dir(PUERTO1, PIN18, DIR_SALIDA);  // NOT LPC_GPIO1
@@ -197,7 +250,9 @@ bool_t estado = gpio_leer_pin(PUERTO1, PIN18);
 ```
 
 #### Pin Multiplexing (IOCON)
+
 Every peripheral requires IOCON configuration before use:
+
 ```c
 // Example for UART0 TX (P0.2)
 LPC_IOCON->P0_2 = 1;  // Function 1 = UART0_TXD
@@ -206,16 +261,22 @@ LPC_IOCON->P0_2 = 1;  // Function 1 = UART0_TXD
 
 ## Common Pitfalls & Solutions
 
-1. **LCD shows nothing:** Did you call `sdram_inicializar()` BEFORE `glcd_inicializar()`?
+1. **LCD shows nothing:** Did you call `glcd_inicializar()`?
 2. **UART not working:** Check IOCON pin configuration AND baudrate calculation (depends on PCLK)
-3. **Timer frequency wrong:** Verify `SystemCoreClock` is updated via `SystemCoreClockUpdate()`
-4. **Peripheral not responding:** Enable peripheral clock in PCONP register before configuration
-5. **Joystick reads wrong:** It uses ADC - initialize ADC before joystick
-6. **Compilation warnings:** Never ignore warnings - fix all before testing on hardware
+3. **Timer frequency wrong:** Verify Prescale and Match registers values
+4. **Prescaler calculations**: Use `PeripheralClock` constant (defined in timer_lpc40xx.c)
+5. **Peripheral not responding:** Enable peripheral clock in PCONP register before configuration
+6. **Joystick reads wrong:** It don't uses ADC, it is a digital input for each direction.
+7. **Compilation warnings:** Never ignore warnings - fix all before testing on hardware
+8. **NEVER use tabs** - configure editor for 2-space indentation
+9. **Include order matters**: `tipos.h` → peripheral headers → app headers
+10. **Interrupt handlers**: Must clear flags manually (e.g., `timer_regs->IR = 1;`)
+11. **GLCD coordinates**: Origin (0,0) is top-left, not bottom-left
 
 ## Educational Context
 
 This is for **teaching**, so code prioritizes **clarity over optimization**:
+
 - Descriptive Spanish variable names are intentional
 - Separate functions for each concept, even if similar
 - Extensive Doxygen comments explaining "why" not just "what"
@@ -223,6 +284,7 @@ This is for **teaching**, so code prioritizes **clarity over optimization**:
 - Error checking with `ASSERT()` macro (defined in error.h)
 
 When adding features:
+
 - Provide example in `main_*.c` format
 - Document in `docs/LIBRERIAS.md` and `docs/EJEMPLOS.md`
 - Follow existing peripheral library structure
@@ -231,12 +293,14 @@ When adding features:
 ## Quick Reference
 
 **Pin Definitions (from schematics):**
+
 - LED1: P1.18, LED2: P0.13, LED3: P1.13, LED4: P2.19
 - Joystick: P2.25 (UP), P2.27 (DOWN), P2.23 (LEFT), P2.26 (RIGHT), ADC0.0 (CENTER)
 - UART0: P0.2 (TX), P0.3 (RX)
 - I2C0: P0.27 (SDA), P0.28 (SCL) - LM75B at 0x48
 
 **Repository Files:**
+
 - `CONTRIBUTING.md` - Full coding standards
 - `docs/INSTALACION.md` - Development environment setup
 - `docs/LIBRERIAS.md` - Complete API reference
