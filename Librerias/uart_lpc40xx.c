@@ -2,9 +2,9 @@
  * @file    uart_lpc40xx.c
  * @brief   Funciones de manejo de las UARTs del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author   Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date     2014/2025
+ * @version  2.0
  *
  * @copyright   GNU General Public License version 3 or later
  */
@@ -20,7 +20,7 @@ static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t ba
 
 
 /**
- * @brief     Inicializa una UART del LPC40xx.
+ * @brief    Inicializa una UART del LPC40xx.
  * @ingroup  UART
  *
  * @param[in]   uart_regs               Ptr. al bloque de registros de la UART.
@@ -119,7 +119,7 @@ void uart_inicializar(LPC_UART_TypeDef *uart_regs,uart_baudrate_t baudrate,
 }
 
 /**
- * @brief     Transmite un dato mediante la UART.
+ * @brief    Transmite un dato mediante la UART.
  * @ingroup  UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
@@ -136,7 +136,7 @@ void uart_transmitir_dato(LPC_UART_TypeDef *uart_regs, uint8_t dato) {
 }
 
 /**
- * @brief     Indica si hay al menos un dato en el FIFO de recepción de la UART.
+ * @brief    Indica si hay al menos un dato en el FIFO de recepción de la UART.
  * @ingroup  UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
@@ -157,7 +157,7 @@ bool_t uart_hay_dato_disponible(const LPC_UART_TypeDef *uart_regs) {
 }
 
 /**
- * @brief     Leer un dato del FIFO de recepción de una UART. Debe ser llamada si se sabe que hay 
+ * @brief    Leer un dato del FIFO de recepción de una UART. Debe ser llamada si se sabe que hay 
  * al menos un dato en la FIFO.
  * @ingroup  UART
  *
@@ -174,7 +174,7 @@ uint8_t uart_leer_dato(const LPC_UART_TypeDef *uart_regs) {
 }
 
 /**
- * @brief     Espera a recibir un dato a través de la UART.
+ * @brief    Espera a recibir un dato a través de la UART.
  * @ingroup  UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
@@ -191,7 +191,7 @@ uint8_t uart_esperar_recibir_dato(const LPC_UART_TypeDef *uart_regs) {
 }
 
 /**
- * @brief     Transmite una cadena de caracteres mediante la UART.
+ * @brief    Transmite una cadena de caracteres mediante la UART.
  * @ingroup  UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
@@ -211,7 +211,7 @@ void uart_transmitir_cadena(LPC_UART_TypeDef *uart_regs, const char *cadena) {
 }
 
 /**
- * @brief     Recibe una cadena de caracteres mediante la UART.
+ * @brief    Recibe una cadena de caracteres mediante la UART.
  * @ingroup  UART
  *
  * @details   La recepción de la cadena terminará cuando se reciba el carácter nueva línea '\n').
@@ -253,7 +253,7 @@ void uart_recibir_cadena(const LPC_UART_TypeDef *uart_regs, char *ptr_buffer,
 }
 
 /**
- * @brief     Habilita/deshabilita las interrupciones al recibir un nuevo dato en la UART indicada.
+ * @brief    Habilita/deshabilita las interrupciones al recibir un nuevo dato en la UART indicada.
  * @ingroup  UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
@@ -268,7 +268,7 @@ void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bo
 }
 
 /**
- * @brief   Función privada para calcular y ajustar los registros de preescala del reloj para
+ * @brief    Función privada para calcular y ajustar los registros de preescala del reloj para
  * configurar el baudrate indicado para la transmisión.
  * @ingroup  UART
  * @private 

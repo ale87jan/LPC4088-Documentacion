@@ -10,9 +10,9 @@
  * @note Las funciones de este módulo no usan ninguna de las características especiales de las
  * UARTs 1 y 4 por lo que se trataran como si fueran "normales".
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
  * @copyright   GNU General Public License version 3 or later
  */
