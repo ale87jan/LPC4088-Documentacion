@@ -1,12 +1,12 @@
 /**
- * @file    spi_lpc40xx.c
- * @brief   Funciones básicas para usar las interfaces SSP del LPC40xx en modo maestro SPI.
+ * @file  spi_lpc40xx.c
+ * @brief Funciones básicas para usar las interfaces SSP del LPC40xx en modo maestro SPI.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date      2014/2025
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "spi_lpc40xx.h"
@@ -17,8 +17,8 @@
 #include "gpio_lpc40xx.h"
 
 /**
- * @brief     Inicializar una interfaz SSP del LP40xx en modo maestro SPI.
- * @ingroup   SPI
+ * @brief   Inicializar una interfaz SSP del LP40xx en modo maestro SPI.
+ * @ingroup SPI
  *
  * @param[in]   ssp_regs          Puntero a regs. de interfaz SSP a inicializar.
  * @param[in]   numero_bits_datos Núm. de bits que tendrán los datos que se transferirán.
@@ -131,9 +131,9 @@ void spi_inicializar(LPC_SSP_TypeDef *ssp_regs, uint32_t numero_bits_datos,
 }
 
 /**
- * @brief     Realizar una transferencia a través de una interfaz SSP del LPC40xx en modo SPI. La
+ * @brief   Realizar una transferencia a través de una interfaz SSP del LPC40xx en modo SPI. La
  * función no retorna hasta que termine la transferencia.
- * @ingroup   SPI
+ * @ingroup SPI
  *
  * @param[in]   ssp_regs            Puntero a regs. de interfaz SSP.
  * @param[in]   dato_a_transmitir   Dato a enviar al esclavo. Sólo se enviarán los bits de 0 a

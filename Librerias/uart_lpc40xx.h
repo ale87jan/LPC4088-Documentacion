@@ -1,6 +1,6 @@
 /**
- * @file    uart_lpc40xx.h
- * @brief   Funciones de manejo de las UARTs del LPC40xx.
+ * @file  uart_lpc40xx.h
+ * @brief Funciones de manejo de las UARTs del LPC40xx.
  *
  * @details El LPC40xx tiene 5 UARTs. Las UARTs 0, 2 y 3 son exactamente iguales entre sí. La
  * UART 1 añade señales de control de modem y tiene registros adicionales a los de las UARTs 0,
@@ -10,11 +10,11 @@
  * @note Las funciones de este módulo no usan ninguna de las características especiales de las
  * UARTs 1 y 4 por lo que se trataran como si fueran "normales".
  *
- * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date    2014/2025
- * @version 2.0
+ * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date      2014/2025
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef UART_LPC40XX_H

@@ -2,11 +2,11 @@
  * @file    glcd.c
  * @brief   Funciones de manejo del LCD de 4.3" desde la tarjeta Embedded Artist Developer's Kit.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "glcd.h"
@@ -45,8 +45,8 @@ static glcd_config_texto_t texto_actual = {
   .fuente = FUENTE16X32,
   .pos_x = 0,
   .pos_y = 0,
-  .desplazamiento_activado = TRUE};
-
+  .desplazamiento_activado = TRUE
+};
 
 /**
  * @name  No Semihosting
@@ -63,7 +63,7 @@ FILE __stderr;
  * @ingroup GLCD
  * @private
  *
- * @details   Se utilizan los pines P0[27] como SDA y P0[28] como SCL.
+ * @details Se utilizan los pines P0[27] como SDA y P0[28] como SCL.
  */
 static void glcd_i2c0_inicializar(void) {
 
@@ -71,10 +71,10 @@ static void glcd_i2c0_inicializar(void) {
   LPC_SC->PCONP |= (1u << 7);
 
   // Funcion I2C0_SDA con IOCON_NO_PULL_UP_NO_PULL_DOWN | IOCON_FILTER | IOCON_OD
-  LPC_IOCON->P0_27 = 1 | (1<<10) | (1<<8);
+  LPC_IOCON->P0_27 = 1u | (1u << 10) | (1u << 8);
 
   // Funcion I2C0_SCL con IOCON_NO_PULL_UP_NO_PULL_DOWN | IOCON_FILTER | IOCON_OD
-  LPC_IOCON->P0_28 = 1 | (1<<10) | (1<<8);
+  LPC_IOCON->P0_28 = 1u | (1u << 10) | (1u << 8);
 
   // Limpiar los flags
   LPC_I2C0->CONCLR = (1u << 6) | (1u << 5) | (1u << 3) | (1u << 2);
@@ -92,8 +92,8 @@ static void glcd_i2c0_inicializar(void) {
  * @ingroup GLCD
  * @private
  *
- * @retval  Valor del registro I2C0->STAT.
- * @retval  -1 si se supera el timeout especificado.
+ * @retval  Valor del registro I2C0->STAT
+ * @retval  -1 si se supera el timeout especificado
  */
 static int8_t glcd_i2c0_start(void) {
 
@@ -125,7 +125,9 @@ static void glcd_i2c0_stop(void) {
   LPC_I2C0->CONSET = 1u << 4;
 
   // Esperar hasta que se transmita el STOP
-  while (LPC_I2C0->CONSET & (1u << 4)) {;}
+  while (LPC_I2C0->CONSET & (1u << 4)) {
+    ;
+  }
 }
 
 /**
@@ -135,15 +137,16 @@ static void glcd_i2c0_stop(void) {
  *
  * @param[in]   dato  Byte a transmitir.
  *
- * @return      Valor del registro I2C0->STAT.
- *
+ * @return  Valor del registro I2C0->STAT.
  */
 static int8_t glcd_i2c0_transmitir_byte(uint8_t dato) {
 
   LPC_I2C0->CONCLR = 1u << 3;
   LPC_I2C0->DAT = dato;
 
-  while ((LPC_I2C0->CONSET & (1u << 3)) == 0) {;}
+  while ((LPC_I2C0->CONSET & (1u << 3)) == 0) {
+    ;
+  }
 
   return LPC_I2C0->STAT;
 }
@@ -172,11 +175,156 @@ static void glcd_i2c0_transmitir_buffer(uint8_t dir_i2c, const uint8_t *buf, uin
   glcd_i2c0_stop();
 }
 
+/**
+ * @brief   Función de salida de caracteres que es llamada internamente desde la familia de
+ * funciones printf y por tanto por glcd_printf (que usa vprintf). Reconoce los caracteres de
+ * control '\\b', '\\f', '\\n', '\\r', '\\t' y '\\v'.
+ * @ingroup GLCD
+ * @internal
+ *
+ * @param[in]   c       Carácter a imprimir.
+ * @param[in]   stream  Puntero a estructura FILE que indentifica al stream al que enviar la
+ *                      salida. Sólo se reconoce stdout.
+ *
+ * @return  Si el fichero de salida indicado es stdout, retorna c. En caso contrario, retorna EOF.
+ */
+int32_t fputc(int32_t c, FILE *stream) {
+
+  const fuente_t *fuente_ptr = tabla_fuentes[texto_actual.fuente];
+
+  if (stream == stdout) {
+    int16_t incremento_x = 0;
+    uint16_t incremento_y = 0;
+    switch (c) {
+      case '\b':  // Backspace
+        incremento_x = - fuente_ptr->pixeles_ancho;
+        break;
+      case '\f':  // Form feed
+        texto_actual.pos_x = 0;
+        incremento_y = GLCD_TAMANO_Y;
+        break;
+      case '\n':  // Line feed
+        texto_actual.pos_x = 0;
+        incremento_y = fuente_ptr->pixeles_alto;
+        break;
+      case '\r':  // Carriage return
+        texto_actual.pos_x = 0;
+        break;
+      case '\t':  // Horizontal tab
+        texto_actual.pos_x = ((texto_actual.pos_x / (8 * fuente_ptr->pixeles_ancho)) + 1)
+                              * 8 * fuente_ptr->pixeles_ancho;
+        break;
+      case '\v':  // Vertical tab
+        incremento_y = fuente_ptr->pixeles_alto;
+        break;
+      default:
+        break;
+    }
+
+    if (texto_actual.pos_x < incremento_x) {
+      texto_actual.pos_x = 0;
+    } else if ((texto_actual.pos_x + incremento_x) > GLCD_X_MAXIMO) {
+      texto_actual.pos_x = 0;
+      if (incremento_y < fuente_ptr->pixeles_alto) {
+        incremento_y = fuente_ptr->pixeles_alto;
+      }
+    } else {
+      texto_actual.pos_x += incremento_x;
+    }
+
+    texto_actual.pos_y += incremento_y;
+    if ((texto_actual.pos_y + fuente_ptr->pixeles_alto - 1) > GLCD_Y_MAXIMO) {
+      if (texto_actual.desplazamiento_activado) {
+        if (incremento_y > GLCD_TAMANO_Y) {
+          incremento_y = GLCD_TAMANO_Y;
+          texto_actual.pos_y = 0;
+        } else if (incremento_y < GLCD_TAMANO_Y) {
+          if (texto_actual.pos_y < incremento_y) {
+            texto_actual.pos_y = 0;
+          } else {
+            texto_actual.pos_y -= incremento_y;
+          }
+        } else {
+          texto_actual.pos_y = 0;
+        }
+        glcd_desplazar(incremento_y);
+      } else {
+        texto_actual.pos_y = 0;
+      }
+    }
+
+    if (c >= fuente_ptr->primer_caracter && c <= fuente_ptr->ultimo_caracter) {
+      glcd_caracter(c, texto_actual.pos_x, texto_actual.pos_y, texto_actual.color,
+                    texto_actual.color_fondo, texto_actual.fuente);
+
+      texto_actual.pos_x += fuente_ptr->pixeles_ancho;
+    }
+    return c;
+  }
+
+  return EOF;
+}
 
 /**
- * @brief   Inicializa el controlador LCD.
+ * @brief   Función de entrada de caracteres que es llamada internamente por la familia de scanf.
  * @ingroup GLCD
+ * @internal
+ *
+ * @param[in]   file  Puntero a estructura FILE que indentifica al stream del que se quiere leer.
+ *
+ * @return  Siempre retorna EOF.
+ *
+ * @warning Función no implementada.
  */
+int32_t fgetc(__attribute__((unused)) FILE *file) {
+  return EOF;
+}
+
+/**
+ * @brief   Comprueba el estado del indicador de error de un stream.
+ * @ingroup GLCD
+ * @internal
+ *
+ * @param[in]   stream  Puntero a estructura FILE que indentifica al stream cuyo estado de error se
+ *                      quiere comprobar.
+ *
+ * @return  Retorna un valor distinto de 0 si la operación anterior sobre el stream produjo un error
+ *          y un valor igual a 0 en caso contrario. En esta implementación, si el stream es stdout
+ *          siempre se retorna 0 y en caso contrario siempre se retorna un valor distinto de 0.
+ */
+int32_t ferror(FILE *stream) {
+  if (stream == stdout) {
+    return 0;
+  }
+
+  return 1;
+}
+
+/**
+ * @brief   Al realizar el retarget de las funciones de la familia printf, el compilador del
+ * Keil MDK precisa que se defina la función _sys_exit que corresponde a la llamada del sistema
+ * `sys_exit` que termina el proceso actual. En esta implementación no se retorna al sistema (ya
+ * que no hay) sino que se deja encerrado al programa en un bucle infinito.
+ * @ingroup GLCD
+ * @internal
+ *
+ * @param[in]   return_code   Código que debe retornarse al sistema.
+ */
+void _sys_exit(__attribute__((unused)) int32_t return_code) {
+
+  uint32_t i;
+
+  // Dejar al programa encerrado aquí
+  LPC_GPIO1->DIR |= (1u << 5);
+
+  while (1) {
+    LPC_GPIO1->CLR = (1u << 5);
+    for (i = 0; i < 5000000; i++) { __NOP(); }
+    LPC_GPIO1->SET = (1u << 5);
+    for (i = 0; i < 5000000; i++) { __NOP(); }
+  }
+}
+
 void glcd_inicializar(void) {
 
   uint32_t i, divisor_reloj;
@@ -329,7 +477,6 @@ void glcd_inicializar(void) {
   if (sdram) {
     LPC_LCD->UPBASE = GLCD_VRAM_BASE_ADDR & ~7UL;
     LPC_LCD->LPBASE = GLCD_VRAM_BASE_ADDR & ~7UL;
-
   } else {
     LPC_LCD->UPBASE = 0x10000000 & ~7UL;
     LPC_LCD->LPBASE = 0x10000000 & ~7UL;
@@ -353,12 +500,6 @@ void glcd_inicializar(void) {
   glcd_i2c0_transmitir_buffer(GLCD_PCA9532_I2C_ADDR, buffer, 5);
 }
 
-/**
- * @brief   Borra la pantalla LCD rellenándola con el color indicado.
- * @ingroup GLCD
- *
- * @param[in]   color   color con el que rellenar la pantalla LCD.
- */
 void glcd_borrar(uint16_t color) {
 
   uint32_t i;
@@ -369,215 +510,14 @@ void glcd_borrar(uint16_t color) {
   }
 }
 
-/**
- * @brief   Función análoga a printf para imprimir texto en la pantalla LCD.
- * @ingroup GLCD
- *
- * @param[in]   format  Cadena de caracteres a imprimir incluyendo opcionalmente especificadores
- *                      de formato que serán reemplazados por los valores de los argumentos
- *                      adicionales subsiguientes y formateados como se indique.
- * @param[in]   ...     Argumentos adicionales. Dependiendo de los especificadores de formato
- *                      incluidos en la cadena de formato, la función espera una secuencia de
- *                      argumentos adicionales cuyos valores se usan para reemplazar dichos
- *                      especificadores. Debe haber, al menos, tantos argumentos adicionales
- *                      como especificadores de formato. Los argumentos extra a los necesarios
- *                      son ignorados.
- *
- * @return      Si la función tiene éxito, retorna el número de caracteres que ha impreso. En
- *              caso de error, se retorna un número negativo.
- */
-int32_t glcd_printf(const char *format, ...) {
-
-  int32_t retval;
-
-  va_list args;
-  va_start(args, format);
-  retval = vprintf(format, args);
-  va_end(args);
-
-  return retval;
-}
-
-/**
- * @brief   Función de salida de caracteres que es llamada internamente desde la familia de
- * funciones printf y por tanto por glcd_printf (que usa vprintf). Reconoce los caracteres de
- * control '\\b', '\\f', '\\n', '\\r', '\\t' y '\\v'.
- * @ingroup GLCD
- * @internal
- *
- * @param[in]   c       Carácter a imprimir.
- * @param[in]   stream  Puntero a estructura FILE que indentifica al stream al que enviar la
- *                      salida. Sólo se reconoce stdout.
- *
- * @return      Si el fichero de salida indicado es stdout, retorna c. En caso contrario,
- *              retorna EOF.
- */
-int32_t fputc(int32_t c, FILE *stream) {
-
-  const fuente_t *fuente_ptr = tabla_fuentes[texto_actual.fuente];
-
-  if (stream == stdout) {
-    int16_t incremento_x = 0;
-    uint16_t incremento_y = 0;
-    switch (c) {
-      case '\b':  // Backspace
-        incremento_x = - fuente_ptr->pixeles_ancho;
-        break;
-      case '\f':  // Form feed
-        texto_actual.pos_x = 0;
-        incremento_y = GLCD_TAMANO_Y;
-        break;
-      case '\n':  // Line feed
-        texto_actual.pos_x = 0;
-        incremento_y = fuente_ptr->pixeles_alto;
-        break;
-      case '\r':  // Carriage return
-        texto_actual.pos_x = 0;
-        break;
-      case '\t':  // Horizontal tab
-        texto_actual.pos_x = ((texto_actual.pos_x / (8 * fuente_ptr->pixeles_ancho)) + 1) * 8 *
-                         fuente_ptr->pixeles_ancho;
-        break;
-      case '\v':  // Vertical tab
-        incremento_y = fuente_ptr->pixeles_alto;
-        break;
-      default:
-        break;
-    }
-
-    if (texto_actual.pos_x < incremento_x) {
-      texto_actual.pos_x = 0;
-    } else if ((texto_actual.pos_x + incremento_x) > GLCD_X_MAXIMO) {
-      texto_actual.pos_x = 0;
-      if (incremento_y < fuente_ptr->pixeles_alto) {
-        incremento_y = fuente_ptr->pixeles_alto;
-      }
-    } else {
-      texto_actual.pos_x += incremento_x;
-    }
-
-    texto_actual.pos_y += incremento_y;
-    if ((texto_actual.pos_y + fuente_ptr->pixeles_alto - 1) > GLCD_Y_MAXIMO) {
-      if (texto_actual.desplazamiento_activado) {
-        if (incremento_y > GLCD_TAMANO_Y) {
-          incremento_y = GLCD_TAMANO_Y;
-          texto_actual.pos_y = 0;
-        } else if (incremento_y < GLCD_TAMANO_Y) {
-          if (texto_actual.pos_y < incremento_y) {
-            texto_actual.pos_y = 0;
-          } else {
-            texto_actual.pos_y -= incremento_y;
-          }
-        } else {
-          texto_actual.pos_y = 0;
-        }
-        glcd_desplazar(incremento_y);
-      } else {
-        texto_actual.pos_y = 0;
-      }
-    }
-
-    if (c >= fuente_ptr->primer_caracter && c <= fuente_ptr->ultimo_caracter) {
-      glcd_caracter(c, texto_actual.pos_x, texto_actual.pos_y, texto_actual.color,
-                    texto_actual.color_fondo, texto_actual.fuente);
-
-      texto_actual.pos_x += fuente_ptr->pixeles_ancho;
-    }
-    return c;
-  }
-
-  return EOF;
-}
-
-/**
- * @brief   Función de entrada de caracteres que es llamada internamente por la familia de scanf.
- * @ingroup GLCD
- * @internal
- *
- * @param[in]   file  Puntero a estructura FILE que indentifica al stream del que se quiere leer.
- *
- * @return      Siempre retorna EOF.
- *
- * @warning     Función no implementada.
- */
-int32_t fgetc(__attribute__((unused)) FILE *file) {
-  return EOF;
-}
-
-/**
- * @brief   Comprueba el estado del indicador de error de un stream.
- * @ingroup GLCD
- * @internal
- *
- * @param[in]   stream  Puntero a estructura FILE que indentifica al stream cuyo estado de error se
- *                      quiere comprobar.
- *
- * @return      Retorna un valor distinto de 0 si la operación anterior sobre el stream produjo un
- *              error y un valor igual a 0 en caso contrario. En esta implementación, si el stream
- *              es stdout siempre se retorna 0 y en caso contrario siempre se retorna un valor
- *              distinto de 0.
- */
-int32_t ferror(FILE *stream) {
-  if (stream == stdout) {
-    return 0;
-  }
-
-  return 1;
-}
-
-/**
- * @brief   Al realizar el retarget de las funciones de la familia printf, el compilador del
- * Keil MDK precisa que se defina la función _sys_exit que corresponde a la llamada del sistema
- * `sys_exit` que termina el proceso actual. En esta implementación no se retorna al sistema (ya
- * que no hay) sino que se deja encerrado al programa en un bucle infinito.
- * @ingroup GLCD
- * @internal
- *
- * @param[in]   return_code   Código que debe retornarse al sistema.
- */
-void _sys_exit(__attribute__((unused)) int32_t return_code) {
-
-  uint32_t i;
-
-  // Dejar al programa encerrado aquí
-  LPC_GPIO1->DIR |= (1u << 5);
-
-  while (1) {
-    LPC_GPIO1->CLR = (1u << 5);
-    for (i = 0; i < 5000000; i++) { __NOP(); }
-    LPC_GPIO1->SET = (1u << 5);
-    for (i = 0; i < 5000000; i++) { __NOP(); }
-  }
-}
-
-/**
- * @brief   Fija el color que se usará para la salida de texto con glcd_printf.
- * @ingroup GLCD
- *
- * @param[in]   color   Color de texto que usará glcd_printf.
- */
 void glcd_color_texto(uint16_t color) {
   texto_actual.color = color;
 }
 
-/**
- * @brief   Fija el color de fondo que se usará para la salida de texto con glcd_printf.
- * @ingroup GLCD
- *
- * @param[in]   color_fondo   Color de fondo que usará glcd_printf.
- */
 void glcd_fondo_texto(uint16_t color_fondo) {
   texto_actual.color_fondo = color_fondo;
 }
 
-/**
- * @brief   Fija las coordenadas en las que se mostrará el texto en la siguiente llamada a
- * `glcd_printf`. Sólo tiene efecto si las coordenadas están dentro de la pantalla.
- * @ingroup GLCD
- *
- * @param[in]   x   Coordenada X de la pantalla.
- * @param[in]   y   Coordenada Y de la pantalla.
- */
 void glcd_xy_texto(uint16_t x, uint16_t y) {
 
   if (x > GLCD_X_MAXIMO || y > GLCD_Y_MAXIMO) {
@@ -587,13 +527,6 @@ void glcd_xy_texto(uint16_t x, uint16_t y) {
   texto_actual.pos_y = y;
 }
 
-/**
- * @brief   Desplaza hacia arriba el contenido de la pantalla un determinado número de líneas.
- * Las líneas inferiores se rellenan con el color del fondo de texto actual.
- * @ingroup GLCD
- *
- * @param[in]   lineas  Líneas a desplazar.
- */
 void glcd_desplazar(uint16_t lineas) {
 
   uint32_t i;
@@ -612,24 +545,10 @@ void glcd_desplazar(uint16_t lineas) {
   }
 }
 
-/**
- * @brief   Activa o desactiva el desplazamiento automático hacia arriba del contenido de la
- * pantalla cuando la salida de texto mediante glcd_printf sobrepasa la linea inferior.
- * @ingroup GLCD
- *
- * @param[in]   activar   TRUE => activar, FALSE => desactivar.
- */
 void glcd_activar_desplazamiento(bool_t activar) {
   texto_actual.desplazamiento_activado = activar;
 }
 
-/**
- * @brief   Selecciona la fuente de caracteres que se usará para la salida de texto mediante
- * la función `glcd_printf`.
- * @ingroup GLCD
- *
- * @param[in]   fuente  Número de la fuente a seleccionar.
- */
 void glcd_seleccionar_fuente(uint32_t fuente) {
 
   ASSERT(fuente < NUMERO_FUENTES, "Fuente incorrecta.");
@@ -637,31 +556,18 @@ void glcd_seleccionar_fuente(uint32_t fuente) {
   texto_actual.fuente = fuente;
 }
 
-/**
- * @brief   Función parecida a glcd_printf pero pudiendo indicar las coordedadas donde aparece
- * el texto, el color del texto y la fuente.
- * @ingroup GLCD
- *
- * @param[in]   x             Coordenada X de pantalla en la que se imprimirá.
- * @param[in]   y             Coordenada Y de pantalla en la que se imprimirá.
- * @param[in]   color         Color con el que se imprimirá el texto.
- * @param[in]   color_fondo   Color de fondo con el que se imprimirá el texto.
- * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in]   format        Cadena de caracteres a imprimir incluyendo opcionalmente
- *                            especificadores de formato que serán reemplazados por los valores de
- *                            los argumentos subsiguientes y formateados como se indique.
- * @param[in]   ...           Argumentos adicionales. Dependiendo de los especificadores de formato
- *                            incluidos en la cadena de formato, la función espera una secuencia de
- *                            argumentos adicionales cuyos valores se usan para reemplazar dichos
- *                            especificadores. Debe haber, al menos, tantos argumentos adicionales
- *                            como especificadores de formato. Los argumentos extra a los
- *                            necesarios se ignoran.
- *
- * @return      Si la función tiene éxito, retorna el número de caracteres que ha impreso. En caso
- *              de error, se retorna un número negativo.
- *
- * @note        No se actualiza la configuración actual de colores o posición de la LCD.
- */
+int32_t glcd_printf(const char *format, ...) {
+
+  int32_t retval;
+
+  va_list args;
+  va_start(args, format);
+  retval = vprintf(format, args);
+  va_end(args);
+
+  return retval;
+}
+
 int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
                      const char *format, ...) {
 
@@ -694,20 +600,6 @@ int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fond
   return retval;
 }
 
-/**
- * @brief   Imprime un carácter en pantalla. No se interpretan caracteres de control.
- * @ingroup GLCD
- *
- * @param[in]   c             Carácter a imprimir. Sólo se imprimirá si es uno de los caracteres
- *                            definidos en la fuente indicada por el argumento fuente y las
- *                            coordenadas indicadas por los argumentos `x` e `y` están dentro de
- *                            la pantalla. En caso contrario no se imprimirá nada.
- * @param[in]   x             Coordenada X de pantalla en la que se imprimirá.
- * @param[in]   y             Coordenada Y de pantalla en la que se imprimirá.
- * @param[in]   color         Color con el que se imprimirá el carácter.
- * @param[in]   color_fondo   Color de fondo con el que se imprimirá el carácter.
- * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
- */
 void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo,
                    uint32_t fuente) {
 
@@ -730,7 +622,9 @@ void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t colo
   pixeles_ancho = fuente_ptr->pixeles_ancho;
   pixeles_alto  = fuente_ptr->pixeles_alto;
   bytes_por_fila = pixeles_ancho >> 3;
-  if ((pixeles_ancho & 7) != 0) bytes_por_fila++;
+  if ((pixeles_ancho & 7) != 0) {
+    bytes_por_fila++;
+  }
 
   ptr_df = fuente_ptr->datos + (c - fuente_ptr->primer_caracter) * bytes_por_fila * pixeles_alto;
 
@@ -756,22 +650,8 @@ void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t colo
   }
 }
 
-/**
- * @brief   Imprime una cadena de caracteres en la pantalla LCD. No se interpretan los caracteres
- * de control.
- * @ingroup GLCD
- *
- * @param[in]   x             Coordenada X de pantalla en la que se imprimirá.
- * @param[in]   y             Coordenada Y de pantalla en la que se imprimirá.
- * @param[in]   color         Color con el que se imprimirá el carácter.
- * @param[in]   color_fondo   Color de fondo con el que se imprimirá el carácter.
- * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in]   str           Puntero a la cadena a imprimir. Sólo se imprimirá si las coordenadas
- *                            indicadas por los argumentos `x` e `y` están dentro de la pantalla.
- *                            En caso contrario, no se imprimirá nada.
- */
-void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo,
-                uint32_t fuente, const char *str) {
+void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
+                const char *str) {
 
   const fuente_t *fuente_ptr = tabla_fuentes[fuente];
 
@@ -797,14 +677,6 @@ void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo,
   }
 }
 
-/**
- * @brief   Dibuja un punto (pixel) en la pantalla LCD.
- * @ingroup GLCD
- *
- * @param[in]   x       Coordenada X del punto.
- * @param[in]   y       Coordenada Y del punto.
- * @param[in]   color   Color del punto.
- */
 void glcd_punto(uint16_t x, uint16_t y, uint16_t color) {
 
   volatile uint16_t *ptr = (uint16_t *) GLCD_VRAM_BASE_ADDR;
@@ -816,18 +688,6 @@ void glcd_punto(uint16_t x, uint16_t y, uint16_t color) {
   ptr[y * GLCD_TAMANO_X + x] = color;
 }
 
-/**
- * @brief   Dibuja en la pantlla LCD un segmento de línea recta definido por las coordenadas de
- * sus extremos. Si las coordenadas de uno o ambos extremos del segmento están fuera de la pantalla
- * se dibuja la porción contenida en la misma (si la hay).
- * @ingroup GLCD
- *
- * @param[in]   x0      Coordenada X del primer extremo del segmento.
- * @param[in]   y0      Coordenada Y del primer extremo del segmento.
- * @param[in]   x1      Coordenada X del segundo extremo del segmento.
- * @param[in]   y1      Coordenada Y del segundo extremo del segmento.
- * @param[in]   color   Color del segmento.
- */
 void glcd_linea(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
 
   uint16_t x, y;
@@ -886,17 +746,6 @@ void glcd_linea(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t col
   }
 }
 
-/**
- * @brief   Dibuja en la pantalla LCD un rectángulo definido por las coordenadas de los vértices
- * de una diagonal. Se dibuja la porción del rectángulo contenida entre los límites de la pantalla.
- * @ingroup GLCD
- *
- * @param[in]   x0      Coordenada X de un vértice.
- * @param[in]   y0      Coordenada Y de un vértice.
- * @param[in]   x1      Coordenada X del vértice opuesto al dado por (x0, y0).
- * @param[in]   y1      Coordenada Y del vértice opuesto al dado por (x0, y0).
- * @param[in]   color   Color del rectángulo.
- */
 void glcd_rectangulo(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
 
   glcd_linea(x0, y0, x1, y0, color);
@@ -905,18 +754,6 @@ void glcd_rectangulo(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_
   glcd_linea(x0, y1, x0, y0, color);
 }
 
-/**
- * @brief   Dibuja en la pantalla LCD un rectángulo relleno definido por las coordenadas de los
- * vértices de una diagonal. Se dibuja la porción del rectángulo contenida en los límites de la
- * pantalla.
- * @ingroup GLCD
- *
- * @param[in]   x0      Coordenada X de un vértice.
- * @param[in]   y0      Coordenada Y de un vértice.
- * @param[in]   x1      Coordenada X del vértice opuesto al dado por (x0, y0).
- * @param[in]   y1      Coordenada Y del vértice opuesto al dado por (x0, y0).
- * @param[in]   color   Color del rectángulo.
- */
 void glcd_rectangulo_relleno(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
 
   uint16_t temp, i, j;
@@ -934,8 +771,12 @@ void glcd_rectangulo_relleno(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1,
     y1 = temp;
   }
 
-  if (x1 > GLCD_X_MAXIMO) x1 = GLCD_X_MAXIMO;
-  if (y1 > GLCD_Y_MAXIMO) y1 = GLCD_Y_MAXIMO;
+  if (x1 > GLCD_X_MAXIMO) {
+    x1 = GLCD_X_MAXIMO;
+  }
+  if (y1 > GLCD_Y_MAXIMO) {
+    y1 = GLCD_Y_MAXIMO;
+  }
 
   ptr +=  GLCD_TAMANO_X * y0 + x0;
 
@@ -948,16 +789,6 @@ void glcd_rectangulo_relleno(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1,
   }
 }
 
-/**
- * @brief   Dibuja una circunferencia en la pantalla LCD. Se dibuja la parte de la circunferencia
- * contenida entre los límites de la pantalla.
- * @ingroup GLCD
- *
- * @param[in]   xc      Coordenada X del centro.
- * @param[in]   yc      Coordenada Y del centro.
- * @param[in]   radio   Radio de la circunferencia (en píxeles).
- * @param[in]   color   Color de la circunferencia.
- */
 void glcd_circunferencia(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t color) {
 
   uint16_t x = radio, y = 0;
@@ -976,7 +807,6 @@ void glcd_circunferencia(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t colo
     if (err <= 0) {
       y += 1;
       err += 2 * y + 1;
-
     } else {
       x -= 1;
       err -= 2 * x + 1;
@@ -984,16 +814,6 @@ void glcd_circunferencia(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t colo
   }
 }
 
-/**
- * @brief   Dibuja un circulo relleno en la pantalla LCD. Se dibuja la parte del cículo contenido
- * entre los límites de la pantalla.
- * @ingroup GLCD
- *
- * @param[in]   xc      Coordenada X del centro.
- * @param[in]   yc      Coordenada Y del centro.
- * @param[in]   radio   Radio del circulo (en píxeles).
- * @param[in]   color   Color del circulo.
- */
 void glcd_circulo(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t color) {
 
   uint16_t x = radio, y = 0;
@@ -1008,7 +828,6 @@ void glcd_circulo(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t color) {
     if (err <= 0) {
       y += 1;
       err += 2 * y + 1;
-
     } else {
       x -= 1;
       err -= 2 * x + 1;

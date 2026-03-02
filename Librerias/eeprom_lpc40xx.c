@@ -1,6 +1,6 @@
 /**
- * @file    eeprom_lpc40xx.c
- * @brief   Funciones para acceder a una EEPROM 25LC160 a través de una interfaz SSP del LPC40xx.
+ * @file  eeprom_lpc40xx.c
+ * @brief Funciones para acceder a una EEPROM 25LC160 a través de una interfaz SSP del LPC40xx.
  *
  * @details Se recomienda utilizar la interfaz SSP2 que está disponible en el conector J15 y nos
  * permite tener agrupadas las señales de manera más cómoda que en los conectores J3/J5.
@@ -12,11 +12,11 @@
  * P5[2]  | SSP2-SCK
  * P2[14] | CS (tipo GPIO)
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date      2014/2025
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "eeprom_lpc40xx.h"
@@ -91,8 +91,8 @@ void eeprom_inicializar(LPC_SSP_TypeDef *interfaz_ssp, uint32_t frecuencia_sck,
 }
 
 /**
- * @brief     Pone la línea chip select de la EEPROM 25LC160 a 0 o a 1.
- * @ingroup   EEPROM
+ * @brief   Pone la línea chip select de la EEPROM 25LC160 a 0 o a 1.
+ * @ingroup EEPROM
  *
  * @param[in]   nivel   Nivel al que debe ponerse la línea chip select.
  */

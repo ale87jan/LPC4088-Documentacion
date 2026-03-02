@@ -1,12 +1,12 @@
 /**
- * @file    uart_lpc40xx.c
- * @brief   Funciones de manejo de las UARTs del LPC40xx.
+ * @file  uart_lpc40xx.c
+ * @brief Funciones de manejo de las UARTs del LPC40xx.
  *
- * @author   Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date     2014/2025
- * @version  2.0
+ * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date      2014/2025
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "uart_lpc40xx.h"
@@ -20,8 +20,8 @@ static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t ba
 
 
 /**
- * @brief    Inicializa una UART del LPC40xx.
- * @ingroup  UART
+ * @brief   Inicializa una UART del LPC40xx.
+ * @ingroup UART
  *
  * @param[in]   uart_regs               Ptr. al bloque de registros de la UART.
  * @param[in]   baudrate                Velocidad en baudios requerida.
@@ -119,8 +119,8 @@ void uart_inicializar(LPC_UART_TypeDef *uart_regs,uart_baudrate_t baudrate,
 }
 
 /**
- * @brief    Transmite un dato mediante la UART.
- * @ingroup  UART
+ * @brief   Transmite un dato mediante la UART.
+ * @ingroup UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
  * @param[in]   dato        Dato a transmitir.
@@ -136,8 +136,8 @@ void uart_transmitir_dato(LPC_UART_TypeDef *uart_regs, uint8_t dato) {
 }
 
 /**
- * @brief    Indica si hay al menos un dato en el FIFO de recepción de la UART.
- * @ingroup  UART
+ * @brief   Indica si hay al menos un dato en el FIFO de recepción de la UART.
+ * @ingroup UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
  *
@@ -157,9 +157,9 @@ bool_t uart_hay_dato_disponible(const LPC_UART_TypeDef *uart_regs) {
 }
 
 /**
- * @brief    Leer un dato del FIFO de recepción de una UART. Debe ser llamada si se sabe que hay 
+ * @brief   Leer un dato del FIFO de recepción de una UART. Debe ser llamada si se sabe que hay
  * al menos un dato en la FIFO.
- * @ingroup  UART
+ * @ingroup UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
  *
@@ -174,8 +174,8 @@ uint8_t uart_leer_dato(const LPC_UART_TypeDef *uart_regs) {
 }
 
 /**
- * @brief    Espera a recibir un dato a través de la UART.
- * @ingroup  UART
+ * @brief   Espera a recibir un dato a través de la UART.
+ * @ingroup UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
  *
@@ -191,8 +191,8 @@ uint8_t uart_esperar_recibir_dato(const LPC_UART_TypeDef *uart_regs) {
 }
 
 /**
- * @brief    Transmite una cadena de caracteres mediante la UART.
- * @ingroup  UART
+ * @brief   Transmite una cadena de caracteres mediante la UART.
+ * @ingroup UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
  * @param[in]   cadena      Puntero a la cadena a transmitir.
@@ -211,11 +211,11 @@ void uart_transmitir_cadena(LPC_UART_TypeDef *uart_regs, const char *cadena) {
 }
 
 /**
- * @brief    Recibe una cadena de caracteres mediante la UART.
- * @ingroup  UART
+ * @brief   Recibe una cadena de caracteres mediante la UART.
+ * @ingroup UART
  *
- * @details   La recepción de la cadena terminará cuando se reciba el carácter nueva línea '\n').
- * La función descarta todos los caracteres no imprimibles (mirar la tabla de códigos ASCII) y sólo
+ * @details La recepción de la cadena terminará cuando se reciba el carácter nueva línea '\n'). La
+ * función descarta todos los caracteres no imprimibles (mirar la tabla de códigos ASCII) y sólo
  * almacena en el buffer los (tamano_buffer - 1) primeros caracteres que se reciban y descartará el
  * resto. No se trata el carácter de borrado (backspace, ASCII = 0x08), así que los caracteres que
  * se reciban y almacen en la cadena no pueden borrarse después.
@@ -225,8 +225,8 @@ void uart_transmitir_cadena(LPC_UART_TypeDef *uart_regs, const char *cadena) {
  *                              quedará terminada con un carácter nulo.
  * @param[in]   tamano_buffer   Longitud del buffer en bytes. La función sólo almacenará en el
  *                              buffer los (tamano_buffer - 1) primeros caracteres que se reciban.
- * @warning     El tamaño del buffer debe ser al menos 1 para tener espacio para el terminador
- * (pero, si es 1, solo aceptará la pulsacón de ENTER para finalizar la entrada).
+ * @warning El tamaño del buffer debe ser al menos 1 para tener espacio para el terminador (pero,
+ * si es 1, solo aceptará la pulsacón de ENTER para finalizar la entrada).
  */
 void uart_recibir_cadena(const LPC_UART_TypeDef *uart_regs, char *ptr_buffer,
                          uint32_t tamano_buffer) {
@@ -253,8 +253,8 @@ void uart_recibir_cadena(const LPC_UART_TypeDef *uart_regs, char *ptr_buffer,
 }
 
 /**
- * @brief    Habilita/deshabilita las interrupciones al recibir un nuevo dato en la UART indicada.
- * @ingroup  UART
+ * @brief   Habilita/deshabilita las interrupciones al recibir un nuevo dato en la UART indicada.
+ * @ingroup UART
  *
  * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
  * @param[out]  estado      Si es TRUE, activa las interrupciones y en caso contrario las desactiva.
@@ -268,10 +268,10 @@ void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bo
 }
 
 /**
- * @brief    Función privada para calcular y ajustar los registros de preescala del reloj para
+ * @brief   Función privada para calcular y ajustar los registros de preescala del reloj para
  * configurar el baudrate indicado para la transmisión.
- * @ingroup  UART
- * @private 
+ * @ingroup UART
+ * @private
  *
  * @details Se utiliza el algoritmo propuesto por NXP en la página 509. (Error relativo < 1.1%)
  *
@@ -282,7 +282,7 @@ void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bo
  *    Baudrate_{calculado} = \frac{PeripheralClock}{16*DLMDLL*(1+DIVADDVAL/MULVAL)}
  * \f]
  * \f[
- *    Error_{relativo} = \frac{|Baudrate_{deseado}-Baudrate_{calculado}|}{Baudrate_{deseado}} = 
+ *    Error_{relativo} = \frac{|Baudrate_{deseado}-Baudrate_{calculado}|}{Baudrate_{deseado}} =
  *    |1-\frac{Baudrate_{calculado}}{Baudrate_{deseado}}|
  * \f]
  * \f[
@@ -299,6 +299,9 @@ void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bo
  *   - DIVADDVAL < MULVAL
  *
  * Si DIVADDVAL = 0, se deshabilita el divisor fraccional.
+ *
+ * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
+ * @param[in]  baudrate    Velocidad de transmisión en baudios deseada.
  *
  * @return  Baudrate real obtenido tras el ajuste.
  *

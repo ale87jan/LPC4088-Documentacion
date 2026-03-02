@@ -1,12 +1,12 @@
 /**
- * @file    spi_lpc40xx.h
- * @brief   Funciones básicas para usar las interfaces SSP del LPC40xx en modo maestro SPI.
+ * @file  spi_lpc40xx.h
+ * @brief Funciones básicas para usar las interfaces SSP del LPC40xx en modo maestro SPI.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date      2014/2025
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef SPI_LPC40XX_H
@@ -28,8 +28,8 @@
 
 // ===== SPI - Constantes Publicas =====
 /**
- * @brief     Constantes para la polaridad del reloj (CPOL).
- * @ingroup   SPI
+ * @brief   Constantes para la polaridad del reloj (CPOL).
+ * @ingroup SPI
  *
  * @details Cuando el bit de control de polaridad del reloj CPOL es 0, se genera un valor bajo de 
  * estado estable en el pin SCK. Si el bit de control de polaridad del reloj CPOL es 1, se genera 
@@ -47,8 +47,8 @@ enum spi_reloj_polaridad {
 };
 
 /**
- * @brief     Constantes para la fase del reloj (CPHA).
- * @ingroup   SPI
+ * @brief   Constantes para la fase del reloj (CPHA).
+ * @ingroup SPI
  *
  * @details El bit de control CPHA selecciona el flanco de reloj que captura los datos y permite 
  * que cambien de estado. Tiene el mayor impacto en el primer bit transmitido, permitiendo o no una
@@ -63,8 +63,8 @@ enum spi_reloj_fase {
 };
 
 /**
- * @brief     Constantes del número de bits de datos manejado por la interfaz.
- * @ingroup   SPI
+ * @brief   Constantes del número de bits de datos manejado por la interfaz.
+ * @ingroup SPI
  */
 enum spi_tamano_datos {
   SPI_DATOS_4_BITS = 4,

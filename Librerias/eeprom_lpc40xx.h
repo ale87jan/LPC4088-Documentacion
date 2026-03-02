@@ -1,12 +1,12 @@
 /**
- * @file    eeprom_lpc40xx.h
- * @brief   Funciones para acceder a una EEPROM 24LC160 a través de una interfaz SSP del LPC40xx.
+ * @file  eeprom_lpc40xx.h
+ * @brief Funciones para acceder a una EEPROM 24LC160 a través de una interfaz SSP del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date      2014/2025
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  *
  */
 
@@ -44,7 +44,6 @@ enum eeprom_bits_estado {
   EEPROM_STATUS_WPEN = (1u << 7)    //!< Write Protect Enable.
 };
 
-
 // ===== EEPROM - Funciones Publicas =====
 void eeprom_inicializar(LPC_SSP_TypeDef *interfaz_ssp, uint32_t frecuencia_sck,
                         LPC_GPIO_TypeDef *puerto_sck, uint32_t mascara_pin_sck,
@@ -61,6 +60,5 @@ void eeprom_escribir_byte(uint16_t direccion, uint8_t dato);
 
 uint8_t eeprom_leer_reg_estado(void);
 void eeprom_escribir_reg_estado(uint8_t byte);
-
 
 #endif  // EEPROM_LPC40XX_H

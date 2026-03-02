@@ -1,14 +1,14 @@
 /**
- * @file    i2c_lpc40xx.c
- * @brief   Funciones de manejo de las interfaces I2C del LPC40xx.
+ * @file  i2c_lpc40xx.c
+ * @brief Funciones de manejo de las interfaces I2C del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date      2014/2025
+ * @version   2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
 
- * @note    Sólo se han implementado las funciones como maestro.
+ * @note  Sólo se han implementado las funciones como maestro.
  */
 
 #include "i2c_lpc40xx.h"
@@ -21,14 +21,14 @@
  * @brief   Inicializa una interfaz I2C del LPC40xx.
  * @ingroup I2C
  *
- * @param[in]   i2c_regs  Puntero al bloque de registros de la interfaz.
- * @param[in]   frecuencia_scl     Frecuencia de la señal SCL.
- * @param[in]   puerto_sda         Puerto que se desea para la función SDA.
- * @param[in]   mascara_pin_sda    Pin que se desea para la función SDA.
- * @param[in]   puerto_scl         Puerto que se desea para la función SCL.
- * @param[in]   mascara_pin_scl    Pin que se desea para la función SCL.
+ * @param[in]   i2c_regs          Puntero al bloque de registros de la interfaz.
+ * @param[in]   frecuencia_scl    Frecuencia de la señal SCL.
+ * @param[in]   puerto_sda        Puerto que se desea para la función SDA.
+ * @param[in]   mascara_pin_sda   Pin que se desea para la función SDA.
+ * @param[in]   puerto_scl        Puerto que se desea para la función SCL.
+ * @param[in]   mascara_pin_scl   Pin que se desea para la función SCL.
  *
- * @note Los números de puerto y pin se comprueban en las funciones de configuración de pines
+ * @note Los números de puerto y pin se comprueban en las funciones de configuración de pines.
  */
 void i2c_inicializar(LPC_I2C_TypeDef *i2c_regs, uint32_t frecuencia_scl,
                      LPC_GPIO_TypeDef *puerto_sda, uint32_t mascara_pin_sda,

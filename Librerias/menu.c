@@ -3,11 +3,11 @@
  * @brief   Menú principal y funciones de configuración de los TIMERs para el bucle de juego y
  * detección de pulsaciones en el joystick.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "menu.h"
@@ -54,14 +54,13 @@ static bool_t hay_nueva_pulsacion = FALSE;
  */
 static uint8_t nueva_pulsacion = JOYSTICK_NADA;
 
-
 /**
  * @brief   Gestiona la representación de la pantalla inicial.
  * @ingroup Menu
  */
 void menu(void) {
 
-  uint8_t i, j, tecla_pulsada;
+  uint8_t i, j;
 
   for (i = 0; i < 5; i++) {
     for (j = 0; j < 21; j++) {
@@ -72,8 +71,8 @@ void menu(void) {
   glcd_texto(240 - 14 * 8, 200, WHITE, NEGRO, FUENTE8X16, "PULSE EL JOYSTICK PARA COMENZAR");
 
   do {
-    tecla_pulsada = leer_pulsacion();
-  } while (tecla_pulsada == JOYSTICK_NADA || tecla_pulsada == JOYSTICK_INACTIVO);
+    leer_pulsacion();
+  } while (nueva_pulsacion == JOYSTICK_NADA || nueva_pulsacion == JOYSTICK_INACTIVO);
 
   return;
 }
@@ -149,7 +148,7 @@ void TIMER1_IRQHandler(void) {
     nueva_pulsacion = pulsacion_actual;
     hay_nueva_pulsacion = TRUE;
 
-  }else if (pulsacion_anterior != JOYSTICK_NADA &&
+  } else if (pulsacion_anterior != JOYSTICK_NADA &&
             pulsacion_actual == JOYSTICK_NADA &&
             !hay_nueva_pulsacion) {
 
