@@ -2,11 +2,11 @@
  * @file   iocon_lpc40xx.h
  * @brief  Configuración de pines del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef IOCON_LPC40XX_H
@@ -18,11 +18,10 @@
 
 // ===== IOCON - Constantes Publicas =====
 /**
- * @brief     Número máximo de funciones en cada pin del LPC40xx.
- * @ingroup   IOCON
+ * @brief   Número máximo de funciones en cada pin del LPC40xx.
+ * @ingroup IOCON
  */
 #define IOCON_MAXIMO_FUNCIONES_POR_PIN  8
-
 
 // ===== IOCON - Tipos Publicos =====
 /**
@@ -140,9 +139,9 @@ typedef enum{
  * @ingroup IOCON
  */
 typedef struct{
-  LPC_GPIO_TypeDef  *gpio_regs;         //!< Puntero a bloque de registros GPIO del puerto.
-  uint32_t          mascara_pin;        //!< Máscara de selección del pin.
-  funcion_pin_t     funcion;            //!< Función deseada para el pin.
+  LPC_GPIO_TypeDef  *gpio_regs;   //!< Puntero a bloque de registros GPIO del puerto.
+  uint32_t          mascara_pin;  //!< Máscara de selección del pin.
+  funcion_pin_t     funcion;      //!< Función deseada para el pin.
 
   /**
    * @brief   Configuración de pull-up/pull-down, modo analógico, histéresis, filtro de glitch,

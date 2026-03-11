@@ -2,11 +2,11 @@
  * @file    cubeta.h
  * @brief   Contiene las funciones referentes a los límites del area de juego.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef CUBETA_H
@@ -17,8 +17,8 @@
 
 // ===== Cubeta - Constantes Públicas =====
 /**
- * @brief Definición del tamaño del área de juego.
- * @ingroup Cubeta
+ * @brief   Definición del tamaño del área de juego.
+ * @ingroup CUBETA
  */
 enum cubeta_tamano {
   CUBETA_ALTO  = 17,  //!< Tamaño vertical del area de juego.
@@ -27,13 +27,13 @@ enum cubeta_tamano {
 
 // ===== Cubeta - Tipos Públicos =====
 /**
- * @brief Tipo de dato para almacenar el contenido del área de juego.
- * @ingroup Cubeta
+ * @brief   Tipo de dato para almacenar el contenido del área de juego.
+ * @ingroup CUBETA
  */
 typedef struct {
   int16_t matriz[CUBETA_ALTO][CUBETA_ANCHO];  //!< Matriz para guardar el contenido de cada celda.
-  int16_t x_pantalla;  //!< Posición x del area de juego en la pantalla.
-  int16_t y_pantalla;  //!< Posición y del area de juego en la pantalla.
+  int16_t x_pantalla;                         //!< Posición x del area de juego en la pantalla.
+  int16_t y_pantalla;                         //!< Posición y del area de juego en la pantalla.
 } cubeta_t;
 
 // ===== Cubeta - Funciones Públicas =====

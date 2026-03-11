@@ -17,25 +17,25 @@
 // ===== Piezas - Constantes Públicas =====
 /**
  * @brief Número de piezas diferentes.
- * @ingroup Piezas
+ * @ingroup PIEZAS
  */
 #define PIEZAS_NUM_PIEZAS  7
 
 /**
  * @brief Tamaño de la matriz que se utiliza para definir las piezas.
- * @ingroup Piezas
+ * @ingroup PIEZAS
  */
 #define PIEZAS_TAM_MATRIZ  4
 
 /**
  * @brief Tamaño del bloque que compone las piezas en píxeles.
- * @ingroup Piezas
+ * @ingroup PIEZAS
  */
 #define PIEZAS_TAM_BLOQUE  15
 
 /**
  * @brief Constantes para representar la dirección de giro de una pieza.
- * @ingroup Piezas
+ * @ingroup PIEZAS
 */
 enum piezas_giro {
   DERECHA   = 0u,
@@ -44,8 +44,8 @@ enum piezas_giro {
 
 // ===== Piezas - Tipos Públicos =====
 /**
- * @brief Tipo enumerado para agrupar los diferentes tipos de piezas del Tetris.
- * @ingroup Piezas
+ * @brief   Tipo enumerado para agrupar los diferentes tipos de piezas del Tetris.
+ * @ingroup PIEZAS
 */
 typedef enum {
   PIEZAS_PALO,       //!< Pieza con forma de palo (1x4).
@@ -58,11 +58,11 @@ typedef enum {
 } piezas_tipo_t;
 
 /**
- * @brief Estructura para guardar la información referente a las piezas.
- * @ingroup Piezas
+ * @brief   Estructura para guardar la información referente a las piezas.
+ * @ingroup PIEZAS
 */
 typedef struct {
-  piezas_tipo_t tipo;  //!< Tipo de pieza.
+  piezas_tipo_t tipo; //!< Tipo de pieza.
   uint8_t tamano;     //!< Tamaño de la pieza.
   uint16_t color;     //!< Color de la pieza.
   uint8_t matriz[PIEZAS_TAM_MATRIZ][PIEZAS_TAM_MATRIZ];  //!< Matriz que define la forma de la pieza.

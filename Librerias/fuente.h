@@ -2,11 +2,11 @@
  * @file   fuente.h
  * @brief  Tipos y constantes para el manejo de las fuentes para la pantalla GLCD.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef FUENTE_H
@@ -17,7 +17,7 @@
 // ===== Fuente - Tipos Publicos =====
 /**
  * @brief   Estructura para almacenar los parámetros principales de una fuente.
- * @ingroup Fuente
+ * @ingroup FUENTE
  */
 typedef struct {
   uint8_t pixeles_ancho;  //!< Ancho en píxeles de la fuente.
@@ -29,7 +29,8 @@ typedef struct {
 
 /**
  * @defgroup  Fuente_Macros_Publicas Fuente - Macros Públicas
- * @brief     Símbolos para definir el patrón de puntos de los diferentes caracteres.
+ * @ingroup FUENTE
+ * @brief   Símbolos para definir el patrón de puntos de los diferentes caracteres.
  * @{
  */
 #define ________  0x00

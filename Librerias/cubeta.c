@@ -2,11 +2,11 @@
  * @file    cubeta.c
  * @brief   Contiene las funciones referentes a los límites del area de juego.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "cubeta.h"
@@ -19,9 +19,9 @@
 
 /**
  * @brief   Inicializa las posiciones del área de juego.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta  Puntero a la estructura del área de juego.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
  */
 void cubeta_inicializar(cubeta_t *ptr_cubeta) {
 
@@ -41,9 +41,9 @@ void cubeta_inicializar(cubeta_t *ptr_cubeta) {
 
 /**
  * @brief   Dibuja el area de juego.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta    Puntero a la estructura del área de juego.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
  */
 void cubeta_pintar(cubeta_t *ptr_cubeta) {
 
@@ -76,11 +76,11 @@ void cubeta_pintar(cubeta_t *ptr_cubeta) {
 
 /**
  * @brief   Devuelve el número de filas a eliminar por estar completas.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in]   ptr_cubeta    Puntero a la estructura del área de juego.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
  *
- * @return      Número de filas eliminadas.
+ * @return  Número de filas eliminadas.
  */
 uint8_t cubeta_revisar_filas(cubeta_t *ptr_cubeta) {
 
@@ -105,9 +105,9 @@ uint8_t cubeta_revisar_filas(cubeta_t *ptr_cubeta) {
 
 /**
  * @brief   Elimina la fila indicada.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta  Puntero a la estructura del área de juego.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
  * @param[in] fila        Número de fila a eliminar.
  */
 void cubeta_eliminar_fila(cubeta_t* ptr_cubeta, int16_t fila) {
@@ -130,10 +130,10 @@ void cubeta_eliminar_fila(cubeta_t* ptr_cubeta, int16_t fila) {
 
 /**
  * @brief   Dibuja la pieza en el área de juego.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta  Puntero a la estructura del área de juego.
- * @param[in] ptr_pieza   Puntero a la pieza que se pintará.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
+ * @param[in] ptr_pieza   Ptr. a la pieza que se pintará.
  * @param[in] x           Posición x de la pieza.
  * @param[in] y           Posición y de la pieza.
  */
@@ -148,10 +148,10 @@ void cubeta_pintar_pieza(cubeta_t *ptr_cubeta, piezas_t *ptr_pieza, int16_t x, i
 
 /**
  * @brief   Borra la pieza del área de juego.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta  Puntero a la estructura del área de juego.
- * @param[in] ptr_pieza   Puntero a la pieza que se borrará.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
+ * @param[in] ptr_pieza   Ptr. a la pieza que se borrará.
  * @param[in] x           Posición x de la pieza.
  * @param[in] y           Posición y de la pieza.
  */
@@ -166,10 +166,10 @@ void cubeta_borrar_pieza(cubeta_t *ptr_cubeta, piezas_t *ptr_pieza, int16_t x, i
 
 /**
  * @brief   Fija la pieza al área de juego quedando como parte de esta.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta  Puntero a la estructura del área de juego.
- * @param[in] ptr_pieza   Puntero a la pieza que se fijará.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
+ * @param[in] ptr_pieza   Ptr. a la pieza que se fijará.
  * @param[in] x           Posición x de la pieza.
  * @param[in] y           Posición y de la pieza.
  */
@@ -191,14 +191,14 @@ void cubeta_fijar_pieza(cubeta_t *ptr_cubeta, piezas_t *ptr_pieza, int16_t x, in
 
 /**
  * @brief   Comprueba si hay interseccion entre la pieza y algún bloque existente en la cubeta.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta  Puntero a la estructura del área de juego.
- * @param[in] ptr_pieza   Puntero a la pieza que se utilizará para verificar si hay intersección.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
+ * @param[in] ptr_pieza   Ptr. a la pieza que se utilizará para verificar si hay intersección.
  * @param[in] x           Posición x de la pieza.
  * @param[in] y           Posición y de la pieza.
  *
- * @return    TRUE si hay intersección.
+ * @return  TRUE si hay intersección.
  */
 bool_t cubeta_hay_interseccion(cubeta_t *ptr_cubeta, piezas_t *ptr_pieza, int16_t x, int16_t y) {
   int16_t i, j;
@@ -225,13 +225,13 @@ bool_t cubeta_hay_interseccion(cubeta_t *ptr_cubeta, piezas_t *ptr_pieza, int16_
 
 /**
  * @brief   Comprueba si la pieza supera el límite superior del area de juego.
- * @ingroup Cubeta
+ * @ingroup CUBETA
  *
- * @param[in] ptr_cubeta  Puntero a la estructura del área de juego.
- * @param[in] ptr_pieza   Puntero a la pieza que se utilizará para verificar si hay desbordamiento.
+ * @param[in] ptr_cubeta  Ptr. a la estructura del área de juego.
+ * @param[in] ptr_pieza   Ptr. a la pieza que se utilizará para verificar si hay desbordamiento.
  * @param[in] y           Posición y de la pieza.
  *
- * @return    TRUE si hay desbordamiento.
+ * @return  TRUE si hay desbordamiento.
  */
 bool_t cubeta_hay_desbordamiento(cubeta_t *ptr_cubeta, piezas_t *ptr_pieza, int16_t y) {
 

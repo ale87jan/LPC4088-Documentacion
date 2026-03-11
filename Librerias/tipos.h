@@ -8,7 +8,7 @@
  *
  * @copyright GNU General Public License version 3 or later
  *
- * @note        Basado en lpc_types.h
+ * @note  Basado en lpc_types.h
  */
 
 #ifndef TIPOS_H
@@ -61,6 +61,10 @@ typedef unsigned long long  uint64_t;
 
 #endif  // __stdint_h
 
+#ifndef inline
+  #define inline __inline  //!< Definición del cualificador inline no disponible en modo C90.
+#endif
+
 /**
  * @brief Si no está definido el símbolo __bool_true_false_are_defined definir el tipo bool_t como
  * unsigned char, en caso contrario definir a partir de bool.
@@ -87,10 +91,10 @@ typedef float   float32_t;  //!< Tipo flotante de 32 bits.
 typedef double  float64_t;  //!< Tipo flotante de 64 bits.
 
 /**
- * @brief     Tipo estructura corregida del registro de interrupciones del GPIO del LPC40XX.
+ * @brief   Tipo estructura corregida del registro de interrupciones del GPIO del LPC40XX.
  *
- * @details   Los nombres de los registros de las interrupciones de los pines de los puertos P0
- * y P2 del fichero LPC407x_8x_177x_8x.h no están actualizadosa la última versión del manual del
+ * @details Los nombres de los registros de las interrupciones de los pines de los puertos P0 y P2
+ * del fichero LPC407x_8x_177x_8x.h no están actualizadosa la última versión del manual del
  * microcontrolador. Aquí se redefinen de forma que coincidan con el manual.
  */
 typedef struct{

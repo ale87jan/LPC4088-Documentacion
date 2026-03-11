@@ -28,7 +28,7 @@
  * @brief   Parámetros de la LCD y ajustes indicados para el controlador de la LCD del LPC4088.
  * @ingroup GLCD
  *
- * @see     LCD BOARD - User's guide página 13.
+ * @see LCD BOARD - User's guide página 13.
  */
 enum glcd_parametros {
   // Parámetros de la LCD
@@ -118,13 +118,13 @@ enum glcd_pol_bits {
  * @brief   Convertir el color RGB de 24 bits (8:8:8) al de resolución de 16 bits (5:6:5).
  * @ingroup GLCD
  *
- * @param[in]  r  Intensidad de rojo 0-255.
- * @param[in]  g  Intensidad de verde 0-255.
- * @param[in]  b  Intensidad de azul 0-255.
+ * @param[in] r  Intensidad de rojo 0-255.
+ * @param[in] g  Intensidad de verde 0-255.
+ * @param[in] b  Intensidad de azul 0-255.
  *
- * @return    Color en formato RGB de 16 bits.
+ * @return  Color en formato RGB de 16 bits.
  *
- * @warning   r, g y b deben ser de 8 bits.
+ * @warning r, g y b deben ser de 8 bits.
  */
 #define RGB(r, g, b)    ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | (((b) & 0xF8) >> 3))
 
@@ -202,10 +202,11 @@ typedef struct {
 
 /**
  * @defgroup  GLCD_PCA9532 GLCD - Constantes del PCA9532
- * @ingroup   GLCD
+ * @ingroup GLCD
  * @private
- * @brief     Constantes para utilizar el expansor de pines PCA9532.
- * @details  Este dispositivo permite generar las señales de control de "reset" y "display_enable",
+ *
+ * @brief   Constantes para utilizar el expansor de pines PCA9532.
+ * @details Este dispositivo permite generar las señales de control de "reset" y "display_enable",
  * controlar la tensión de alimentación a la LCD (3.3V o 5V) e intensidad de la retroiluminación de
  * la pantalla LCD (genera una señal PWM el propio PCA9532).
  * @{
@@ -213,8 +214,8 @@ typedef struct {
 #define GLCD_PCA9532_I2C_ADDR   0x64  //!< Dirección I2C del PCA9532 de la LCD.
 
 /**
- * @brief     Bit de Autoincremento
- * @details   Permite acceder a los registros secuencialmente sin reiniciar la comunicación.
+ * @brief   Bit de Autoincremento
+ * @details Permite acceder a los registros secuencialmente sin reiniciar la comunicación.
  */
 #define GLCD_PCA9532_AUTO_INC   0x10
 
@@ -258,8 +259,9 @@ enum glcd_pca9532_ctrl {
 
 /**
  * @name      No Semihosting
- * @brief     Deshabilitar la funcionalidad de semihosting de ARM para el compilador ARM v6 o v5.
- * @details   La funcionalidad de semihosting es un mecanismo de depuración que permite que un
+ *
+ * @brief   Deshabilitar la funcionalidad de semihosting de ARM para el compilador ARM v6 o v5.
+ * @details La funcionalidad de semihosting es un mecanismo de depuración que permite que un
  * dispositivo ARM target (embebido) se comunique con un host (PC) para realizar operaciones de
  * E/S, como printf, a través del depurador. Al deshabilitar el semihosting, el compilador se
  * asegura de que las funciones que dependen de él no se incluyan, liberando memoria y eliminando
@@ -315,7 +317,7 @@ void glcd_inicializar(void);
  * @brief   Borra la pantalla LCD rellenándola con el color indicado.
  * @ingroup GLCD
  *
- * @param[in]   color   color con el que rellenar la pantalla LCD.
+ * @param[in] color   color con el que rellenar la pantalla LCD.
  */
 void glcd_borrar(uint16_t color);
 
@@ -323,15 +325,15 @@ void glcd_borrar(uint16_t color);
  * @brief   Función análoga a printf para imprimir texto en la pantalla LCD.
  * @ingroup GLCD
  *
- * @param[in]   format  Cadena de caracteres a imprimir incluyendo opcionalmente especificadores
- *                      de formato que serán reemplazados por los valores de los argumentos
- *                      adicionales subsiguientes y formateados como se indique.
- * @param[in]   ...     Argumentos adicionales. Dependiendo de los especificadores de formato
- *                      incluidos en la cadena de formato, la función espera una secuencia de
- *                      argumentos adicionales cuyos valores se usan para reemplazar dichos
- *                      especificadores. Debe haber, al menos, tantos argumentos adicionales
- *                      como especificadores de formato. Los argumentos extra a los necesarios
- *                      son ignorados.
+ * @param[in] format  Cadena de caracteres a imprimir incluyendo opcionalmente especificadores
+ *                    de formato que serán reemplazados por los valores de los argumentos
+ *                    adicionales subsiguientes y formateados como se indique.
+ * @param[in] ...     Argumentos adicionales. Dependiendo de los especificadores de formato
+ *                    incluidos en la cadena de formato, la función espera una secuencia de
+ *                    argumentos adicionales cuyos valores se usan para reemplazar dichos
+ *                    especificadores. Debe haber, al menos, tantos argumentos adicionales
+ *                    como especificadores de formato. Los argumentos extra a los necesarios
+ *                    son ignorados.
  *
  * @return  Si la función tiene éxito, retorna el número de caracteres que ha impreso. En caso de
  * error, se retorna un número negativo.
@@ -343,20 +345,20 @@ int32_t glcd_printf(const char *format, ...);
  * el texto, el color del texto y la fuente.
  * @ingroup GLCD
  *
- * @param[in]   x             Coordenada X de pantalla en la que se imprimirá.
- * @param[in]   y             Coordenada Y de pantalla en la que se imprimirá.
- * @param[in]   color         Color con el que se imprimirá el texto.
- * @param[in]   color_fondo   Color de fondo con el que se imprimirá el texto.
- * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in]   format        Cadena de caracteres a imprimir incluyendo opcionalmente
- *                            especificadores de formato que serán reemplazados por los valores de
- *                            los argumentos subsiguientes y formateados como se indique.
- * @param[in]   ...           Argumentos adicionales. Dependiendo de los especificadores de formato
- *                            incluidos en la cadena de formato, la función espera una secuencia de
- *                            argumentos adicionales cuyos valores se usan para reemplazar dichos
- *                            especificadores. Debe haber, al menos, tantos argumentos adicionales
- *                            como especificadores de formato. Los argumentos extra a los
- *                            necesarios se ignoran.
+ * @param[in] x             Coordenada X de pantalla en la que se imprimirá.
+ * @param[in] y             Coordenada Y de pantalla en la que se imprimirá.
+ * @param[in] color         Color con el que se imprimirá el texto.
+ * @param[in] color_fondo   Color de fondo con el que se imprimirá el texto.
+ * @param[in] fuente        Fuente de caracteres con la que se imprimirá.
+ * @param[in] format        Cadena de caracteres a imprimir incluyendo opcionalmente
+ *                          especificadores de formato que serán reemplazados por los valores de
+ *                          los argumentos subsiguientes y formateados como se indique.
+ * @param[in] ...           Argumentos adicionales. Dependiendo de los especificadores de formato
+ *                          incluidos en la cadena de formato, la función espera una secuencia de
+ *                          argumentos adicionales cuyos valores se usan para reemplazar dichos
+ *                          especificadores. Debe haber, al menos, tantos argumentos adicionales
+ *                          como especificadores de formato. Los argumentos extra a los necesarios
+ *                          se ignoran.
  *
  * @return  Si la función tiene éxito, retorna el número de caracteres que ha impreso. En caso de 
  * error, se retorna un número negativo.
@@ -370,15 +372,15 @@ int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fond
  * @brief   Imprime un carácter en pantalla. No se interpretan caracteres de control.
  * @ingroup GLCD
  *
- * @param[in]   c             Carácter a imprimir. Sólo se imprimirá si es uno de los caracteres
- *                            definidos en la fuente indicada por el argumento fuente y las
- *                            coordenadas indicadas por los argumentos `x` e `y` están dentro de
- *                            la pantalla. En caso contrario no se imprimirá nada.
- * @param[in]   x             Coordenada X de pantalla en la que se imprimirá.
- * @param[in]   y             Coordenada Y de pantalla en la que se imprimirá.
- * @param[in]   color         Color con el que se imprimirá el carácter.
- * @param[in]   color_fondo   Color de fondo con el que se imprimirá el carácter.
- * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
+ * @param[in] c             Carácter a imprimir. Sólo se imprimirá si es uno de los caracteres
+ *                          definidos en la fuente indicada por el argumento fuente y las
+ *                          coordenadas indicadas por los argumentos `x` e `y` están dentro de la
+ *                          pantalla. En caso contrario no se imprimirá nada.
+ * @param[in] x             Coordenada X de pantalla en la que se imprimirá.
+ * @param[in] y             Coordenada Y de pantalla en la que se imprimirá.
+ * @param[in] color         Color con el que se imprimirá el carácter.
+ * @param[in] color_fondo   Color de fondo con el que se imprimirá el carácter.
+ * @param[in] fuente        Fuente de caracteres con la que se imprimirá.
  */
 void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo,
                    uint32_t fuente);
@@ -388,14 +390,14 @@ void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t colo
  * de control.
  * @ingroup GLCD
  *
- * @param[in]   x             Coordenada X de pantalla en la que se imprimirá.
- * @param[in]   y             Coordenada Y de pantalla en la que se imprimirá.
- * @param[in]   color         Color con el que se imprimirá el carácter.
- * @param[in]   color_fondo   Color de fondo con el que se imprimirá el carácter.
- * @param[in]   fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in]   str           Puntero a la cadena a imprimir. Sólo se imprimirá si las coordenadas
- *                            indicadas por los argumentos `x` e `y` están dentro de la pantalla.
- *                            En caso contrario, no se imprimirá nada.
+ * @param[in] x             Coordenada X de pantalla en la que se imprimirá.
+ * @param[in] y             Coordenada Y de pantalla en la que se imprimirá.
+ * @param[in] color         Color con el que se imprimirá el carácter.
+ * @param[in] color_fondo   Color de fondo con el que se imprimirá el carácter.
+ * @param[in] fuente        Fuente de caracteres con la que se imprimirá.
+ * @param[in] str           Puntero a la cadena a imprimir. Sólo se imprimirá si las coordenadas
+ *                          indicadas por los argumentos `x` e `y` están dentro de la pantalla.
+ *                          En caso contrario, no se imprimirá nada.
  */
 void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
                 const char *str);
@@ -404,7 +406,7 @@ void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, ui
  * @brief   Fija el color que se usará para la salida de texto con glcd_printf.
  * @ingroup GLCD
  *
- * @param[in]   color   Color de texto que usará glcd_printf.
+ * @param[in] color   Color de texto que usará glcd_printf.
  */
 void glcd_color_texto(uint16_t color);
 
@@ -412,7 +414,7 @@ void glcd_color_texto(uint16_t color);
  * @brief   Fija el color de fondo que se usará para la salida de texto con glcd_printf.
  * @ingroup GLCD
  *
- * @param[in]   color_fondo   Color de fondo que usará glcd_printf.
+ * @param[in] color_fondo   Color de fondo que usará glcd_printf.
  */
 void glcd_fondo_texto(uint16_t color_fondo);
 
@@ -421,8 +423,8 @@ void glcd_fondo_texto(uint16_t color_fondo);
  * `glcd_printf`. Sólo tiene efecto si las coordenadas están dentro de la pantalla.
  * @ingroup GLCD
  *
- * @param[in]   x   Coordenada X de la pantalla.
- * @param[in]   y   Coordenada Y de la pantalla.
+ * @param[in] x   Coordenada X de la pantalla.
+ * @param[in] y   Coordenada Y de la pantalla.
  */
 void glcd_xy_texto(uint16_t x, uint16_t y);
 
@@ -431,7 +433,7 @@ void glcd_xy_texto(uint16_t x, uint16_t y);
  * Las líneas inferiores se rellenan con el color del fondo de texto actual.
  * @ingroup GLCD
  *
- * @param[in]   lineas  Líneas a desplazar.
+ * @param[in] lineas  Líneas a desplazar.
  */
 void glcd_desplazar(uint16_t lineas);
 
@@ -440,7 +442,7 @@ void glcd_desplazar(uint16_t lineas);
  * pantalla cuando la salida de texto mediante glcd_printf sobrepasa la linea inferior.
  * @ingroup GLCD
  *
- * @param[in]   activar   TRUE => activar, FALSE => desactivar.
+ * @param[in] activar   TRUE => activar, FALSE => desactivar.
  */
 void glcd_activar_desplazamiento(bool_t activo);
 
@@ -449,7 +451,7 @@ void glcd_activar_desplazamiento(bool_t activo);
  * la función `glcd_printf`.
  * @ingroup GLCD
  *
- * @param[in]   fuente  Número de la fuente a seleccionar.
+ * @param[in] fuente  Número de la fuente a seleccionar.
  */
 void glcd_seleccionar_fuente(uint32_t fuente);
 
@@ -457,9 +459,9 @@ void glcd_seleccionar_fuente(uint32_t fuente);
  * @brief   Dibuja un punto (pixel) en la pantalla LCD.
  * @ingroup GLCD
  *
- * @param[in]   x       Coordenada X del punto.
- * @param[in]   y       Coordenada Y del punto.
- * @param[in]   color   Color del punto.
+ * @param[in] x       Coordenada X del punto.
+ * @param[in] y       Coordenada Y del punto.
+ * @param[in] color   Color del punto.
  */
 void glcd_punto(uint16_t x, uint16_t y, uint16_t color);
 
@@ -469,11 +471,11 @@ void glcd_punto(uint16_t x, uint16_t y, uint16_t color);
  * se dibuja la porción contenida en la misma (si la hay).
  * @ingroup GLCD
  *
- * @param[in]   x0      Coordenada X del primer extremo del segmento.
- * @param[in]   y0      Coordenada Y del primer extremo del segmento.
- * @param[in]   x1      Coordenada X del segundo extremo del segmento.
- * @param[in]   y1      Coordenada Y del segundo extremo del segmento.
- * @param[in]   color   Color del segmento.
+ * @param[in] x0      Coordenada X del primer extremo del segmento.
+ * @param[in] y0      Coordenada Y del primer extremo del segmento.
+ * @param[in] x1      Coordenada X del segundo extremo del segmento.
+ * @param[in] y1      Coordenada Y del segundo extremo del segmento.
+ * @param[in] color   Color del segmento.
  */
 void glcd_linea(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
 
@@ -482,11 +484,11 @@ void glcd_linea(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t col
  * de una diagonal. Se dibuja la porción del rectángulo contenida entre los límites de la pantalla.
  * @ingroup GLCD
  *
- * @param[in]   x0      Coordenada X de un vértice.
- * @param[in]   y0      Coordenada Y de un vértice.
- * @param[in]   x1      Coordenada X del vértice opuesto al dado por (x0, y0).
- * @param[in]   y1      Coordenada Y del vértice opuesto al dado por (x0, y0).
- * @param[in]   color   Color del rectángulo.
+ * @param[in] x0      Coordenada X de un vértice.
+ * @param[in] y0      Coordenada Y de un vértice.
+ * @param[in] x1      Coordenada X del vértice opuesto al dado por (x0, y0).
+ * @param[in] y1      Coordenada Y del vértice opuesto al dado por (x0, y0).
+ * @param[in] color   Color del rectángulo.
  */
 void glcd_rectangulo(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
 
@@ -496,11 +498,11 @@ void glcd_rectangulo(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_
  * pantalla.
  * @ingroup GLCD
  *
- * @param[in]   x0      Coordenada X de un vértice.
- * @param[in]   y0      Coordenada Y de un vértice.
- * @param[in]   x1      Coordenada X del vértice opuesto al dado por (x0, y0).
- * @param[in]   y1      Coordenada Y del vértice opuesto al dado por (x0, y0).
- * @param[in]   color   Color del rectángulo.
+ * @param[in] x0      Coordenada X de un vértice.
+ * @param[in] y0      Coordenada Y de un vértice.
+ * @param[in] x1      Coordenada X del vértice opuesto al dado por (x0, y0).
+ * @param[in] y1      Coordenada Y del vértice opuesto al dado por (x0, y0).
+ * @param[in] color   Color del rectángulo.
  */
 void glcd_rectangulo_relleno(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
 
@@ -509,10 +511,10 @@ void glcd_rectangulo_relleno(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1,
  * contenida entre los límites de la pantalla.
  * @ingroup GLCD
  *
- * @param[in]   xc      Coordenada X del centro.
- * @param[in]   yc      Coordenada Y del centro.
- * @param[in]   radio   Radio de la circunferencia (en píxeles).
- * @param[in]   color   Color de la circunferencia.
+ * @param[in] xc      Coordenada X del centro.
+ * @param[in] yc      Coordenada Y del centro.
+ * @param[in] radio   Radio de la circunferencia (en píxeles).
+ * @param[in] color   Color de la circunferencia.
  */
 void glcd_circunferencia(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t color);
 
@@ -521,10 +523,10 @@ void glcd_circunferencia(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t colo
  * entre los límites de la pantalla.
  * @ingroup GLCD
  *
- * @param[in]   xc      Coordenada X del centro.
- * @param[in]   yc      Coordenada Y del centro.
- * @param[in]   radio   Radio del circulo (en píxeles).
- * @param[in]   color   Color del circulo.
+ * @param[in] xc      Coordenada X del centro.
+ * @param[in] yc      Coordenada Y del centro.
+ * @param[in] radio   Radio del circulo (en píxeles).
+ * @param[in] color   Color del circulo.
  */
 void glcd_circulo(uint16_t xc, uint16_t yc, uint16_t radio, uint16_t color);
 

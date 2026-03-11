@@ -2,11 +2,11 @@
  * @file    fuente_8x16.c
  * @brief   Definición de la fuente de caracteres de 8x16 píxeles.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "fuente.h"
@@ -16,7 +16,8 @@ const uint8_t fuente_8x16_datos[];
 
 /**
  * @brief   Estructura con la definición de la fuente de 8x16 pixeles.
- * @ingroup Fuente_8x16
+ * @ingroup FUENTE
+ * @ingroup FUENTE_8X16
  */
 const fuente_t fuente_8x16 = {
   .pixeles_ancho = 8,         // Ancho en píxeles de la fuente
@@ -27,8 +28,8 @@ const fuente_t fuente_8x16 = {
 };
 
 /**
- * @brief Caracteres de la fuente de tamaño 8x16.
- * @ingroup Fuente_8x16
+ * @brief   Caracteres de la fuente de tamaño 8x16.
+ * @ingroup FUENTE_8X16
  */
 const uint8_t fuente_8x16_datos[] = {
   ________,

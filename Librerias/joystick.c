@@ -25,6 +25,7 @@
 #include <LPC407x_8x_177x_8x.h>
 #include "tipos.h"
 #include "gpio_lpc40xx.h"
+#include "leds.h"
 
 // ===== Joystick - Funciones Publicas =====
 /**
@@ -39,44 +40,66 @@
  * @retval  JOYSTICK_CENTRO/5 si el joystick está pulsado hacia el CENTRO.
  */
 uint8_t joystick_leer(void) {
-
-  if (!gpio_leer_pin(PUERTO2, PIN25)) {
-    return JOYSTICK_ARRIBA;
-
-  } else if (!gpio_leer_pin(PUERTO2, PIN27)) {
-    return JOYSTICK_ABAJO;
-
-  } else if (!gpio_leer_pin(PUERTO2, PIN23)) {
+  
+  leds_inicializar();
+  
+  if (!gpio_leer_pin(PUERTO2, PIN23)) {
+    leds_encender(LED1);
     return JOYSTICK_IZQUIERDA;
+
+  } else if (!gpio_leer_pin(PUERTO2, PIN25)) {
+
+    leds_encender(LED2);
+    return JOYSTICK_ARRIBA;
 
   } else if (!gpio_leer_pin(PUERTO2, PIN26)) {
+    leds_encender(LED3);
     return JOYSTICK_DERECHA;
 
-  } else if (!gpio_leer_pin(PUERTO2, PIN22)) {
-    return JOYSTICK_CENTRO;
-  }
-
-  /*
-  // Todos los pines del joystick son del PUERTO2
-  uint32_t valor_puerto = PUERTO2->PIN;
-
-  if ((valor_puerto & PIN25) == 0) {
-    return JOYSTICK_ARRIBA;
-
-  } else if ((valor_puerto & PIN27) == 0) {
+  } else if (!gpio_leer_pin(PUERTO2, PIN27)) {
+    leds_encender(LED4);
     return JOYSTICK_ABAJO;
 
-  } else if ((valor_puerto & PIN23) == 0) {
-    return JOYSTICK_IZQUIERDA;
-
-  } else if ((valor_puerto & PIN26) == 0) {
-    return JOYSTICK_DERECHA;
-
-  } else if ((valor_puerto & PIN22) == 0) {
+  } else if (!gpio_leer_pin(PUERTO2, PIN22)) {
+    leds_encender(LED1);
+    leds_encender(LED2);
+    leds_encender(LED3);
+    leds_encender(LED4);
     return JOYSTICK_CENTRO;
   }
-  */
+  
+  // Todos los pines del joystick son del PUERTO2
+  // uint32_t valor_puerto = PUERTO2->PIN;
 
+  // if (!((valor_puerto >> 23) & 1)) {
+    // leds_encender(LED1);
+    // return JOYSTICK_IZQUIERDA;
+
+  // } else if (!((valor_puerto >> 25) & 1)) {
+    // leds_encender(LED2);
+    // return JOYSTICK_ARRIBA;
+
+  // } else if (!((valor_puerto >> 26) & 1)) {
+    // leds_encender(LED3);
+    // return JOYSTICK_DERECHA;
+
+  // } else if (!((valor_puerto >> 27) & 1)) {
+    // leds_encender(LED4);
+    // return JOYSTICK_ABAJO;
+
+  // } else if (!((valor_puerto >> 22) & 1)) {
+    // leds_encender(LED1);
+    // leds_encender(LED2);
+    // leds_encender(LED3);
+    // leds_encender(LED4);
+    // return JOYSTICK_CENTRO;
+  // }
+  
+  leds_apagar(LED1);
+  leds_apagar(LED2);
+  leds_apagar(LED3);
+  leds_apagar(LED4);
+  
   return JOYSTICK_NADA;
 }
 

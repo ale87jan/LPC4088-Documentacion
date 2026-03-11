@@ -32,156 +32,167 @@
  * @ingroup LEDs
  */
 void leds_inicializar(void) {
-
+  // Ajustar GPIO como salida
   gpio_ajustar_dir(PUERTO0, PIN13 | PIN14, DIR_SALIDA);
   gpio_ajustar_dir(PUERTO1, PIN5 | PIN18, DIR_SALIDA);
-
+  
+  // Apagar LEDs (activos a nivel bajo)
   gpio_pin_a_1(PUERTO0, PIN13 | PIN14);
   gpio_pin_a_1(PUERTO1, PIN5 | PIN18);
+  
+  // Ajustar GPIO como salida
+  // LPC_GPIO0->DIR |= (1u << 13) | (1u << 14);
+  // LPC_GPIO1->DIR |= (1u << 5) | (1u << 18);
 
-  /*
-  LPC_GPIO0->DIR |= PIN13 | PIN14;
-  LPC_GPIO1->DIR |= PIN5 | PIN18;
-
-  LPC_GPIO0->SET = PIN13 | PIN14;
-  LPC_GPIO1->SET = PIN5 | PIN18;
-  */
+  // Apagar LEDs (activos a nivel bajo)
+  // LPC_GPIO0->SET = (1u << 13) | (1u << 14);
+  // LPC_GPIO1->SET = (1u << 5) | (1u << 18);
 }
 
 /**
  * @brief   Enciende un LED.
  * @ingroup LEDs
  *
- * @param[in]   numero_led  Número del LED a encender. Debe estar entre 1 y 4.
+ * @param[in] numero_led  Número del LED a encender. Debe estar entre 1 y 4.
  */
 void leds_encender(uint8_t numero_led) {
 
+  ASSERT(numero_led >= 1 && numero_led <= 4, "Número de LED incorrecto.");
+  // Usando las funciones de acceso a los puertos
+
   if (numero_led == LED1) {
-    gpio_pin_a_0(LPC_GPIO1, PIN5);
-
+    gpio_pin_a_0(PUERTO1, PIN5);
+    
   } else if  (numero_led == LED2) {
-    gpio_pin_a_0(LPC_GPIO0, PIN14);
-
+    gpio_pin_a_0(PUERTO0, PIN14);
+    
   } else if  (numero_led == LED3) {
-    gpio_pin_a_0(LPC_GPIO0, PIN13);
-
+    gpio_pin_a_0(PUERTO0, PIN13);
+    
   } else if  (numero_led == LED4) {
-    gpio_pin_a_0(LPC_GPIO1, PIN18);
-
+    gpio_pin_a_0(PUERTO1, PIN18);
+    
   } else {
-    ERROR("Numero de LED incorrecto.");
+    ERROR("Número de LED incorrecto.");
   }
 
-  /*
-  if (numero_led == LED1) {
-    LPC_GPIO1->CLR = PIN5;
+  // if (numero_led == LED1) {
+    // LPC_GPIO1->CLR = (1u << 5);
 
-  } else if  (numero_led == LED2) {
-    LPC_GPIO0->CLR = PIN14;
+  // } else if  (numero_led == LED2) {
+    // LPC_GPIO0->CLR = (1u << 14);
 
-  } else if  (numero_led == LED3) {
-    LPC_GPIO0->CLR = PIN13;
+  // } else if  (numero_led == LED3) {
+    // LPC_GPIO0->CLR = (1u << 13);
 
-  } else if  (numero_led == LED4) {
-    LPC_GPIO1->CLR = PIN18;
+  // } else if  (numero_led == LED4) {
+    // LPC_GPIO1->CLR = (1u << 18);
 
-  } else {
-    ERROR("Numero de LED incorrecto.");
-  }*/
+  // } else {
+    // ERROR("Numero de LED incorrecto.");
+  // }
 }
 
 /**
  * @brief   Apaga un LED.
  * @ingroup LEDs
  *
- * @param[in]   numero_led  Número del LED a apagar. Debe estar entre 1 y 4.
+ * @param[in] numero_led  Número del LED a apagar. Debe estar entre 1 y 4.
  */
 void leds_apagar(uint8_t numero_led) {
 
+  ASSERT(numero_led >= 1 && numero_led <= 4, "Número de LED incorrecto.");
+
+  // Usando las funciones de acceso a los puertos
   if (numero_led == LED1) {
-    gpio_pin_a_1(LPC_GPIO1, PIN5);
-
+    gpio_pin_a_1(PUERTO1, PIN5);
+    
   } else if  (numero_led == LED2) {
-    gpio_pin_a_1(LPC_GPIO0, PIN14);
-
+    gpio_pin_a_1(PUERTO0, PIN14);
+    
   } else if  (numero_led == LED3) {
-    gpio_pin_a_1(LPC_GPIO0, PIN13);
-
+    gpio_pin_a_1(PUERTO0, PIN13);
+    
   } else if  (numero_led == LED4) {
-    gpio_pin_a_1(LPC_GPIO1, PIN18);
-
+    gpio_pin_a_1(PUERTO1, PIN18);
+    
   } else {
-    ERROR("Numero de LED incorrecto.");
+    ERROR("Número de LED incorrecto.");
   }
 
-  /*
-  if (numero_led == LED1) {
-    LPC_GPIO1->SET = PIN5;
+  // if (numero_led == LED1) {
+    // LPC_GPIO1->SET = (1u << 5);
 
-  } else if  (numero_led == LED2) {
-    LPC_GPIO0->SET = PIN14;
+  // } else if  (numero_led == LED2) {
+    // LPC_GPIO0->SET = (1u << 14);
 
-  } else if  (numero_led == LED3) {
-    LPC_GPIO0->SET = PIN13;
+  // } else if  (numero_led == LED3) {
+    // LPC_GPIO0->SET = (1u << 13);
 
-  } else if  (numero_led == LED4) {
-    LPC_GPIO1->SET = PIN18;
+  // } else if  (numero_led == LED4) {
+    // LPC_GPIO1->SET = (1u << 18);
 
-  } else {
-    ERROR("Numero de LED incorrecto.");
-  }*/
+  // } else {
+    // ERROR("Numero de LED incorrecto.");
+  // }
 }
 
 /**
  * @brief   Invierte el estado de un LED.
  * @ingroup LEDs
  *
- * @param[in]   numero_led  Número del LED a invertir. Debe estar entre 1 y 4.
+ * @param[in] numero_led  Número del LED a invertir. Debe estar entre 1 y 4.
  */
 void leds_invertir(uint8_t numero_led) {
 
+  ASSERT(numero_led >= 1 && numero_led <= 4, "Número de LED incorrecto.");
+
+  // Usando las funciones de acceso a los puertos
+
   if (numero_led == LED1) {
-    gpio_invertir_pin(LPC_GPIO1, PIN5);
-
+    gpio_invertir_pin(PUERTO1, PIN5);
+    
   } else if  (numero_led == LED2) {
-    gpio_invertir_pin(LPC_GPIO0, PIN14);
-
+    gpio_invertir_pin(PUERTO0, PIN14);
+    
   } else if  (numero_led == LED3) {
-    gpio_invertir_pin(LPC_GPIO0, PIN13);
-
+    gpio_invertir_pin(PUERTO0, PIN13);
+    
   } else if  (numero_led == LED4) {
-    gpio_invertir_pin(LPC_GPIO1, PIN18);
-
+    gpio_invertir_pin(PUERTO1, PIN18);
+    
   } else {
-    ERROR("Numero de LED incorrecto.");
+    ERROR("Número de LED incorrecto.");
   }
 
-  /*
-  if (numero_led == LED1) {
-    LPC_GPIO1->PIN ^= PIN5;
+  // if (numero_led == LED1) {
+    // LPC_GPIO1->PIN ^= (1u << 5);
 
-  } else if  (numero_led == LED2) {
-    LPC_GPIO0->PIN ^= PIN14;
+  // } else if  (numero_led == LED2) {
+    // LPC_GPIO0->PIN ^= (1u << 14);
 
-  } else if  (numero_led == LED3) {
-    LPC_GPIO0->PIN ^= PIN13;
+  // } else if  (numero_led == LED3) {
+    // LPC_GPIO0->PIN ^= (1u << 13);
 
-  } else if  (numero_led == LED4) {
-    LPC_GPIO1->PIN ^= PIN18;
+  // } else if  (numero_led == LED4) {
+    // LPC_GPIO1->PIN ^= (1u << 18);
 
-  } else {
-    ERROR("Numero de LED incorrecto.");
-  }*/
+  // } else {
+    // ERROR("Numero de LED incorrecto.");
+  // }
 }
 
 /**
- * @brief   Ajusta el estado de un LED
+ * @brief   Ajusta el estado de un LED.
  * @ingroup LEDs
  *
- * @param[in]   numero_led  Número del LED a ajustar. Debe estar entre 1 y 4.
- * @param[in]   estado      Estado que debe adoptar el LED. TRUE => encendido, FALSE => apagado.
+ * @param[in] numero_led  Número del LED a ajustar. Debe estar entre 1 y 4.
+ * @param[in] estado      Estado que debe adoptar el LED. TRUE => encendido, FALSE => apagado.
  */
 void leds_ajustar(uint8_t numero_led, bool_t estado) {
+
+  ASSERT(numero_led >= 1 && numero_led <= 4, "Número de LED incorrecto.");
+  
   if (estado) {
     leds_encender(numero_led);
   } else {

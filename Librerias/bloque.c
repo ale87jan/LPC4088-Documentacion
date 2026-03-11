@@ -2,11 +2,11 @@
  * @file    bloque.c
  * @brief   Contiene las funciones de dibujado de los bloques.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "bloque.h"
@@ -40,7 +40,7 @@ static const uint16_t definicion_bloque[BLOQUE_TAMANO][BLOQUE_TAMANO] ={
 /**
  * @brief   Pinta un bloque de `BLOQUE_TAMANO` con la esquina superior izquierda indicada por las
  * posiciones `x` e `y`.
- * @ingroup Bloque
+ * @ingroup BLOQUE
  *
  * @param[in] x       Posición x del bloque.
  * @param[in] y       Posición y del bloque.

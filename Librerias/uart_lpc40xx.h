@@ -10,9 +10,9 @@
  * @note Las funciones de este módulo no usan ninguna de las características especiales de las
  * UARTs 1 y 4 por lo que se trataran como si fueran "normales".
  *
- * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date      2014/2025
- * @version   2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
  * @copyright GNU General Public License version 3 or later
  */
@@ -27,14 +27,15 @@
 // ===== UART - Macros Publicas =====
 /**
  * @defgroup  UART_Macros_Publicas UART - Macros Públicas
- * @ingroup   UART
- * @brief Símbolos alternativos para las UARTs.
+ * @ingroup UART
+ * @brief   Símbolos alternativos para las UARTs.
  * @{
  */
+
 /**
  * @defgroup  UART_REDEF UART - Redefinición de la UART1 y UART4
- * @ingroup   UART_Macros_Publicas
- * @brief Redefinición de la UART1 y la UART4 como UARTs de tipo LPC_UART_TypeDef.
+ * @ingroup UART_Macros_Publicas
+ * @brief   Redefinición de la UART1 y la UART4 como UARTs de tipo LPC_UART_TypeDef.
  *
  * @details Las funciones de este módulo no usan ninguna de las características especiales de las
  * UARTs 1 y 4. Las posiciones de los registros comunes a todas las UARTs coinciden, así que todas

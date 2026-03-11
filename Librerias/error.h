@@ -28,11 +28,11 @@
 
 // ===== Error - Funciones Macro Publicas =====
 /**
- * @brief     Función para generar un mensaje de error.
- * @ingroup   ERROR
- *
- * @details   Muestra un mensaje de error indicando el archivo, función y linea donde se llamó
- * a la función junto con un mensaje.
+ * @brief   Función para generar un mensaje de error.
+ * @ingroup ERROR
+ * 
+ * @details Muestra un mensaje de error indicando el archivo, función y linea donde se llamó a la 
+ * función junto con un mensaje.
  *
  * @param[in]   mensaje   Mensaje breve y descriptivo del "error".
  */
@@ -40,18 +40,17 @@
 
 #if HABILITAR_ASSERT != 0
 /**
- * @brief     Función de comprobación.
- * @ingroup   ERROR
+ * @brief   Función de comprobación.
+ * @ingroup ERROR
  *
- * @details     Verifica si la condición `expr` es falsa y lanza un error indicando el archivo,
- * función y linea donde se llamó a la función junto con un mensaje. Principalmente se utiliza
- * para verificar los parámetros de entrada de las funciones para comprobar que se encuentran
- * en los rangos correctos o se corresponden con los tipos adecuados (por ejemplo, punteros a
- * periféricos).
+ * @details Verifica si la condición `expr` es falsa y lanza un error indicando el archivo, función
+ * y linea donde se llamó a la función junto con un mensaje. Principalmente se utiliza para
+ * verificar los parámetros de entrada de las funciones para comprobar que se encuentran en los
+ * rangos correctos o se corresponden con los tipos adecuados (por ejemplo, punteros a periféricos).
  *
- * @param[in]   expr      Expresión booleana cuyo resultado sea Verdadero si los parámetros
- *                        comprobados son correctos.
- * @param[in]   mensaje   Mensaje breve y descriptivo de qué ha causado el "error".
+ * @param[in] expr    Expresión booleana cuyo resultado sea Verdadero si los parámetros comprobados
+ *                    son correctos.
+ * @param[in] mensaje Mensaje breve y descriptivo de qué ha causado el "error".
  */
 #define ASSERT(expr, mensaje)               \
 do {                                        \

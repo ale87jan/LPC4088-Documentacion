@@ -2,11 +2,11 @@
  * @file    error.c
  * @brief   Librería para el tratamiento de errores.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "error.h"
@@ -29,10 +29,10 @@
  * mensaje descriptivo del error que se indicó en ERROR o ASSERT. A continuación el programa queda
  * en un bucle sin fin. Este comportamiento puede cambiarse modificando la función.
  *
- * @param[in]   fichero   Nombre del fichero fuente donde se produjo el error.
- * @param[in]   funcion   Nombre de la función donde se produjo el error.
- * @param[in]   linea     Número de línea del fichero fuente donde produjo el error.
- * @param[in]   mensaje   Mensaje descriptivo del error.
+ * @param[in] fichero   Nombre del fichero fuente donde se produjo el error.
+ * @param[in] funcion   Nombre de la función donde se produjo el error.
+ * @param[in] linea     Número de línea del fichero fuente donde produjo el error.
+ * @param[in] mensaje   Mensaje descriptivo del error.
  */
 void parar_con_error(const char *fichero, const char *funcion,
                      const uint32_t linea, const char *mensaje) {

@@ -14,11 +14,11 @@
 #include "error.h"
 
 /**
- * @brief     Inicializa el TIMER indicado habilitándo su alimentación en el registro de control
- * de consumo de periféricos PCONP.
- * @ingroup   TIMER
+ * @brief   Inicializa el TIMER indicado habilitándo su alimentación en el registro de control de
+ * consumo de periféricos PCONP.
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs  Puntero al bloque de registros del TIMER a inicializar.
+ * @param[in] timer_regs  Ptr. al bloque de registros del TIMER a inicializar.
  */
 void timer_inicializar(const LPC_TIM_TypeDef *timer_regs) {
 
@@ -42,10 +42,10 @@ void timer_inicializar(const LPC_TIM_TypeDef *timer_regs) {
 /**
  * @brief   Configura un TIMER para que genere un retardo del número de milisegundos indicado.
  * La función no retorna hasta que transcurre este tiempo.
- * @ingroup   TIMER
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs    Puntero al bloque de registros del TIMER.
- * @param[in]   retardo_en_ms Número de milisegundos de duración del retardo.
+ * @param[in] timer_regs    Ptr. al bloque de registros del TIMER.
+ * @param[in] retardo_en_ms Número de milisegundos de duración del retardo.
  *
  * @pre   El TIMER debe estar inicializado antes de invocar esta función.
  *
@@ -72,16 +72,18 @@ void timer_retardo_ms(LPC_TIM_TypeDef *timer_regs, uint32_t retardo_en_ms) {
   timer_regs->IR = 1;                           // Resetear bit de interrupción de MR0
   timer_regs->TCR = 1;                          // Activar cuenta (bit CEN a 1)
 
-  while ((timer_regs->IR & 1) == 0) {;}
+  while ((timer_regs->IR & 1) == 0) {
+    ;
+  }
 }
 
 /**
  * @brief   Configura un TIMER para que genere un retardo del número de microsegundos indicado.
  * La función no retorna hasta que transcurre este tiempo.
- * @ingroup   TIMER
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs    Puntero al bloque de registros del TIMER.
- * @param[in]   retardo_en_us Número de microsegundos de duración del retardo.
+ * @param[in] timer_regs    Ptr. al bloque de registros del TIMER.
+ * @param[in] retardo_en_us Número de microsegundos de duración del retardo.
  *
  * @pre   El TIMER debe estar inicializado antes de invocar esta función.
  *
@@ -108,15 +110,17 @@ void timer_retardo_us(LPC_TIM_TypeDef *timer_regs, uint32_t retardo_en_us) {
   timer_regs->IR = 1;
   timer_regs->TCR = 1;
 
-  while ((timer_regs->IR & 1) == 0) {;}
+  while ((timer_regs->IR & 1) == 0) {
+    ;
+  }
 }
 
 /**
- * @brief     Programa un TIMER para que realice ciclos del número de milisegundos indicado.
- * @ingroup   TIMER
+ * @brief   Programa un TIMER para que realice ciclos del número de milisegundos indicado.
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs      Puntero al bloque de registros del TIMER.
- * @param[in]   periodo_en_ms   Duración de cada ciclo en milisegundos.
+ * @param[in] timer_regs    Ptr. al bloque de registros del TIMER.
+ * @param[in] periodo_en_ms Duración de cada ciclo en milisegundos.
  *
  * @pre   El TIMER debe estar inicializado antes de invocar esta función.
  *
@@ -150,11 +154,11 @@ void timer_iniciar_ciclos_ms(LPC_TIM_TypeDef *timer_regs, uint32_t periodo_en_ms
 }
 
 /**
- * @brief     Programa un TIMER para que realice ciclos del número de microsegundos indicado.
- * @ingroup   TIMER
+ * @brief   Programa un TIMER para que realice ciclos del número de microsegundos indicado.
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs      Puntero al bloque de registros del TIMER.
- * @param[in]   periodo_en_us   Duración de cada ciclo en microsegundos.
+ * @param[in] timer_regs    Ptr. al bloque de registros del TIMER.
+ * @param[in] periodo_en_us Duración de cada ciclo en microsegundos.
  *
  * @pre   El TIMER debe estar inicializado antes de invocar esta función.
  *
@@ -181,9 +185,9 @@ void timer_iniciar_ciclos_us(LPC_TIM_TypeDef *timer_regs, uint32_t periodo_en_us
 /**
  * @brief   Espera a que el bit de petición de interrupción del match 0 de un TIMER se ponga a 1.
  * Cuando esto ocurra, ponerlo a 0 y retornar.
- * @ingroup   TIMER
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs  Puntero al bloque de registros del TIMER.
+ * @param[in] timer_regs  Ptr. al bloque de registros del TIMER.
  *
  * @pre El TIMER debe estar inicializado antes de invocar esta función.
  */
@@ -194,16 +198,18 @@ void timer_esperar_fin_ciclo(LPC_TIM_TypeDef *timer_regs) {
 
   ASSERT((timer_regs->TCR & 1) == 1, "El TIMER seleccionado está detenido");
 
-  while ((timer_regs->IR & 1) == 0) {;}
+  while ((timer_regs->IR & 1) == 0) {
+    ;
+  }
 
   timer_regs->IR = 1;
 }
 
 /**
- * @brief     Programa un TIMER para que se incremente indefinidamente una vez por milisegundo.
- * @ingroup   TIMER
+ * @brief   Programa un TIMER para que se incremente indefinidamente una vez por milisegundo.
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs  Puntero al bloque de registros del TIMER.
+ * @param[in] timer_regs  Ptr. al bloque de registros del TIMER.
  *
  * @pre El TIMER debe estar inicializado antes de invocar esta función.
  */
@@ -222,10 +228,10 @@ void timer_iniciar_conteo_ms(LPC_TIM_TypeDef *timer_regs) {
 }
 
 /**
- * @brief     Programa un TIMER para que se incremente indefinidamente una vez por microsegundo.
- * @ingroup   TIMER
+ * @brief   Programa un TIMER para que se incremente indefinidamente una vez por microsegundo.
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs  Puntero al bloque de registros del TIMER.
+ * @param[in] timer_regs  Ptr. al bloque de registros del TIMER.
  *
  * @pre El TIMER debe estar inicializado antes de invocar esta función.
  */
@@ -244,12 +250,12 @@ void timer_iniciar_conteo_us(LPC_TIM_TypeDef *timer_regs) {
 }
 
 /**
- * @brief     Leer el valor del registro TC de un TIMER.
- * @ingroup   TIMER
+ * @brief   Leer el valor del registro TC de un TIMER.
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs  Puntero al bloque de registros del TIMER.
+ * @param[in] timer_regs  Ptr. al bloque de registros del TIMER.
  *
- * @return      Valor actual del registro TC de un TIMER.
+ * @return  Valor actual del registro TC del TIMER seleccionado.
  *
  * @pre El TIMER debe estar inicializado antes de invocar esta función.
  */
@@ -262,10 +268,10 @@ uint32_t timer_leer(const LPC_TIM_TypeDef *timer_regs) {
 }
 
 /**
- * @brief     Reinicia la cuenta de un TIMER.
- * @ingroup   TIMER
+ * @brief   Reinicia la cuenta de un TIMER.
+ * @ingroup TIMER
  *
- * @param[in]   timer_regs  Puntero al bloque de registros del TIMER.
+ * @param[in] timer_regs  Ptr. al bloque de registros del TIMER.
  *
  * @pre El TIMER debe estar inicializado antes de invocar esta función.
  */

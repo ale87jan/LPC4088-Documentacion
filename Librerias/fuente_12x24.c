@@ -2,11 +2,11 @@
  * @file    fuente_12x24.c
  * @brief   Definición de la fuente de caracteres de 12x24 píxeles.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "fuente.h"
@@ -16,7 +16,8 @@ const uint8_t fuente_12x24_datos[];
 
 /**
  * @brief   Estructura con la definición de la fuente de 12x24 pixeles.
- * @ingroup Fuente_12x24
+ * @ingroup FUENTE
+ * @ingroup FUENTE_12X24
  */
 const fuente_t fuente_12x24 = {
   .pixeles_ancho = 12,          // Ancho en píxeles de la fuente
@@ -28,7 +29,8 @@ const fuente_t fuente_12x24 = {
 
 /**
  * @brief   Caracteres de la fuente de tamaño 12x24.
- * @ingroup Fuente_12x24
+ * @ingroup FUENTE
+ * @ingroup FUENTE_12X24
  */
 const uint8_t fuente_12x24_datos[] = {
   ________,________,

@@ -18,8 +18,8 @@
 // ===== GPIO - Constantes Publicas =====
 /**
  * @defgroup  GPIO_Macros_Publicas GPIO - Macros Públicas
- * @ingroup   GPIO
- * @brief     Símbolos alternativos de los puertos GPIO.
+ * @ingroup GPIO
+ * @brief   Símbolos alternativos de los puertos GPIO.
  * @{
  */
 #define PORT0   LPC_GPIO0
@@ -38,14 +38,14 @@
 //!@}
 
 /**
- * @brief     Número de puertos del LPC4088 (GPIO0-GPIO5).
- * @ingroup   GPIO
+ * @brief   Número de puertos del LPC4088 (GPIO0-GPIO5).
+ * @ingroup GPIO
  */
 #define GPIO_NUMERO_PUERTOS 6u
 
 /**
- * @brief     Número máximo de pines por puerto de GPIO.
- * @ingroup   GPIO
+ * @brief   Número máximo de pines por puerto de GPIO.
+ * @ingroup GPIO
  */
 #define GPIO_MAXIMO_PINES_POR_PUERTO 32u
 
@@ -99,21 +99,16 @@ enum gpio_direccion {
   DIR_SALIDA = 1u
 };
 
-
-#ifndef inline
-  #define inline __inline  //!< Definición del cualificador inline no disponible en modo C90.
-#endif
-
 // ===== GPIO - Funciones Publicas =====
 /**
  * @brief   Lee el estado de un pin.
  * @ingroup GPIO
  *
- * @param[in]   gpio_regs     Puntero al bloque de registros del puerto.
- * @param[in]   mascara_pin   Máscara para seleccionar el pin.
+ * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] mascara_pin   Máscara para seleccionar el pin.
  *
- * @retval  FALSE   El pin está a 0.
- *          TRUE    El pin está a 1.
+ * @retval  FALSE si el pin está a 0.
+ * @retval  TRUE si el pin está a 1.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
@@ -123,12 +118,12 @@ inline bool_t gpio_leer_pin(const LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_
 }
 
 /**
- * @brief     Lee el estado de un puerto completo.
- * @ingroup   GPIO
+ * @brief   Lee el estado de un puerto completo.
+ * @ingroup GPIO
  *
- * @param[in]   gpio_regs   Puntero al bloque de registros del puerto.
+ * @param[in] gpio_regs   Puntero al bloque de registros del puerto.
  *
- * @return    Valor leído del puerto.
+ * @return  Valor leído del puerto.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
@@ -141,9 +136,9 @@ inline uint32_t gpio_leer_puerto(const LPC_GPIO_TypeDef *gpio_regs) {
  * @brief   Establece el estado de uno o más pines de salida al mismo estado.
  * @ingroup GPIO
  *
- * @param[in]   gpio_regs     Puntero al bloque de registros del puerto.
- * @param[in]   mascara_pin   Máscara de selección del pin o pines.
- * @param[in]   valor         FALSE => poner a 0, TRUE => poner a 1.
+ * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] mascara_pin   Máscara de selección del pin o pines.
+ * @param[in] valor         FALSE => poner a 0, TRUE => poner a 1.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
@@ -160,8 +155,8 @@ inline void gpio_escribir_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
  * @brief   Establece el estado de todos los pines de salida de un puerto.
  * @ingroup GPIO
  *
- * @param[in]   gpio_regs   Puntero al bloque de registros del puerto.
- * @param[in]   valor       Valor a escribir en el puerto.
+ * @param[in] gpio_regs   Puntero al bloque de registros del puerto.
+ * @param[in] valor       Valor a escribir en el puerto.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
@@ -174,8 +169,8 @@ inline void gpio_escribir_puerto(LPC_GPIO_TypeDef *gpio_regs, uint32_t valor) {
  * @brief   Pone a 1 uno o más pines de salida.
  * @ingroup GPIO
  *
- * @param[in]   gpio_regs     Puntero al bloque de registros del puerto.
- * @param[in]   mascara_pin   Máscara de selección del pin o pines.
+ * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] mascara_pin   Máscara de selección del pin o pines.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
@@ -188,8 +183,8 @@ inline void gpio_pin_a_1(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin) {
  * @brief   Pone a 0 uno o más pines de salida.
  * @ingroup GPIO
  *
- * @param[in]   gpio_regs     Puntero al bloque de registros del puerto.
- * @param[in]   mascara_pin   Máscara de selección del pin o pines.
+ * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] mascara_pin   Máscara de selección del pin o pines.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
@@ -202,8 +197,8 @@ inline void gpio_pin_a_0(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin) {
  * @brief   Invierte el estado de uno o más pines de salida.
  * @ingroup GPIO
  *
- * @param[in]   gpio_regs     Puntero al bloque de registros del puerto.
- * @param[in]   mascara_pin   Máscara de selección del pin o pines.
+ * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] mascara_pin   Máscara de selección del pin o pines.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.

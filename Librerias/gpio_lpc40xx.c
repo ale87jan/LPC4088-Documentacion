@@ -2,11 +2,11 @@
  * @file    gpio_lpc40xx.c
  * @brief   Funciones para manejar los puertos E/S digital del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "gpio_lpc40xx.h"
@@ -17,6 +17,7 @@
 /**
  * @name  Funciones de lectura y escritura en los pines
  * @brief Estas funciones se han declarado inline y están definidas en gpio_lpc40xx.h.
+ *
  * @note  Esta definición cumple con el método aplicable a las funciones inline del estándar C11
  * que es el utilizado. Se utilizará cuando el compilador decida no insertar en linea la función.
  * Al definir las funciones como extern se le dice al enlazador: "Aquí está la única versión global
@@ -36,9 +37,9 @@ extern void gpio_invertir_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin)
  * @brief   Configurar la dirección de uno o más pines.
  * @ingroup GPIO
  *
- * @param[in]  gpio_regs    Puerto del pin o pines cuya dirección se quiere ajustar.
- * @param[in]  mascara_pin  Máscara de selección del pin o pines.
- * @param[in]  direccion    Dirección: DIR_ENTRADA o DIR_SALIDA.
+ * @param[in] gpio_regs     Puerto del pin o pines cuya dirección se quiere ajustar.
+ * @param[in] mascara_pin   Máscara de selección del pin o pines.
+ * @param[in] direccion     Dirección: DIR_ENTRADA o DIR_SALIDA.
  */
 void gpio_ajustar_dir(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin, uint32_t direccion) {
 
@@ -62,10 +63,10 @@ void gpio_ajustar_dir(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin, uint32_
  * @brief   Consultar la dirección de un pin establecida actualmente.
  * @ingroup GPIO
  *
- * @param[in]   gpio_regs     Puerto del pin cuya dirección se quiere obtener.
- * @param[in]   mascara_pin   Máscara de selección del pin.
+ * @param[in] gpio_regs     Puerto del pin cuya dirección se quiere obtener.
+ * @param[in] mascara_pin   Máscara de selección del pin.
  *
- * @return      Dirección del puerto (DIR_ENTRADA o DIR_SALIDA).
+ * @return  Dirección del puerto (DIR_ENTRADA o DIR_SALIDA).
  */
 uint32_t gpio_obtener_dir(const LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin) {
 

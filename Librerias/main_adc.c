@@ -3,11 +3,11 @@
  * @brief   Programa principal de uso del ADC con el potenciómetro incluido en la tarjeta Embedded 
  * Artist LPC4088.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2025
- * @version     1.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include <LPC407x_8x_177x_8x.h>

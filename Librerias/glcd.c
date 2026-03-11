@@ -135,7 +135,7 @@ static void glcd_i2c0_stop(void) {
  * @ingroup GLCD
  * @private
  *
- * @param[in]   dato  Byte a transmitir.
+ * @param[in] dato  Byte a transmitir.
  *
  * @return  Valor del registro I2C0->STAT.
  */
@@ -182,8 +182,8 @@ static void glcd_i2c0_transmitir_buffer(uint8_t dir_i2c, const uint8_t *buf, uin
  * @ingroup GLCD
  * @internal
  *
- * @param[in]   c       Carácter a imprimir.
- * @param[in]   stream  Puntero a estructura FILE que indentifica al stream al que enviar la
+ * @param[in] c       Carácter a imprimir.
+ * @param[in] stream  Puntero a estructura FILE que indentifica al stream al que enviar la
  *                      salida. Sólo se reconoce stdout.
  *
  * @return  Si el fichero de salida indicado es stdout, retorna c. En caso contrario, retorna EOF.
@@ -270,7 +270,7 @@ int32_t fputc(int32_t c, FILE *stream) {
  * @ingroup GLCD
  * @internal
  *
- * @param[in]   file  Puntero a estructura FILE que indentifica al stream del que se quiere leer.
+ * @param[in] file  Puntero a estructura FILE que indentifica al stream del que se quiere leer.
  *
  * @return  Siempre retorna EOF.
  *
@@ -285,7 +285,7 @@ int32_t fgetc(__attribute__((unused)) FILE *file) {
  * @ingroup GLCD
  * @internal
  *
- * @param[in]   stream  Puntero a estructura FILE que indentifica al stream cuyo estado de error se
+ * @param[in] stream  Puntero a estructura FILE que indentifica al stream cuyo estado de error se
  *                      quiere comprobar.
  *
  * @return  Retorna un valor distinto de 0 si la operación anterior sobre el stream produjo un error
@@ -308,7 +308,7 @@ int32_t ferror(FILE *stream) {
  * @ingroup GLCD
  * @internal
  *
- * @param[in]   return_code   Código que debe retornarse al sistema.
+ * @param[in] return_code   Código que debe retornarse al sistema.
  */
 void _sys_exit(__attribute__((unused)) int32_t return_code) {
 

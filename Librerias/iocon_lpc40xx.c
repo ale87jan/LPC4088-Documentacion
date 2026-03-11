@@ -2,11 +2,11 @@
  * @file   iocon_lpc40xx.c
  * @brief  Funciones de configuración de pines del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "iocon_lpc40xx.h"
@@ -234,19 +234,19 @@ static const uint16_t tabla_funciones_pines[GPIO_NUMERO_PUERTOS]
  * @brief   Configurar la función de un pin.
  * @ingroup IOCON
  *
- * @param[in]   gpio_regs         Puntero a bloque de registros GPIO del puerto.
- * @param[in]   mascara_pin       Máscara de selección de pin.
- * @param[in]   funcion           Función deseada para el pin.
- * @param[in]   configuracion_es  Configuración de pull-up/pull-down, modo analógico, histéresis,
- *                                filtro de glitch, slew-rate, drenador abierto, inversión, etc.
+ * @param[in] gpio_regs         Puntero a bloque de registros GPIO del puerto.
+ * @param[in] mascara_pin       Máscara de selección de pin.
+ * @param[in] funcion           Función deseada para el pin.
+ * @param[in] configuracion_es  Configuración de pull-up/pull-down, modo analógico, histéresis,
+ *                              filtro de glitch, slew-rate, drenador abierto, inversión, etc.
  *
- * @note    La razón de especificar el puerto y el pin mediante el puntero a los registros GPIO
- * y una máscara de pin en lugar de un número de puerto y un número de pin es conseguir que la
- * forma de especificar un pin sea igual para los módulos gpio_lpc40xx e iocon_lpc40xx. Esto
- * permite usar los mismos símbolos PUERTOx y PINx definidos en gpio_lpc40xx.h al usar las
- * funciones de iocon_lpc40xx. Esto tiene el inconveniente de que en las funciones de
- * iocon_lpc40xx hay que transformar el puntero a registros GPIO en un número de pin y la máscara
- * de selección de pin en un número de pin.
+ * @note  La razón de especificar el puerto y el pin mediante el puntero a los registros GPIO y una
+ * máscara de pin en lugar de un número de puerto y un número de pin es conseguir que la forma de
+ * especificar un pin sea igual para los módulos gpio_lpc40xx e iocon_lpc40xx. Esto permite usar los
+ * mismos símbolos PUERTOx y PINx definidos en gpio_lpc40xx.h al usar las funciones de 
+ * `iocon_lpc40xx`. Esto tiene el inconveniente de que en las funciones de `iocon_lpc40xx` hay que 
+ * transformar el puntero a registros GPIO en un número de pin y la máscara de selección de pin en
+ * un número de pin.
  */
 void iocon_configurar_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
                           funcion_pin_t funcion, uint32_t configuracion_es) {
@@ -313,9 +313,9 @@ void iocon_configurar_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
  * @brief   Configurar la función de varios pines.
  * @ingroup IOCON
  *
- * @param[in]   pf  Puntero a array de estructuras de tipo configuracion_funcion_pin_t con la
- *                  descripción de pines y funciones a configurar. Después de la última entrada
- *                  válida del array debe haber una marcada con un campo puerto igual a 0.
+ * @param[in] pf  Puntero a array de estructuras de tipo configuracion_funcion_pin_t con la
+ *                descripción de pines y funciones a configurar. Después de la última entrada
+ *                válida del array debe haber una marcada con un campo puerto igual a 0.
  */
 void iocon_configurar_grupo_pines(const configuracion_funcion_pin_t *pf) {
 

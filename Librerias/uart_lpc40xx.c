@@ -2,9 +2,9 @@
  * @file  uart_lpc40xx.c
  * @brief Funciones de manejo de las UARTs del LPC40xx.
  *
- * @author    Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date      2014/2025
- * @version   2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
  * @copyright GNU General Public License version 3 or later
  */
@@ -18,22 +18,21 @@
 // ===== UART - Funciones privadas =====
 static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t baudrate);
 
-
 /**
  * @brief   Inicializa una UART del LPC40xx.
  * @ingroup UART
  *
- * @param[in]   uart_regs               Ptr. al bloque de registros de la UART.
- * @param[in]   baudrate                Velocidad en baudios requerida.
- * @param[in]   numero_bits_datos       Bits de datos a usar. De 5 a 8.
- * @param[in]   tipo_paridad            Paridad a usar (NINGUNA, IMPAR o PAR).
- * @param[in]   numero_bits_stop        Bits de stop a usar (1 ó 2).
- * @param[in]   puerto_txd              Puerto que se desea para la señal TXD.
- * @param[in]   mascara_pin_txd         Pin que se desea para la señal TXD.
- * @param[in]   puerto_rxd              Puerto que se desea para la señal RXD.
- * @param[in]   mascara_pin_rxd         Pin que se desea para la señal RXD.
- * @param[out]  baudrate_real_obtenido  Puntero a float32_t donde almacenar el mejor baudrate que
- *                                      se pudo ajustar. Si es NULL no se usa.
+ * @param[in]   uart_regs                 Ptr. al bloque de registros de la UART.
+ * @param[in]   baudrate                  Velocidad en baudios requerida.
+ * @param[in]   numero_bits_datos         Bits de datos a usar. De 5 a 8.
+ * @param[in]   tipo_paridad              Paridad a usar (NINGUNA, IMPAR o PAR).
+ * @param[in]   numero_bits_stop          Bits de stop a usar (1 ó 2).
+ * @param[in]   puerto_txd                Puerto que se desea para la señal TXD.
+ * @param[in]   mascara_pin_txd           Pin que se desea para la señal TXD.
+ * @param[in]   puerto_rxd                Puerto que se desea para la señal RXD.
+ * @param[in]   mascara_pin_rxd           Pin que se desea para la señal RXD.
+ * @param[out]  baudrate_real_obtenido    Puntero a float32_t donde almacenar el mejor baudrate que
+ *                                        se pudo ajustar. Si es NULL no se usa.
  *
  * @note  La razón de especificar los puertos y los pines mediante punteros a los registros GPIO
  * y máscaras de pin en lugar de números de puerto y números de pin es conseguir que la forma de
@@ -66,19 +65,19 @@ void uart_inicializar(LPC_UART_TypeDef *uart_regs,uart_baudrate_t baudrate,
 
   // Activar la alimentación de la UART correspondiente
   if (uart_regs == UART0) {
-    LPC_SC->PCONP |= 1u << 3;
+    LPC_SC->PCONP |= (1u << 3);
 
   } else if (uart_regs == UART1) {
-    LPC_SC->PCONP |= 1u << 4;
+    LPC_SC->PCONP |= (1u << 4);
 
   } else if (uart_regs == UART2) {
-    LPC_SC->PCONP |= 1u << 24;
+    LPC_SC->PCONP |= (1u << 24);
 
   } else if (uart_regs == UART3) {
-    LPC_SC->PCONP |= 1u << 25;
+    LPC_SC->PCONP |= (1u << 25);
 
   } else if (uart_regs == UART4) {
-    LPC_SC->PCONP |= 1u << 8;
+    LPC_SC->PCONP |= (1u << 8);
   }
 
   // Ajustar la velocidad de comunicación en baudios solicitada (página 508-509 del manual)
@@ -122,15 +121,18 @@ void uart_inicializar(LPC_UART_TypeDef *uart_regs,uart_baudrate_t baudrate,
  * @brief   Transmite un dato mediante la UART.
  * @ingroup UART
  *
- * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
- * @param[in]   dato        Dato a transmitir.
+ * @param[in] uart_regs   Ptr. al bloque de registros de la UART.
+ * @param[in] dato        Dato a transmitir.
  */
 void uart_transmitir_dato(LPC_UART_TypeDef *uart_regs, uint8_t dato) {
 
   ASSERT(uart_regs == UART0 || uart_regs == UART1 || uart_regs == UART2 ||
          uart_regs == UART3 || uart_regs == UART4, "Puntero a registros de UART incorrecto.");
 
-  while (!(uart_regs->LSR & UART_LSR_THRE)) {;}  // Esperar a que la FIFO de transmisión esté libre
+  // Esperar a que la FIFO de transmisión esté libre
+  while (!(uart_regs->LSR & UART_LSR_THRE)) {
+    ;
+  }
 
   uart_regs->THR = dato;
 }
@@ -139,10 +141,10 @@ void uart_transmitir_dato(LPC_UART_TypeDef *uart_regs, uint8_t dato) {
  * @brief   Indica si hay al menos un dato en el FIFO de recepción de la UART.
  * @ingroup UART
  *
- * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
+ * @param[in] uart_regs   Ptr. al bloque de registros de la UART.
  *
- * @retval      FALSE - Ningún dato disponible.
- * @retval      TRUE  - Al menos un dato disponible.
+ * @retval  FALSE si no hay ningún dato disponible.
+ * @retval  TRUE si hay al menos un dato disponible.
  */
 bool_t uart_hay_dato_disponible(const LPC_UART_TypeDef *uart_regs) {
 
@@ -161,9 +163,9 @@ bool_t uart_hay_dato_disponible(const LPC_UART_TypeDef *uart_regs) {
  * al menos un dato en la FIFO.
  * @ingroup UART
  *
- * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
+ * @param[in] uart_regs   Ptr. al bloque de registros de la UART.
  *
- * @return      Dato obtenido del FIFO de la UART.
+ * @return  Dato obtenido del FIFO de la UART.
  */
 uint8_t uart_leer_dato(const LPC_UART_TypeDef *uart_regs) {
 
@@ -177,9 +179,9 @@ uint8_t uart_leer_dato(const LPC_UART_TypeDef *uart_regs) {
  * @brief   Espera a recibir un dato a través de la UART.
  * @ingroup UART
  *
- * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
+ * @param[in] uart_regs   Ptr. al bloque de registros de la UART.
  *
- * @return      Dato recibido.
+ * @return  Dato recibido.
  */
 uint8_t uart_esperar_recibir_dato(const LPC_UART_TypeDef *uart_regs) {
 
@@ -194,8 +196,8 @@ uint8_t uart_esperar_recibir_dato(const LPC_UART_TypeDef *uart_regs) {
  * @brief   Transmite una cadena de caracteres mediante la UART.
  * @ingroup UART
  *
- * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
- * @param[in]   cadena      Puntero a la cadena a transmitir.
+ * @param[in] uart_regs   Ptr. al bloque de registros de la UART.
+ * @param[in] cadena      Ptr. de la cadena a transmitir.
  */
 void uart_transmitir_cadena(LPC_UART_TypeDef *uart_regs, const char *cadena) {
 
@@ -220,11 +222,12 @@ void uart_transmitir_cadena(LPC_UART_TypeDef *uart_regs, const char *cadena) {
  * resto. No se trata el carácter de borrado (backspace, ASCII = 0x08), así que los caracteres que
  * se reciban y almacen en la cadena no pueden borrarse después.
  *
- * @param[in]   uart_regs       Puntero al bloque de registros de la UART.
- * @param[out]  ptr_buffer      Puntero al buffer donde se almacenará la cadena recibida. La cadena
+ * @param[in]   uart_regs       Ptr. al bloque de registros de la UART.
+ * @param[out]  ptr_buffer      Ptr. al buffer donde se almacenará la cadena recibida. La cadena
  *                              quedará terminada con un carácter nulo.
  * @param[in]   tamano_buffer   Longitud del buffer en bytes. La función sólo almacenará en el
  *                              buffer los (tamano_buffer - 1) primeros caracteres que se reciban.
+ *
  * @warning El tamaño del buffer debe ser al menos 1 para tener espacio para el terminador (pero,
  * si es 1, solo aceptará la pulsacón de ENTER para finalizar la entrada).
  */
@@ -256,8 +259,8 @@ void uart_recibir_cadena(const LPC_UART_TypeDef *uart_regs, char *ptr_buffer,
  * @brief   Habilita/deshabilita las interrupciones al recibir un nuevo dato en la UART indicada.
  * @ingroup UART
  *
- * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
- * @param[out]  estado      Si es TRUE, activa las interrupciones y en caso contrario las desactiva.
+ * @param[in]   uart_regs   Ptr. al bloque de registros de la UART.
+ * @param[out]  estado      TRUE => Activa las interrupciones de dato recibido.
  */
 void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bool_t estado) {
   if (estado) {
@@ -300,16 +303,15 @@ void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bo
  *
  * Si DIVADDVAL = 0, se deshabilita el divisor fraccional.
  *
- * @param[in]   uart_regs   Puntero al bloque de registros de la UART.
- * @param[in]  baudrate    Velocidad de transmisión en baudios deseada.
+ * @param[in] uart_regs   Ptr. al bloque de registros de la UART.
+ * @param[in] baudrate    Velocidad de transmisión en baudios deseada.
  *
  * @return  Baudrate real obtenido tras el ajuste.
  *
  * @warning Se modifican los registros DLL, DLM y FDR.
  *
- * @see     Página 509 del LPC408x/407x User manual (UM10562)
+ * @see   Página 509 del LPC408x/407x User manual (UM10562)
  */
-
 static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t baudrate) {
 
   uint8_t mejor_divaddval = 0, mejor_mulval = 1;

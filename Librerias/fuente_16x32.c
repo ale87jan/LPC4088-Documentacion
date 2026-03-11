@@ -2,11 +2,11 @@
  * @file    fuente_16x32.c
  * @brief   Definición de la fuente de caracteres de 16x32 píxeles.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "fuente.h"
@@ -16,7 +16,8 @@ const uint8_t fuente_16x32_datos[];
 
 /**
  * @brief   Estructura con la definición de la fuente de 16x32 pixeles.
- * @ingroup Fuente_16x32
+ * @ingroup FUENTE
+ * @ingroup FUENTE_16X32
  */
 const fuente_t fuente_16x32 = {
   .pixeles_ancho = 16,          // Ancho en píxeles de la fuente
@@ -28,7 +29,8 @@ const fuente_t fuente_16x32 = {
 
 /**
  * @brief Caracteres de la fuente de tamaño 16x32.
- * @ingroup Fuente_16x32
+ * @ingroup FUENTE
+ * @ingroup FUENTE_16X32
  */
 const uint8_t fuente_16x32_datos[] = {
   ________,________,
