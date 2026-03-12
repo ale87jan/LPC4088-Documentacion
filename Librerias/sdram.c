@@ -2,11 +2,11 @@
  * @file    sdram.c
  * @brief   Funciones para utilizar la SDRAM con la pantalla LCD de EA para el LPC4088.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "sdram.h"
@@ -22,18 +22,18 @@ static volatile uint32_t ringosccount[2] = {0, 0};
  * @private
  */
 static void sdram_configurar_pines(void) {
-  LPC_IOCON->P3_0 |= 1;  // D0 @ P3.0
-  LPC_IOCON->P3_1 |= 1;  // D1 @ P3.1
-  LPC_IOCON->P3_2 |= 1;  // D2 @ P3.2
-  LPC_IOCON->P3_3 |= 1;  // D3 @ P3.3
+  LPC_IOCON->P3_0 |= 1;   // D0 @ P3.0
+  LPC_IOCON->P3_1 |= 1;   // D1 @ P3.1
+  LPC_IOCON->P3_2 |= 1;   // D2 @ P3.2
+  LPC_IOCON->P3_3 |= 1;   // D3 @ P3.3
 
-  LPC_IOCON->P3_4 |= 1;  // D4 @ P3.4
-  LPC_IOCON->P3_5 |= 1;  // D5 @ P3.5
-  LPC_IOCON->P3_6 |= 1;  // D6 @ P3.6
-  LPC_IOCON->P3_7 |= 1;  // D7 @ P3.7
+  LPC_IOCON->P3_4 |= 1;   // D4 @ P3.4
+  LPC_IOCON->P3_5 |= 1;   // D5 @ P3.5
+  LPC_IOCON->P3_6 |= 1;   // D6 @ P3.6
+  LPC_IOCON->P3_7 |= 1;   // D7 @ P3.7
 
-  LPC_IOCON->P3_8 |= 1;  // D8 @ P3.8
-  LPC_IOCON->P3_9 |= 1;  // D9 @ P3.9
+  LPC_IOCON->P3_8 |= 1;   // D8 @ P3.8
+  LPC_IOCON->P3_9 |= 1;   // D9 @ P3.9
   LPC_IOCON->P3_10 |= 1;  // D10 @ P3.10
   LPC_IOCON->P3_11 |= 1;  // D11 @ P3.11
 
@@ -62,18 +62,18 @@ static void sdram_configurar_pines(void) {
   LPC_IOCON->P3_30 |= 1;  // D30 @ P3.30
   LPC_IOCON->P3_31 |= 1;  // D31 @ P3.31
 
-  LPC_IOCON->P4_0 |= 1;  // A0 @ P4.0
-  LPC_IOCON->P4_1 |= 1;  // A1 @ P4.1
-  LPC_IOCON->P4_2 |= 1;  // A2 @ P4.2
-  LPC_IOCON->P4_3 |= 1;  // A3 @ P4.3
+  LPC_IOCON->P4_0 |= 1;   // A0 @ P4.0
+  LPC_IOCON->P4_1 |= 1;   // A1 @ P4.1
+  LPC_IOCON->P4_2 |= 1;   // A2 @ P4.2
+  LPC_IOCON->P4_3 |= 1;   // A3 @ P4.3
 
-  LPC_IOCON->P4_4 |= 1;  // A4 @ P4.4
-  LPC_IOCON->P4_5 |= 1;  // A5 @ P4.5
-  LPC_IOCON->P4_6 |= 1;  // A6 @ P4.6
-  LPC_IOCON->P4_7 |= 1;  // A7 @ P4.7
+  LPC_IOCON->P4_4 |= 1;   // A4 @ P4.4
+  LPC_IOCON->P4_5 |= 1;   // A5 @ P4.5
+  LPC_IOCON->P4_6 |= 1;   // A6 @ P4.6
+  LPC_IOCON->P4_7 |= 1;   // A7 @ P4.7
 
-  LPC_IOCON->P4_8 |= 1;  // A8 @ P4.8
-  LPC_IOCON->P4_9 |= 1;  // A9 @ P4.9
+  LPC_IOCON->P4_8 |= 1;   // A8 @ P4.8
+  LPC_IOCON->P4_9 |= 1;   // A9 @ P4.9
   LPC_IOCON->P4_10 |= 1;  // A10 @ P4.10
   LPC_IOCON->P4_11 |= 1;  // A11 @ P4.11
 
@@ -265,8 +265,7 @@ static uint32_t sdram_buscar_fbclkdly(void) {
   }
 
   /* Si el test ha pasado, utilizamos la media entre los valores máximo y mínimo para obtener un
-   * retardo de lineas de comunicación óptimo.
-   */
+   * retardo de lineas de comunicación óptimo. */
    if (pass == 0x1) {
     fbclkdly = (fbclkdlystart + fbclkdlyend) / 2;
 
@@ -275,8 +274,7 @@ static uint32_t sdram_buscar_fbclkdly(void) {
 
   } else {
     /* No se ha pudo encontrar un valor que funcione, elegimos uno seguro para que el sistema no
-     * se vuelva inestable.
-     */
+     * se vuelva inestable. */
     fbclkdly = 0x10;
   }
 
@@ -328,6 +326,7 @@ static void timer_esperar_ms(uint32_t tiempo) {
   LPC_TIM0->MCR |= 7;
   LPC_TIM0->IR = 1;
   LPC_TIM0->TCR = 1;
+  
   while ((LPC_TIM0->IR & 1) == 0) {;}
 }
 
@@ -368,12 +367,13 @@ bool_t sdram_inicializar(void) {
 
   sdram_configurar_pines();  // Bus de datos completo (32bits) con direcciones de 24bits.
 
-  // Configure el diseño de la memoria, pero DEBE DESHABILITAR los BUFFERS durante la configuración
+  // DESHABILITAR los BUFFERS durante la configuración del tipo de memoria
   // 256MB, 8Mx32, 4 banks, row=12, column=9
   LPC_EMC->DynamicConfig0    = 0x00004480;
 
-  // Configure timing for ISSI IS4x32800D SDRAM
+  // Configurar timings para la SDRAM ISSI IS4x32800D
 
+// Condicionales que se comprueban durante la compilación para solo incluir una configuración
 #if (SDRAM_FREC == SDRAM_VEL_48MHZ)
   // Tiempos para Bus de 48MHz
   LPC_EMC->DynamicRasCas0    = 0x00000201;  // 1 RAS, 2 CAS latency
@@ -450,6 +450,7 @@ bool_t sdram_inicializar(void) {
   LPC_EMC->DynamicRRD        = 0x00000001;  // (n + 1)->2 ciclos de reloj
   LPC_EMC->DynamicMRD        = 0x00000001;  // (n + 1)->2 ciclos de reloj
 #else
+  // Si no se soporta la frecuencia de la SDRAM, lanzar error al compilar
   #error "Frecuencia de la SDRAM no soportada."
 #endif
 

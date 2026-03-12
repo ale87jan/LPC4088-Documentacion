@@ -39,7 +39,7 @@ CMSIS Headers (LPC407x_8x_177x_8x.h, tipos.h)
 Hardware Registers
 ```
 
-**Critical Pattern:** All peripheral libraries follow `MODULO_FuncionDescriptiva()` naming with Spanish function names (e.g., `gpio_ajustar_dir()`, `glcd_inicializar()`). This is intentional for educational clarity in Spanish-speaking universities.
+**Critical Pattern:** All peripheral libraries follow `modulo_funcion_descriptiva()` snake_case naming with Spanish function names (e.g., `gpio_ajustar_dir()`, `glcd_inicializar()`). This is intentional for educational clarity in Spanish-speaking universities.
 
 ## Educational Context
 

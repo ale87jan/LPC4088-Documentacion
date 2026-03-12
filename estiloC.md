@@ -1,6 +1,8 @@
+# Estilo de C
+
 ## Code Rules (CRITICAL - Differs from Standard C)
 
-- Compliant with ANSI C (C99) and C++ (C++03).
+- Compliant with C (GNU11) and C++ (GNU++11) or C (GNU17) and C++ (GNU++17).
 - Uses ANSI C standard data types defined in **<stdint.h>**.
 - Variables and parameters have a complete data type.
 - Expressions for #define constants are enclosed in parenthesis.
@@ -24,9 +26,9 @@ Namespace_ prefixes avoid clashes with user identifiers and provide functional g
 ### Naming (All in Spanish)
 
 ```c
-// Functions: CamelCase names with module prefix
-void TimerInicializar(MCXA15X_TIM_t *timer_regs);
-void UartTransmitirDato(MCXA15X_UART_t *uart, uint8_t dato);
+// Functions: snake_case names with module prefix
+void timer_inicializar(MCXA15X_TIM_t *timer_regs);
+void uart_transmitir_dato(MCXA15X_UART_t *uart, uint8_t dato);
 
 // Variables: snake_case, prefix 'g_' for globals
 uint32_t contador_actual = 0;
@@ -54,7 +56,7 @@ typedef struct {
 // 2 SPACES indentation (NOT 4, NOT tabs)
 // Opening brace same line for EVERYTHING (including functions)
 void funcion_ejemplo(uint32_t parametro) {
-  // Blank line after opening brace in functions
+  // Blank line after opening brace in functions (optional)
   if (condicion) {
     // code
   } else {
@@ -82,16 +84,16 @@ constant must be visible to the assembler preprocessor.
 
 ```c
 typedef enum {
-  PIEZA_PALO,
-  PIEZA_CUADRADO,
-  PIEZA_ESE,
+  kPiezaPalo,
+  kPiezaCuadrado,
+  kPiezaEse,
 } pieza_tipo_t;
 ```
 
 ### Functions — `void` for no arguments
 
 ```c
-bool_t MiFuncion(void);  // Correct — NOT MiFuncion()
+bool_t mi_funcion(void);  // Correct — NOT mi_funcion()
 ```
 
 ### `static` declarations
@@ -106,9 +108,9 @@ Always use explicit (designated) initializers when initializing `struct` or `uni
 
 ```c
 pieza_t mi_pieza = {
-  .tipo   = PIEZA_PALO,
+  .tipo   = kPiezaPalo,
   .tamano = 4,
-  .color  = ROJO,
+  .color  = kRojo,
 };
 ```
 

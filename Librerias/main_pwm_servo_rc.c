@@ -1,12 +1,12 @@
 /**
- * @file    main_servo_pwm.c
+ * @file    main_pwm_servo_rc.c
  * @brief   Ejemplo de manejo del servo de rotación contínua HSR-1425CR mediante PWM.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2025
- * @version     3.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es
+ * @date    2026
+ * @version 3.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include <LPC407x_8x_177x_8x.h>

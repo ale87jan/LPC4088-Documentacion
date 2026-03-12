@@ -549,7 +549,7 @@ void glcd_activar_desplazamiento(bool_t activar) {
   texto_actual.desplazamiento_activado = activar;
 }
 
-void glcd_seleccionar_fuente(uint32_t fuente) {
+void glcd_seleccionar_fuente(uint8_t fuente) {
 
   ASSERT(fuente < NUMERO_FUENTES, "Fuente incorrecta.");
 
@@ -568,7 +568,7 @@ int32_t glcd_printf(const char *format, ...) {
   return retval;
 }
 
-int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
+int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint8_t fuente,
                      const char *format, ...) {
 
   uint16_t pos_x_anterior, pos_y_anterior, fuente_anterior, color_anterior, color_fondo_anterior;
@@ -601,7 +601,7 @@ int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fond
 }
 
 void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo,
-                   uint32_t fuente) {
+                   uint8_t fuente) {
 
   const fuente_t *fuente_ptr = tabla_fuentes[fuente];
   uint16_t pixeles_ancho, pixeles_alto, bytes_por_fila, salto_en_fb, i, j;
@@ -650,7 +650,7 @@ void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t colo
   }
 }
 
-void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
+void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint8_t fuente,
                 const char *str) {
 
   const fuente_t *fuente_ptr = tabla_fuentes[fuente];

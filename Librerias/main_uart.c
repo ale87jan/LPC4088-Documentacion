@@ -1,10 +1,10 @@
 /**
- * @file  main_uart.c
- * @brief Programa principal de comunicación con un PC mediante la UART0 del LPC4088.
+ * @file    main_uart.c
+ * @brief   Programa principal de comunicación con un PC mediante la UART0 del LPC4088.
  *
  * @author  Alejandro Lara Doña - alejandro.lara@uca.es
- * @date    2025
- * @version 1.0
+ * @date    2026
+ * @version 2.0
  *
  * @copyright GNU General Public License version 3 or later
  */
@@ -23,39 +23,43 @@ int main(void) {
   timer_inicializar(TIMER0);
 
   /* Inicializar la UART0: 115200 baudios, datos de 8 bits, sin paridad y un bit de stop
-   * Usar el pin P0[2] para TxD y el pin P0[3] para RxD.
-   */
+   * Usar el pin P0[2] para TxD y el pin P0[3] para RxD. */
   uart_inicializar(UART0, UART_BAUDRATE_115200, UART_BITS_DATOS_8, UART_PARIDAD_NINGUNA,
                    UART_BITS_STOP_1, PUERTO0, PIN2, PUERTO0, PIN3, NULL);
 
   while (1) {
-    /* Leer el joystick
-     * Si está pulsado hacia arriba, enviar el carácter 'A' a través de la UART0
-     * Si está pulsado hacia abajo, enviar el carácter 'B'
-     * Si está pulsado hacia la izquierda, enviar el carácter 'I'
-     * Si está pulsado hacia la derecha, enviar el carácter 'D'
-     */
+    // Leer el joystick y enviar un carácter según la dirección pulsada
+    // - JOYSTICK_ARRIBA => 'A'
+    // - JOYSTICK_ABAJO => 'B'
+    // - JOYSTICK_IZQUIERDA => 'I'
+    // - JOYSTICK_DERECHA => 'D'
+    // - JOYSTICK_CENTRO => 'C'
     switch (joystick_leer()) {
       case JOYSTICK_ARRIBA:
-        glcd_printf("ARRIBA    \n");
-        uart_transmitir_cadena(UART0, "ARRIBA\n");
+        glcd_xprintf(0, 0, BLANCO, NEGRO, FUENTE16X32, "ARRIBA    \n");
+        uart_transmitir_dato(UART0, 'A');
         break;
+
       case JOYSTICK_ABAJO:
-        glcd_printf("ABAJO    \n");
-        uart_transmitir_cadena(UART0, "ABAJO\n");
+        glcd_xprintf(0, 0, BLANCO, NEGRO, FUENTE16X32, "ABAJO    \n");
+        uart_transmitir_dato(UART0, 'B');
         break;
+
       case JOYSTICK_IZQUIERDA:
-        glcd_printf("IZQUIERDA\n");
-        uart_transmitir_cadena(UART0, "IZQUIERDA\n");
+        glcd_xprintf(0, 0, BLANCO, NEGRO, FUENTE16X32, "IZQUIERDA\n");
+        uart_transmitir_dato(UART0, 'I');
         break;
+
       case JOYSTICK_DERECHA:
-        glcd_printf("DERECHA  \n");
-        uart_transmitir_cadena(UART0, "DERECHA\n");
+        glcd_xprintf(0, 0, BLANCO, NEGRO, FUENTE16X32, "DERECHA  \n");
+        uart_transmitir_dato(UART0, 'D');
         break;
+
       case JOYSTICK_CENTRO:
-        glcd_printf("CENTRO   \n");
-        uart_transmitir_cadena(UART0, "CENTRO\n");
+        glcd_xprintf(0, 0, BLANCO, NEGRO, FUENTE16X32, "CENTRO   \n");
+        uart_transmitir_dato(UART0, 'C');
         break;
+
       default:
         break;
     }

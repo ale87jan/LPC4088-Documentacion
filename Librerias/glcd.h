@@ -173,9 +173,9 @@ enum glcd_color_t {
  * @ingroup GLCD
  */
 enum fuentes_lcd {
-  FUENTE8X16 = 0,   //!< Fuente pequeña (8 píxeles de ancho y 16 de alto).
-  FUENTE12X24 = 1,  //!< Fuente mediana (12 píxeles de ancho y 24 de alto).
-  FUENTE16X32 = 2   //!< Fuente grande (16 píxeles de ancho y 32 de alto).
+  FUENTE8X16 = 0u,   //!< Fuente pequeña (8 píxeles de ancho y 16 de alto).
+  FUENTE12X24 = 1u,  //!< Fuente mediana (12 píxeles de ancho y 24 de alto).
+  FUENTE16X32 = 2u   //!< Fuente grande (16 píxeles de ancho y 32 de alto).
 };
 
 /**
@@ -193,7 +193,7 @@ enum fuentes_lcd {
 typedef struct {
   uint16_t color;
   uint16_t color_fondo;
-  uint32_t fuente;
+  uint8_t fuente;
   uint16_t pos_x;
   uint16_t pos_y;
   bool_t desplazamiento_activado;
@@ -202,7 +202,7 @@ typedef struct {
 
 /**
  * @defgroup  GLCD_PCA9532 GLCD - Constantes del PCA9532
- * @ingroup GLCD
+ * @ingroup   GLCD
  * @private
  *
  * @brief   Constantes para utilizar el expansor de pines PCA9532.
@@ -258,7 +258,7 @@ enum glcd_pca9532_ctrl {
 //!@}
 
 /**
- * @name      No Semihosting
+ * @name    No Semihosting
  *
  * @brief   Deshabilitar la funcionalidad de semihosting de ARM para el compilador ARM v6 o v5.
  * @details La funcionalidad de semihosting es un mecanismo de depuración que permite que un
@@ -365,7 +365,7 @@ int32_t glcd_printf(const char *format, ...);
  *
  * @note  No se actualiza la configuración actual de colores o posición de la LCD.
  */
-int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
+int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint8_t fuente,
                      const char *format, ...);
 
 /**
@@ -383,7 +383,7 @@ int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fond
  * @param[in] fuente        Fuente de caracteres con la que se imprimirá.
  */
 void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo,
-                   uint32_t fuente);
+                   uint8_t fuente);
 
 /**
  * @brief   Imprime una cadena de caracteres en la pantalla LCD. No se interpretan los caracteres
@@ -399,7 +399,7 @@ void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t colo
  *                          indicadas por los argumentos `x` e `y` están dentro de la pantalla.
  *                          En caso contrario, no se imprimirá nada.
  */
-void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint32_t fuente,
+void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint8_t fuente,
                 const char *str);
 
 /**
@@ -453,7 +453,7 @@ void glcd_activar_desplazamiento(bool_t activo);
  *
  * @param[in] fuente  Número de la fuente a seleccionar.
  */
-void glcd_seleccionar_fuente(uint32_t fuente);
+void glcd_seleccionar_fuente(uint8_t fuente);
 
 /**
  * @brief   Dibuja un punto (pixel) en la pantalla LCD.

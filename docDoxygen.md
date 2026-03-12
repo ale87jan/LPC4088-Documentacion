@@ -39,7 +39,7 @@
  *
  * @note    Puede tardar hasta 5 ms.
  */
-int32_t SensorLeerCalibrado(const sensor_t *sensor, float32_t *output_value);
+int32_t sensor_leer_calibrado(const sensor_t *sensor, float32_t *output_value);
 ```
 
 ---

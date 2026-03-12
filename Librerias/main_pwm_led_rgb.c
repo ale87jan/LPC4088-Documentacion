@@ -1,19 +1,19 @@
 /**
- * @file    main_led_rgb.c
+ * @file    main_pwm_led_rgb.c
  * @brief   Ejemplo de manejo de un led RGB mediante PWM.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es
- * @date        2025
- * @version     3.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es
+ * @date    2026
+ * @version 3.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include <LPC407x_8x_177x_8x.h>
 #include "glcd.h"
 #include "timer_lpc40xx.h"
 #include "joystick.h"
-#include "led_rgb.h"
+#include "pwm_led_rgb.h"
 
 int main(void) {
 

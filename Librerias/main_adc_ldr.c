@@ -3,8 +3,8 @@
  * @brief Programa principal de lectura de una LDR conectada al ADC del LPC4088.
  *
  * @author  Alejandro Lara Doña - alejandro.lara@uca.es
- * @date    2025
- * @version 1.0
+ * @date    2026
+ * @version 2.0
  *
  * @copyright GNU General Public License version 3 or later
  */

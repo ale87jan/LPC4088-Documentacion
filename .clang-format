@@ -1,4 +1,3 @@
----
 # Configuración de clang-format para LPC4088-Documentacion
 # Basado en "Programación en C - Guía de Estilo.pdf"
 # Proyecto educativo - Universidad de Cádiz
@@ -8,54 +7,47 @@ BasedOnStyle: Google
 
 # Idioma: C
 Language: Cpp
-Standard: gnu11
+Standard: c++11
 
 # ===== INDENTACIÓN =====
 # 2 espacios (NO tabs)
 UseTab: Never
 IndentWidth: 2
 TabWidth: 2
-ContinuationIndentWidth: 2
-
-# ===== LLAVES (K&R Style) =====
-# Llave de apertura en la misma línea
-BreakBeforeBraces: Custom
-BraceWrapping:
-  AfterCaseLabel: false
-  AfterClass: false
-  AfterControlStatement: Never
-  AfterEnum: false
-  AfterFunction: false
-  AfterNamespace: false
-  AfterStruct: false
-  AfterUnion: false
-  AfterExternBlock: false
-  BeforeCatch: false
-  BeforeElse: false
-  BeforeLambdaBody: false
-  BeforeWhile: false
-  IndentBraces: false
-  SplitEmptyFunction: true
-  SplitEmptyRecord: true
-  SplitEmptyNamespace: true
+ContinuationIndentWidth: 4
 
 # ===== LONGITUD DE LÍNEA =====
 # Máximo 100 caracteres por línea
 ColumnLimit: 100
 
+# ===== LÍNEAS EN BLANCO =====
+# Línea en blanco después de la llave de apertura de funciones
+KeepEmptyLinesAtTheStartOfBlocks: true
+MaxEmptyLinesToKeep: 2
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: LogicalBlock
+
+# ===== LLAVES (K&R Style) =====
+# Llave de apertura en la misma línea
+BreakBeforeBraces: Attach
+# Insertar llaves donde el estándar no las requiere (clang-format ≥ 15)
+# Garantiza que todo if/for/while/do tenga bloque explícito
+InsertBraces: true
+
 # ===== ESPACIADO =====
 # Espacios alrededor de operadores
 SpaceBeforeAssignmentOperators: true
-SpaceAfterCStyleCast: false
+SpaceAfterCStyleCast: true
 SpaceAfterLogicalNot: false
-SpaceInEmptyParentheses: false
-SpacesInParentheses: false
+SpacesInParens: Never
 SpacesInSquareBrackets: false
 SpacesInAngles: Never
 SpacesInContainerLiterals: false
+SpaceAroundPointerQualifiers: Default
 
 # Espacio después de palabras clave (if, while, for)
 # Sin espacio antes de paréntesis en llamadas a función
+SpaceBeforeParens: Custom
 SpaceBeforeParensOptions:
   AfterControlStatements: true
   AfterForeachMacros: true
@@ -75,19 +67,12 @@ AlignConsecutiveDeclarations: None
 AlignConsecutiveMacros: None
 AlignEscapedNewlines: Right
 AlignOperands: Align
-AlignTrailingComments: true
+AlignTrailingComments: Always
 
 # ===== PUNTEROS Y REFERENCIAS =====
-# int *ptr; (puntero junto al tipo)
+# int *ptr; (puntero junto al nombre, no al tipo)
 PointerAlignment: Right
 DerivePointerAlignment: false
-
-# ===== LÍNEAS EN BLANCO =====
-# Línea en blanco después de la llave de apertura de funciones
-KeepEmptyLinesAtTheStartOfBlocks: true
-MaxEmptyLinesToKeep: 2
-EmptyLineAfterAccessModifier: Never
-EmptyLineBeforeAccessModifier: LogicalBlock
 
 # ===== COMENTARIOS =====
 # Preservar comentarios y su formato
@@ -96,6 +81,7 @@ ReflowComments: false
 # ===== FORMATO DE FUNCIONES =====
 # Permitir múltiples parámetros por línea
 AllowAllParametersOfDeclarationOnNextLine: true
+# Funciones cortas: no colapsar en una sola línea
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
@@ -104,7 +90,7 @@ AllowShortCaseLabelsOnASingleLine: false
 
 # ===== BREAK Y WRAPPING =====
 # Romper líneas largas de forma inteligente
-AlwaysBreakAfterReturnType: None
+BreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 BreakBeforeBinaryOperators: None
 BreakBeforeTernaryOperators: false
@@ -119,16 +105,34 @@ PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 
-# ===== INCLUDES =====
-# Mantener orden de includes como está
-SortIncludes: Never
-IncludeBlocks: Preserve
+# ===== INCLUDES (recomendado para embebido C) =====
+# Si tu clang-format no soporta valores extendidos, usa: SortIncludes: true
+SortIncludes: CaseInsensitive
+IncludeBlocks: Regroup
+
+# Detecta mejor cabecera principal asociada al .c
+IncludeIsMainRegex: '(_lpc40xx)?$'
+IncludeIsMainSourceRegex: '(main_.*|.*)\.c$'
+
+# Orden por grupos:
+# 1) Cabecera principal asociada al .c (detectada automáticamente)
+# 2) CMSIS / startup / system (ángulos)
+# 3) Cabeceras estándar del compilador (ángulos)
+# 4) Cabeceras del proyecto (comillas)
+IncludeCategories:
+  - Regex: '^<(LPC407x_8x_177x_8x|core_cm4|system_.*)\.h>$'
+    Priority: 1
+    SortPriority: 1
+  - Regex: '^<[^>]+>$'
+    Priority: 2
+    SortPriority: 2
+  - Regex: '^"[^"]+"$'
+    Priority: 3
+    SortPriority: 3
 
 # ===== MACROS Y PREPROCESADOR =====
 # No indentar directivas de preprocesador
-IndentPPDirectives: AfterHash
-MacroBlockBegin: ''
-MacroBlockEnd: ''
+IndentPPDirectives: BeforeHash
 
 # ===== SWITCHES =====
 # Indentar case dentro de switch
@@ -156,14 +160,9 @@ IndentWrappedFunctionNames: false
 # Permitir declaraciones de puntero múltiple en una línea
 # Ejemplo: int *a, *b;
 AllowAllArgumentsOnNextLine: true
-AllowAllConstructorInitializersOnNextLine: true
-
-# Romper después de definición de función si es muy larga
-AlwaysBreakAfterDefinitionReturnType: None
 
 # ===== COMENTARIOS ESPECIALES =====
 # No reformatear bloques especiales (Doxygen)
 CommentPragmas: '^ IWYU pragma:'
 
 # ===== FINAL =====
----

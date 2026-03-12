@@ -1,27 +1,26 @@
 /**
- * @file    ldr.c
+ * @file    adc_ldr.c
  * @brief   Conversión de la tensión en una LDR a la iluminancia en luxes correspondiente
  *          mediante un divisor de tensión.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  *
- * @note    El divisor de tensión se supone 3.3V - 10KOhm - PinADC - LDR - GND.
+ * @note  El divisor de tensión se supone 3.3V - 10KOhm - PinADC - LDR - GND.
  */
 
-#include "ldr.h"
+#include "adc_ldr.h"
 #include <math.h>
 
 /**
  * @brief   Calcular la iluminancia en lux correspondiente a la tensión de salida del módulo
  * LDR KY-018 de Keyes.
- * @ingroup LDR
+ * @ingroup ADC_LDR
  *
- * @param[in] tension   Tensión en el divisor de tensión formado por la LDR y una resistencia fija
- * de 10k según se indica abajo.
+ * @param[in] tension   Tensión caida en la LDR.
  *
  * @return  Iluminancia en luxes.
  *
@@ -47,7 +46,7 @@
  *
  * @note No hay información fiable sobre la LDR usada en el módulo KY-018 de Keyes.
  */
-float32_t ldr_tension_a_iluminancia(float32_t tension) {
+float32_t adc_ldr_tension_a_iluminancia(float32_t tension) {
 
   float32_t res_ldr, iluminancia;
 

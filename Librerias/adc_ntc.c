@@ -1,24 +1,29 @@
 /**
- * @file    ntc.c
+ * @file    adc_ntc.c
  * @brief   Conversión de la tensión en un termistor NTC a la temperatura correspondiente mediante
  * un divisor de tensión.
  *
- * @note    El divisor de tensión se supone 3.3V - 10KOhm - PinADC - NTC - GND.
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es
+ * @date    2025
+ * @version 2.0
+ *
+ * @copyright GNU General Public License version 3 or later
+ *
+ * @note  El divisor de tensión se supone 3.3V - 10KOhm - PinADC - NTC - GND.
  */
 
-#include "ntc.h"
+#include "adc_ntc.h"
 #include <math.h>
 
-// ===== NTC - Funciones públicas =====
+// ===== ADC_NTC - Funciones públicas =====
 /**
  * @brief   Calcular la temperatura en grados centígrados correspondiente al resultado de 12bits
  * de la conversión A/D de la tensión de salida del módulo KY-013 de Keyes basado en una NTC.
- * @ingroup NTC
+ * @ingroup ADC_NTC
  *
- * @param[in] tension   Tensión en el divisor de tensión formado por el NTC y una resistencia fija
- *                      de 10k según se indica abajo.
+ * @param[in] tension   Tensión caida en la NTC.
  *
- * @return    Temperatura correspondiente en grados centígrados.
+ * @return  Temperatura correspondiente en grados centígrados.
  *
  * @details La tensión en el PinADC es la tensión de salida del módulo sensor, que es igual a la
  * tensión en el centro del divisor de tensión formado por la resistencia fija de 10 kOhm (parte
@@ -50,7 +55,7 @@
  * @note No hay información fiable sobre la NTC usada en el módulo KY-013 de Keyes. Estos
  * coeficientes están tomados de la información que circula por internet sobre el módulo.
  */
-float32_t ntc_traducir_tension_a_temperatura(float32_t tension) {
+float32_t adc_ntc_tension_a_temperatura(float32_t tension) {
 
   float32_t R_ntc, ln_R_ntc, temp;
 

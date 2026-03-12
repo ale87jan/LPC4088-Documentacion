@@ -29,8 +29,8 @@ typedef struct {
 
 /**
  * @defgroup  Fuente_Macros_Publicas Fuente - Macros Públicas
- * @ingroup FUENTE
- * @brief   Símbolos para definir el patrón de puntos de los diferentes caracteres.
+ * @ingroup   FUENTE
+ * @brief     Símbolos para definir el patrón de puntos de los diferentes caracteres.
  * @{
  */
 #define ________  0x00

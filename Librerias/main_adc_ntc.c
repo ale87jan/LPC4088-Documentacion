@@ -1,19 +1,19 @@
 /**
- * @file  main_ntc.c
- * @brief Programa principal de lectura de una NTC conectada al ADC del LPC4088.
+ * @file    main_ntc.c
+ * @brief   Programa principal de lectura de una NTC conectada al ADC del LPC4088.
  *
  * @author  Alejandro Lara Doña - alejandro.lara@uca.es
- * @date    2025
- * @version 1.0
+ * @date    2026
+ * @version 2.0
  *
  * @copyright GNU General Public License version 3 or later
  */
 
 #include <LPC407x_8x_177x_8x.h>
 #include "glcd.h"
-#include "adc_lpc40xx.h"
 #include "timer_lpc40xx.h"
-#include "ntc.h"
+#include "adc_lpc40xx.h"
+#include "adc_ntc.h"
 
 int main(void) {
 
@@ -28,7 +28,7 @@ int main(void) {
     for (uint8_t i = 0; i < 100; i++) {
       uint16_t conversion = adc_convertir(ADC_CANAL_0);
 
-      acumulado += ntc_traducir_tension_a_temperatura(adc_traducir_a_tension(conversion));
+      acumulado += adc_ntc_tension_a_temperatura(adc_traducir_a_tension(conversion));
 
       timer_esperar_fin_ciclo(TIMER0);
     }

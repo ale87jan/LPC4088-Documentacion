@@ -42,10 +42,10 @@ enum leds_tarjeta_ea {
  * @ingroup LEDs
  */
 enum leds_estado {
-  LED_APAGADO = FALSE,    //!< LED apagado.
-  LED_ENCENDIDO = TRUE,   //!< LED encendido.
-  LED_OFF = FALSE,        //!< LED apagado.
-  LED_ON = TRUE           //!< LED encendido.
+  LED_APAGADO = FALSE,    //!< LED apagado
+  LED_ENCENDIDO = TRUE,   //!< LED encendido
+  LED_OFF = FALSE,        //!< LED apagado
+  LED_ON = TRUE           //!< LED encendido
 };
 
 // ===== LEDs - Funciones Publicas =====
