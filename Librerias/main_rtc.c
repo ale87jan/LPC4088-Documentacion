@@ -1,6 +1,6 @@
 /**
- * @file    main_rtc.c
- * @brief   Programa principal de uso del RTC.
+ * @file  main_rtc.c
+ * @brief Programa principal de uso del RTC.
  *
  * @author  Alejandro Lara Doña - alejandro.lara@uca.es
  * @date    2025

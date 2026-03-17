@@ -2,11 +2,11 @@
  * @file    sonido_mario.h
  * @brief   Melodía del juego Super Mario Bros.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es
+ * @date    2026
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef SONIDO_MARIO_H

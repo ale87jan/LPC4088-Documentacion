@@ -1,8 +1,14 @@
 /**
  * @file    motor.h
  *
- * @brief   Funciones de manejo de un motor paso a paso mediante el drive A4988
- *          utilizandomediante PWM para la generación de los pasos.
+ * @brief   Funciones de manejo de un motor paso a paso mediante el drive A4988 mediante PWM para 
+ * la generación de los pasos.
+ *
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es
+ * @date    2026
+ * @version 2.0
+ *
+ * @copyright GNU General Public License version 3 or later
  */
 
 #ifndef MOTOR_H

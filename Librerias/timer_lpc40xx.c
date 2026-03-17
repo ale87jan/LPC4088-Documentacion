@@ -2,11 +2,11 @@
  * @file    timer_lpc40xx.c
  * @brief   Funciones para el uso de los timers del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "timer_lpc40xx.h"
@@ -88,7 +88,7 @@ void timer_retardo_ms(LPC_TIM_TypeDef *timer_regs, uint32_t retardo_en_ms) {
  * @pre   El TIMER debe estar inicializado antes de invocar esta función.
  *
  * @note  ¡Atención! El registro de preescala se configura para que se incremente cada 0.1
- *        microsegundos para aumentar la resolución y permitir realizar retardos de 1 microsegundo.
+ * microsegundos para aumentar la resolución y permitir realizar retardos de 1 microsegundo.
  *
  * @warning Función bloqueante.
  */

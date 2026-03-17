@@ -195,7 +195,7 @@ enum uart_iir {
  *
  * @details Máscaras para comprobar el estado de la linea.
  */
-enum uart_lsr_t{
+enum uart_lsr{
   UART_LSR_RDR  = (1u << 0),  //!< Nuevo dato disponible.
   UART_LSR_OE   = (1u << 1),  //!< Error por sobreescritura de datos.
   UART_LSR_PE   = (1u << 2),  //!< Error de paridad.

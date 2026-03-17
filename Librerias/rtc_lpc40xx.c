@@ -1,12 +1,12 @@
 /**
- * @file  rtc_lpc40xx.c
- * @brief Funciones para usar el RTC del LPC40xx.
+ * @file    rtc_lpc40xx.c
+ * @brief   Funciones para usar el RTC del LPC40xx.
  *
- * @author      Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
- * @date        2014/2025
- * @version     2.0
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es | Eduardo Romero
+ * @date    2014/2025
+ * @version 2.0
  *
- * @copyright   GNU General Public License version 3 or later
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include "rtc_lpc40xx.h"

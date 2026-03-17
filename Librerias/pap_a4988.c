@@ -1,6 +1,12 @@
 /**
  * @file    motor.c
  * @brief   Funciones de manejo del motor HSR-1425CR mediante PWM.
+ *
+ * @author  Alejandro Lara Doña - alejandro.lara@uca.es
+ * @date    2026
+ * @version 2.0
+ *
+ * @copyright GNU General Public License version 3 or later
  */
 #include <LPC407x_8x_177x_8x.h>
 #include "pap_a4988.h"

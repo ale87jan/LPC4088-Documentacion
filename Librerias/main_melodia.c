@@ -1,6 +1,6 @@
 /**
- * @file    main_melodia.c
- * @brief   Programa principal de ejemplo de reproducción de una melodía.
+ * @file  main_melodia.c
+ * @brief Programa principal de ejemplo de reproducción de una melodía.
  *
  * @author  Alejandro Lara Doña - alejandro.lara@uca.es
  * @date    2025
