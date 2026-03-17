@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include "tipos.h"
 #include "sdram.h"
-#include "fuente.h"
 
 // ===== GLCD - Constantes Publicas =====
 /**
@@ -269,7 +268,7 @@ enum glcd_pca9532_ctrl {
  * desea una mayor independencia del host durante la depuración.
  *
  * Si se deshabilita el semihosting las funciones que lo utilizan se deben reimplementar enviandolas
- * a la UART, LCD u otras salidas. El Linker lanzará un error indicando la función que utiliza 
+ * a la UART, LCD u otras salidas. El Linker lanzará un error indicando la función que utiliza
  * semihosting que no se ha reimplementado.
  *
  * Ejemplo:
@@ -325,20 +324,20 @@ void glcd_borrar(uint16_t color);
  * @brief   Función análoga a printf para imprimir texto en la pantalla LCD.
  * @ingroup GLCD
  *
- * @param[in] format  Cadena de caracteres a imprimir incluyendo opcionalmente especificadores
- *                    de formato que serán reemplazados por los valores de los argumentos
- *                    adicionales subsiguientes y formateados como se indique.
- * @param[in] ...     Argumentos adicionales. Dependiendo de los especificadores de formato
- *                    incluidos en la cadena de formato, la función espera una secuencia de
- *                    argumentos adicionales cuyos valores se usan para reemplazar dichos
- *                    especificadores. Debe haber, al menos, tantos argumentos adicionales
- *                    como especificadores de formato. Los argumentos extra a los necesarios
- *                    son ignorados.
+ * @param[in] ptr_formato Cadena de caracteres a imprimir incluyendo opcionalmente especificadores
+ *                        de formato que serán reemplazados por los valores de los argumentos
+ *                        adicionales subsiguientes y formateados como se indique.
+ * @param[in] ...         Argumentos adicionales. Dependiendo de los especificadores de formato
+ *                        incluidos en la cadena de formato, la función espera una secuencia de
+ *                        argumentos adicionales cuyos valores se usan para reemplazar dichos
+ *                        especificadores. Debe haber, al menos, tantos argumentos adicionales
+ *                        como especificadores de formato. Los argumentos extra a los necesarios
+ *                        son ignorados.
  *
  * @return  Si la función tiene éxito, retorna el número de caracteres que ha impreso. En caso de
  * error, se retorna un número negativo.
  */
-int32_t glcd_printf(const char *format, ...);
+int32_t glcd_printf(const char *ptr_formato, ...);
 
 /**
  * @brief   Función parecida a glcd_printf pero pudiendo indicar las coordedadas donde aparece
@@ -350,7 +349,7 @@ int32_t glcd_printf(const char *format, ...);
  * @param[in] color         Color con el que se imprimirá el texto.
  * @param[in] color_fondo   Color de fondo con el que se imprimirá el texto.
  * @param[in] fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in] format        Cadena de caracteres a imprimir incluyendo opcionalmente
+ * @param[in] ptr_formato   Cadena de caracteres a imprimir incluyendo opcionalmente
  *                          especificadores de formato que serán reemplazados por los valores de
  *                          los argumentos subsiguientes y formateados como se indique.
  * @param[in] ...           Argumentos adicionales. Dependiendo de los especificadores de formato
@@ -360,13 +359,13 @@ int32_t glcd_printf(const char *format, ...);
  *                          como especificadores de formato. Los argumentos extra a los necesarios
  *                          se ignoran.
  *
- * @return  Si la función tiene éxito, retorna el número de caracteres que ha impreso. En caso de 
+ * @return  Si la función tiene éxito, retorna el número de caracteres que ha impreso. En caso de
  * error, se retorna un número negativo.
  *
  * @note  No se actualiza la configuración actual de colores o posición de la LCD.
  */
 int32_t glcd_xprintf(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint8_t fuente,
-                     const char *format, ...);
+                     const char *ptr_formato, ...);
 
 /**
  * @brief   Imprime un carácter en pantalla. No se interpretan caracteres de control.
@@ -395,12 +394,12 @@ void glcd_caracter(char c, uint16_t x, uint16_t y, uint16_t color, uint16_t colo
  * @param[in] color         Color con el que se imprimirá el carácter.
  * @param[in] color_fondo   Color de fondo con el que se imprimirá el carácter.
  * @param[in] fuente        Fuente de caracteres con la que se imprimirá.
- * @param[in] str           Puntero a la cadena a imprimir. Sólo se imprimirá si las coordenadas
+ * @param[in] ptr_str       Puntero a la cadena a imprimir. Sólo se imprimirá si las coordenadas
  *                          indicadas por los argumentos `x` e `y` están dentro de la pantalla.
  *                          En caso contrario, no se imprimirá nada.
  */
 void glcd_texto(uint16_t x, uint16_t y, uint16_t color, uint16_t color_fondo, uint8_t fuente,
-                const char *str);
+                const char *ptr_str);
 
 /**
  * @brief   Fija el color que se usará para la salida de texto con glcd_printf.

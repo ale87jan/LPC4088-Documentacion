@@ -30,8 +30,8 @@
 /**
  * @brief   Función para generar un mensaje de error.
  * @ingroup ERROR
- * 
- * @details Muestra un mensaje de error indicando el archivo, función y linea donde se llamó a la 
+ *
+ * @details Muestra un mensaje de error indicando el archivo, función y linea donde se llamó a la
  * función junto con un mensaje.
  *
  * @param[in]   mensaje   Mensaje breve y descriptivo del "error".
@@ -67,7 +67,7 @@ do {                                        \
 #endif
 
 // ===== Error - Funciones Publicas =====
-void parar_con_error(const char *fichero, const char *funcion,
-                     const uint32_t linea, const char *mensaje);
+void parar_con_error(const char *ptr_fichero, const char *ptr_funcion,
+                     const uint32_t linea, const char *ptr_mensaje);
 
 #endif // ERROR_H

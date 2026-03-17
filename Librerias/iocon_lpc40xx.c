@@ -21,9 +21,8 @@
  * @ingroup IOCON
  * @private
  */
-static const uint16_t tabla_funciones_pines[GPIO_NUMERO_PUERTOS]
-                                           [GPIO_MAXIMO_PINES_POR_PUERTO]
-                                           [IOCON_MAXIMO_FUNCIONES_POR_PIN] = {
+static const uint16_t kIOCONTablaFuncionesPines[GPIO_NUMERO_PUERTOS][GPIO_MAXIMO_PINES_POR_PUERTO]
+                                               [IOCON_MAXIMO_FUNCIONES_POR_PIN] = {
   {  // Puerto 0
     {GPIO, CAN_RD1, U3_TXD, I2C1_SDA, U0_TXD, RESERVED, RESERVED, RESERVED},
     {GPIO, CAN_TD1, U3_RXD, I2C1_SCL, U0_RXD, RESERVED, RESERVED, RESERVED},
@@ -243,18 +242,21 @@ static const uint16_t tabla_funciones_pines[GPIO_NUMERO_PUERTOS]
  * @note  La razón de especificar el puerto y el pin mediante el puntero a los registros GPIO y una
  * máscara de pin en lugar de un número de puerto y un número de pin es conseguir que la forma de
  * especificar un pin sea igual para los módulos gpio_lpc40xx e iocon_lpc40xx. Esto permite usar los
- * mismos símbolos PUERTOx y PINx definidos en gpio_lpc40xx.h al usar las funciones de 
- * `iocon_lpc40xx`. Esto tiene el inconveniente de que en las funciones de `iocon_lpc40xx` hay que 
+ * mismos símbolos PUERTOx y PINx definidos en gpio_lpc40xx.h al usar las funciones de
+ * `iocon_lpc40xx`. Esto tiene el inconveniente de que en las funciones de `iocon_lpc40xx` hay que
  * transformar el puntero a registros GPIO en un número de pin y la máscara de selección de pin en
  * un número de pin.
  */
-void iocon_configurar_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
-                          funcion_pin_t funcion, uint32_t configuracion_es) {
+void iocon_configurar_pin(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin,
+                          iocon_funcion_pin_t funcion, uint32_t configuracion_es) {
 
-  uint32_t i, numero_puerto, numero_pin, *ptr;
+  uint32_t i;
+  uint32_t numero_puerto;
+  uint32_t numero_pin;
+  uint32_t *ptr;
 
   // Transformar el puntero al bloque de registros GPIO a un número de puerto
-  switch ((uint32_t) gpio_regs) {
+  switch ((uint32_t) ptr_regs_gpio) {
     case (uint32_t) PUERTO0:
       numero_puerto = 0;
       break;
@@ -294,7 +296,7 @@ void iocon_configurar_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
   // Obtener el número de función correspondiente a la función indicada para el pin
   i = 0;
   while (i < IOCON_MAXIMO_FUNCIONES_POR_PIN) {
-    if (tabla_funciones_pines[numero_puerto][numero_pin][i] == funcion) {
+    if (kIOCONTablaFuncionesPines[numero_puerto][numero_pin][i] == funcion) {
       break;
     }
     i++;
@@ -317,12 +319,12 @@ void iocon_configurar_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
  *                descripción de pines y funciones a configurar. Después de la última entrada
  *                válida del array debe haber una marcada con un campo puerto igual a 0.
  */
-void iocon_configurar_grupo_pines(const configuracion_funcion_pin_t *pf) {
+void iocon_configurar_grupo_pines(const iocon_config_t *ptr_configuracion_pines,
+                                  uint32_t numero_pines) {
 
-  ASSERT(pf != NULL, "Puntero a array de configuracion nulo.");
+  ASSERT(ptr_configuracion_pines != NULL, "Puntero a array de configuracion nulo.");
 
-  while (pf->gpio_regs != NULL) {
-    iocon_configurar_pin(pf->gpio_regs, pf->mascara_pin, pf->funcion, pf->configuracion_es);
-    pf++;
+  for (uint32_t i = 0; i < numero_pines; i++) {
+    iocon_configurar_pin(ptr_configuracion_pines[i].ptr_regs_gpio, ptr_configuracion_pines[i].mascara_pin, ptr_configuracion_pines[i].funcion, ptr_configuracion_pines[i].configuracion_es);
   }
 }

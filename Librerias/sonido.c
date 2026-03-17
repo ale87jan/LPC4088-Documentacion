@@ -21,12 +21,12 @@
  * @name    Variables globales de reproducción de una melodía.
  * @details Variables globales para representar el estado de la reproducción de una melodía.
  */
-sonido_melodia_t ptr_melodia;
-volatile bool_t   reproduciendo = FALSE;
-volatile uint32_t semiperiodos_nota_actual = 1;
-volatile uint32_t semiperiodo_actual = 0;
-volatile uint16_t nota_actual = 0;
-volatile uint16_t duracion_us_notas = 0;
+static sonido_melodia_t *g_ptr_melodia;
+static volatile bool_t   g_reproduciendo = FALSE;
+static volatile uint32_t g_semiperiodos_nota_actual = 1;
+static volatile uint32_t g_semiperiodo_actual = 0;
+static volatile uint16_t g_nota_actual = 0;
+static volatile uint16_t g_duracion_us_notas = 0;
 //!@}
 
 
@@ -101,7 +101,7 @@ void sonido_reproducir_nota(uint8_t nota, uint32_t duracion_ms) {
     return;
   }
 
-  T_2_us = nota_a_semiperiodo_us[nota];
+  T_2_us = kNotaASemiperiodoUs[nota];
   N_periodos = 1000 * duracion_ms / (2 * T_2_us);
 
   gpio_ajustar_dir(PUERTO0, PIN26, DIR_SALIDA);
@@ -125,13 +125,13 @@ void sonido_reproducir_nota(uint8_t nota, uint32_t duracion_ms) {
  *
  * @pre   Se ha de haber inicializado con anterioridad la librería.
  */
-void sonido_reproducir_melodia(const uint8_t *notas, uint32_t duracion_nota_ms) {
-  
-  ASSERT(notas != NULL, "Puntero a melodia nulo.");
+void sonido_reproducir_melodia(const uint8_t *ptr_notas, uint32_t duracion_nota_ms) {
 
-  while (*notas != SONIDO_NOTA_FIN) {
-    sonido_reproducir_nota(*notas, duracion_nota_ms);
-    notas++;
+  ASSERT(ptr_notas != NULL, "Puntero a melodia nulo.");
+
+  while (*ptr_notas != SONIDO_NOTA_FIN) {
+    sonido_reproducir_nota(*ptr_notas, duracion_nota_ms);
+    ptr_notas++;
   }
 }
 
@@ -139,27 +139,27 @@ void sonido_reproducir_melodia(const uint8_t *notas, uint32_t duracion_nota_ms) 
  * @brief   Iniciar la reproducción de una melodía a través del altavoz.
  * @ingroup Sonido
  *
- * @param[in] melodia   Ptr. a la melodía que termina con SONIDO_NOTA_FIN.
+ * @param[in] ptr_melodia   Ptr. a la melodía que termina con SONIDO_NOTA_FIN.
  */
-void sonido_iniciar_melodia(const sonido_melodia_t melodia) {
+void sonido_iniciar_melodia(sonido_melodia_t *ptr_melodia) {
 
   uint16_t T_2_nota_us;
   uint32_t duracion_us_nota_actual;
   int8_t tipo_nota;
 
-  ASSERT(melodia.ptr_notas != NULL, "Puntero a melodia nulo.");
-  ASSERT(melodia.ptr_notas[0] != SONIDO_NOTA_FIN, "Melodía inicia con Nota final");
-  
-  reproduciendo = TRUE;
+  ASSERT(ptr_melodia->ptr_notas != NULL, "Puntero a melodia nulo.");
+  ASSERT(ptr_melodia->ptr_notas[0] != SONIDO_NOTA_FIN, "Melodía inicia con Nota final");
 
-  ptr_melodia = melodia;
-  nota_actual = 0;
+  g_reproduciendo = TRUE;
 
-  T_2_nota_us = 1E6 / (2 * ptr_melodia.ptr_notas[nota_actual]);
-  duracion_us_notas = (60E6 * 4) / ptr_melodia.tempo;
-  tipo_nota = ptr_melodia.ptr_duracion_nota[nota_actual];
-  duracion_us_nota_actual = ((tipo_nota > 0 ? 1 : 1.5) * duracion_us_notas) / abs(tipo_nota);
-  semiperiodos_nota_actual = duracion_us_nota_actual / T_2_nota_us;
+  g_ptr_melodia = ptr_melodia;
+  g_nota_actual = 0;
+
+  T_2_nota_us = 1E6 / (2 * ptr_melodia->ptr_notas[g_nota_actual]);
+  g_duracion_us_notas = (60E6 * 4) / ptr_melodia->tempo;
+  tipo_nota = ptr_melodia->ptr_duracion_nota[g_nota_actual];
+  duracion_us_nota_actual = ((tipo_nota > 0 ? 1 : 1.5) * g_duracion_us_notas) / abs(tipo_nota);
+  g_semiperiodos_nota_actual = duracion_us_nota_actual / T_2_nota_us;
 
   gpio_pin_a_1(PUERTO0, PIN26);
 
@@ -175,7 +175,7 @@ void sonido_iniciar_melodia(const sonido_melodia_t melodia) {
  * @retval  FALSE => no se está reproduciendo.
  */
 bool_t sonido_reproduciendo(void) {
-  return reproduciendo;
+  return g_reproduciendo;
 }
 
 /**
@@ -186,35 +186,35 @@ void SONIDO_TIMER_IRQHandler(void) {
   uint8_t siguiente_nota;
   int8_t tipo_nota;
 
-  semiperiodo_actual += 1;
+  g_semiperiodo_actual += 1;
   gpio_invertir_pin(PUERTO0,PIN26);
 
-  if (semiperiodo_actual >= semiperiodos_nota_actual) {
-    nota_actual += 1;
-    siguiente_nota = ptr_melodia.ptr_notas[nota_actual];
-    tipo_nota = ptr_melodia.ptr_duracion_nota[nota_actual];
+  if (g_semiperiodo_actual >= g_semiperiodos_nota_actual) {
+    g_nota_actual += 1;
+    siguiente_nota = g_ptr_melodia->ptr_notas[g_nota_actual];
+    tipo_nota = g_ptr_melodia->ptr_duracion_nota[g_nota_actual];
 
     if (siguiente_nota != SONIDO_NOTA_FIN) {
-      semiperiodo_actual = 0;
+      g_semiperiodo_actual = 0;
       if (siguiente_nota != SONIDO_NOTA_PAUSA) {
-        uint16_t T_2_nota_us = 1E6 / (2 * siguiente_nota);
-        uint32_t duracion_us_nota_actual = ((tipo_nota > 0 ? 1 : 1.5) * duracion_us_notas) / 
+        uint16_t t_2_nota_us = 1E6 / (2 * siguiente_nota);
+        uint32_t duracion_us_nota_actual = ((tipo_nota > 0 ? 1 : 1.5) * g_duracion_us_notas) /
                                            abs(tipo_nota);
-        semiperiodos_nota_actual = duracion_us_nota_actual / T_2_nota_us;
+        g_semiperiodos_nota_actual = duracion_us_nota_actual / t_2_nota_us;
 
-        SONIDO_TIMER->MR0 = T_2_nota_us;
+        SONIDO_TIMER->MR0 = t_2_nota_us;
         SONIDO_TIMER->TC = 0;
       } else {
-        semiperiodos_nota_actual = 1;
+        g_semiperiodos_nota_actual = 1;
 
         gpio_pin_a_0(PUERTO0, PIN26);
 
-        SONIDO_TIMER->MR0 = duracion_us_notas;
+        SONIDO_TIMER->MR0 = g_duracion_us_notas;
         SONIDO_TIMER->TC = 0;
       }
     } else {
       SONIDO_TIMER->TCR = 0;
-      reproduciendo = FALSE;
+      g_reproduciendo = FALSE;
     }
   }
   SONIDO_TIMER->IR = 1;

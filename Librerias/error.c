@@ -34,8 +34,8 @@
  * @param[in] linea     Número de línea del fichero fuente donde produjo el error.
  * @param[in] mensaje   Mensaje descriptivo del error.
  */
-void parar_con_error(const char *fichero, const char *funcion,
-                     const uint32_t linea, const char *mensaje) {
+void parar_con_error(const char *ptr_fichero, const char *ptr_funcion, const uint32_t linea,
+                     const char *ptr_mensaje) {
 
   uint32_t i;
 
@@ -52,9 +52,9 @@ void parar_con_error(const char *fichero, const char *funcion,
   #endif
 
   // Imprimir la información del error mediante la salida por defecto
-  printf("Error: %s\n", mensaje);
-  printf("En funcion: %s\n", funcion);
-  printf("Fichero: %s\n", fichero);
+  printf("Error: %s\n", ptr_mensaje);
+  printf("En funcion: %s\n", ptr_funcion);
+  printf("Fichero: %s\n", ptr_fichero);
   printf("Linea: %u", linea);
 
   // Dejar al programa encerrado aquí
@@ -73,7 +73,7 @@ void parar_con_error(const char *fichero, const char *funcion,
  * @ingroup ERROR
  *
  * @details Al producirse este tipo de excepción se enciende un led rojo de forma intermitente
- * en la tarjeta Embedded Artist Developer's Kit para indicarlo dado que el sistema deja de 
+ * en la tarjeta Embedded Artist Developer's Kit para indicarlo dado que el sistema deja de
  * responder.
  */
 void HardFault_Handler(void) {

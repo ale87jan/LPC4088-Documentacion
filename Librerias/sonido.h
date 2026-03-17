@@ -130,7 +130,7 @@ enum sonido_timer_config {
  *
  * @note El índice 0 no se usa porque la nota 0 indicará silencio.
  */
-static const uint16_t nota_a_semiperiodo_us[] = {
+static const uint16_t kNotaASemiperiodoUs[] = {
         0,
     16198,  // B0
     15289,  // C1
@@ -228,13 +228,13 @@ typedef struct{
   uint16_t tempo;                   //!< Tempo de la melodía.
   uint16_t numero_notas;            //!< Número de notas de la melodía.
   const uint16_t *ptr_notas;        //!< Puntero al array de notas.
-  
+
   /**
    * @brief   Duración de las notas.
    *
    * @details  Los números negativos se utilizan para representar las notas con puntillo.
    *
-   *  Número  |    Nota 
+   *  Número  |    Nota
    * :------: | :----------
    *   1      |   Redonda
    *   2      |   Blanca
@@ -252,7 +252,7 @@ void sonido_emitir_pitido(uint32_t frecuencia, uint32_t duracion_ms);
 
 void sonido_inicializar(void);
 void sonido_reproducir_nota(uint8_t nota, uint32_t duracion_ms);
-void sonido_reproducir_melodia(const uint8_t *notas, uint32_t duracion_nota_ms);
-void sonido_iniciar_melodia(const sonido_melodia_t melodia);
+void sonido_iniciar_melodia(sonido_melodia_t *ptr_melodia);
+void sonido_reproducir_melodia(const uint8_t *ptr_notas, uint32_t duracion_nota_ms);
 
 #endif  // SONIDO_H

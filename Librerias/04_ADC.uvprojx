@@ -894,14 +894,14 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>main_ntc.c</FileName>
+              <FileName>main_adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ntc.c</FilePath>
+              <FilePath>.\main_adc_ntc.c</FilePath>
             </File>
             <File>
-              <FileName>ntc.c</FileName>
+              <FileName>adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ntc.c</FilePath>
+              <FilePath>.\adc_ntc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -978,14 +978,14 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>main_ldr.c</FileName>
+              <FileName>adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ldr.c</FilePath>
+              <FilePath>.\adc_ldr.c</FilePath>
             </File>
             <File>
-              <FileName>ldr.c</FileName>
+              <FileName>main_adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ldr.c</FilePath>
+              <FilePath>.\main_adc_ldr.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1678,14 +1678,14 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>main_ntc.c</FileName>
+              <FileName>main_adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ntc.c</FilePath>
+              <FilePath>.\main_adc_ntc.c</FilePath>
             </File>
             <File>
-              <FileName>ntc.c</FileName>
+              <FileName>adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ntc.c</FilePath>
+              <FilePath>.\adc_ntc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1762,14 +1762,14 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>main_ldr.c</FileName>
+              <FileName>adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ldr.c</FilePath>
+              <FilePath>.\adc_ldr.c</FilePath>
             </File>
             <File>
-              <FileName>ldr.c</FileName>
+              <FileName>main_adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ldr.c</FilePath>
+              <FilePath>.\main_adc_ldr.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2462,14 +2462,14 @@
           <GroupName>NTC</GroupName>
           <Files>
             <File>
-              <FileName>main_ntc.c</FileName>
+              <FileName>main_adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ntc.c</FilePath>
+              <FilePath>.\main_adc_ntc.c</FilePath>
             </File>
             <File>
-              <FileName>ntc.c</FileName>
+              <FileName>adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ntc.c</FilePath>
+              <FilePath>.\adc_ntc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2546,14 +2546,14 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>main_ldr.c</FileName>
+              <FileName>adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ldr.c</FilePath>
+              <FilePath>.\adc_ldr.c</FilePath>
             </File>
             <File>
-              <FileName>ldr.c</FileName>
+              <FileName>main_adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ldr.c</FilePath>
+              <FilePath>.\main_adc_ldr.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3315,14 +3315,14 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>main_ntc.c</FileName>
+              <FileName>main_adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ntc.c</FilePath>
+              <FilePath>.\main_adc_ntc.c</FilePath>
             </File>
             <File>
-              <FileName>ntc.c</FileName>
+              <FileName>adc_ntc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ntc.c</FilePath>
+              <FilePath>.\adc_ntc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3330,14 +3330,14 @@
           <GroupName>LDR</GroupName>
           <Files>
             <File>
-              <FileName>main_ldr.c</FileName>
+              <FileName>adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main_ldr.c</FilePath>
+              <FilePath>.\adc_ldr.c</FilePath>
             </File>
             <File>
-              <FileName>ldr.c</FileName>
+              <FileName>main_adc_ldr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ldr.c</FilePath>
+              <FilePath>.\main_adc_ldr.c</FilePath>
             </File>
           </Files>
         </Group>

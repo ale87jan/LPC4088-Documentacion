@@ -14,7 +14,6 @@
 
 #include <LPC407x_8x_177x_8x.h>
 #include "tipos.h"
-#include "gpio_lpc40xx.h"
 
 // ===== IOCON - Constantes Publicas =====
 /**
@@ -28,7 +27,7 @@
  * @brief   Máscaras para seleccionar la configuración de la etapa de entrada o salida de un pin.
  * @ingroup IOCON
  */
-enum iocon_configuracion_es{
+enum iocon_configuracion_es {
   IOCON_NO_PULL_UP_NO_PULL_DOWN = 0,  //!< No se habilita ninguna resistencia de pull-up/pull-down
   IOCON_PULL_DOWN = (1u << 3),        //!< Habilitar pull-down
   IOCON_PULL_UP = (1u << 4),          //!< Habilitar pull-up
@@ -48,7 +47,7 @@ enum iocon_configuracion_es{
  * @brief   Funciones posibles de los pines.
  * @ingroup IOCON
  */
-typedef enum{
+typedef enum {
   GPIO,
   AD0_0, AD0_1, AD0_2, AD0_3, AD0_4, AD0_5, AD0_6, AD0_7,
   CAN_RD1, CAN_RD2, CAN_TD1, CAN_TD2,
@@ -132,27 +131,28 @@ typedef enum{
   USB_UP_LED1, USB_UP_LED2,
   USB_VBUS,
   RESERVED
-} funcion_pin_t;
+} iocon_funcion_pin_t;
 
 /**
  * @brief   Estructura para describir la configuración de la función de un pin.
  * @ingroup IOCON
  */
-typedef struct{
-  LPC_GPIO_TypeDef  *gpio_regs;   //!< Puntero a bloque de registros GPIO del puerto.
-  uint32_t          mascara_pin;  //!< Máscara de selección del pin.
-  funcion_pin_t     funcion;      //!< Función deseada para el pin.
+typedef struct {
+  LPC_GPIO_TypeDef   *ptr_regs_gpio;  //!< Puntero a bloque de registros GPIO del puerto.
+  uint32_t            mascara_pin;    //!< Máscara de selección del pin.
+  iocon_funcion_pin_t funcion;        //!< Función deseada para el pin.
 
   /**
    * @brief   Configuración de pull-up/pull-down, modo analógico, histéresis, filtro de glitch,
    * slew-rate, drenador abierto, inversión, etc.
    */
-  uint32_t          configuracion_es;
-} configuracion_funcion_pin_t;
+  uint32_t            configuracion_es;
+} iocon_config_t;
 
 // ===== IOCON - Funciones Publicas =====
-void iocon_configurar_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
-                          funcion_pin_t funcion, uint32_t configuracion_es);
-void iocon_configurar_grupo_pines(const configuracion_funcion_pin_t *pf);
+void iocon_configurar_pin(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin,
+                          iocon_funcion_pin_t funcion, uint32_t configuracion_es);
+void iocon_configurar_grupo_pines(const iocon_config_t *ptr_configuracion_pines,
+                                  uint32_t numero_pines);
 
 #endif  // IOCON_LPC40XX_H

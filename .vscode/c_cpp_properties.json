@@ -6,14 +6,19 @@
                 "${workspaceFolder}/**",
                 "C:/Keil_v5/ARM/ARMCLANG/include",
                 "C:/Keil_v5/Local/Arm/Packs/Keil/LPC4000_DFP/2.2.2/Device/Include",
-                "C:/Keil_v5/Local/Arm/Packs/ARM/CMSIS/6.2.0/CMSIS/Core/Include"
+                "C:/Keil_v5/Local/Arm/Packs/ARM/CMSIS/6.2.0/CMSIS/Core/Include",
+                "%LOCALAPPDATA%/Arm/Packs/Keil/LPC4000_DFP/2.2.2/Device/Include",
+                "%LOCALAPPDATA%/Arm/Packs/ARM/CMSIS/6.3.0/cmsis/core/include",
+                "%LOCALAPPDATA%/Keil_v5/ARM/ARMCLANG/include"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "CORE_M4"
             ],
-            "compilerPath": "C:\\Keil_v5\\ARM\\ARMCLANG\\bin\\armclang.exe",
+            "compilerPath": "%LOCALAPPDATA%/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            // "compilerPath": "C:/Keil_v5/ARM/ARMCLANG/bin/armclang.exe"
             "cStandard": "gnu11",
             "cppStandard": "gnu++11"
         }

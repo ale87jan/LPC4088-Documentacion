@@ -16,6 +16,6 @@
 #include "tipos.h"
 
 // ===== ADC_LDR - Funciones públicas =====
-float32_t adc_ldr_tension_a_iluminancia(float32_t V_s);
+float32_t adc_ldr_tension_a_iluminancia(float32_t tension);
 
 #endif  // ADC_LDR_H

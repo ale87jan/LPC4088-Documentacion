@@ -28,10 +28,16 @@ CheckOptions:
   # Ejemplo: timer_inicializar, uart_transmitir_dato
   - key:             readability-identifier-naming.FunctionCase
     value:           lower_case
+  - key:             readability-identifier-naming.FunctionIgnoredRegexp
+    value:           '^(main|SysTick_Handler|.*_IRQHandler|.*_Handler)$'
 
   # ── Variables locales: snake_case ──
   # Ejemplo: contador_actual, datos_recibidos
   - key:             readability-identifier-naming.LocalVariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.LocalStaticVariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.LocalConstantCase
     value:           lower_case
 
   # ── Variables globales: snake_case con prefijo g_ ──
@@ -46,10 +52,29 @@ CheckOptions:
   - key:             readability-identifier-naming.ParameterCase
     value:           lower_case
 
+  # ── Punteros como parámetros de función: snake_case ──
+  # Ejemplo: ptr_dato, ptr_buffer
+  - key:             readability-identifier-naming.PointerParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.PointerParameterPrefix
+    value:           'ptr_'
+  - key:             readability-identifier-naming.ConstantPointerParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ConstantPointerParameterPrefix
+    value:           'ptr_'
+
+  # ── Constantes como parámetros de función: snake_case ──
+  # Ejemplo: dato, num_bytes
+  - key:             readability-identifier-naming.ConstantParameterCase
+    value:           lower_case
+
   # ── Miembros de struct/union: snake_case ──
   # Ejemplo: hora, minuto, tipo
   - key:             readability-identifier-naming.MemberCase
     value:           lower_case
+  - key:             readability-identifier-naming.ConstantMemberCase
+    value:           lower_case
+
 
   # ── Tipos (typedef): snake_case con sufijo _t ──
   # Ejemplo: hora_t, pieza_tipo_t
@@ -87,8 +112,6 @@ CheckOptions:
     value:           true
   - key:             readability-braces-around-statements.ShortStatementLines
     value:           0
-  - key:             readability-magic-numbers.IgnoredIntegerValues
-    value:           '0;1;2;4;8;16;32'
 
 # Solo analizar cabeceras del proyecto, no del sistema
 HeaderFilterRegex: '.*\.(c|h)$'

@@ -48,7 +48,8 @@
  */
 float32_t adc_ldr_tension_a_iluminancia(float32_t tension) {
 
-  float32_t res_ldr, iluminancia;
+  float32_t res_ldr;
+  float32_t iluminancia;
 
   res_ldr = (10000.0f * tension)/(3.3f - tension);
 

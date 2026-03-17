@@ -104,7 +104,7 @@ enum gpio_direccion {
  * @brief   Lee el estado de un pin.
  * @ingroup GPIO
  *
- * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] ptr_regs_gpio     Puntero al bloque de registros del puerto.
  * @param[in] mascara_pin   Máscara para seleccionar el pin.
  *
  * @retval  FALSE si el pin está a 0.
@@ -113,41 +113,41 @@ enum gpio_direccion {
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
  */
-inline bool_t gpio_leer_pin(const LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin) {
-  return (gpio_regs->PIN & mascara_pin) != 0;
+inline bool_t gpio_leer_pin(const LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin) {
+  return (ptr_regs_gpio->PIN & mascara_pin) != 0;
 }
 
 /**
  * @brief   Lee el estado de un puerto completo.
  * @ingroup GPIO
  *
- * @param[in] gpio_regs   Puntero al bloque de registros del puerto.
+ * @param[in] ptr_regs_gpio   Puntero al bloque de registros del puerto.
  *
  * @return  Valor leído del puerto.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
  */
-inline uint32_t gpio_leer_puerto(const LPC_GPIO_TypeDef *gpio_regs) {
-  return gpio_regs->PIN;
+inline uint32_t gpio_leer_puerto(const LPC_GPIO_TypeDef *ptr_regs_gpio) {
+  return ptr_regs_gpio->PIN;
 }
 
 /**
  * @brief   Establece el estado de uno o más pines de salida al mismo estado.
  * @ingroup GPIO
  *
- * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] ptr_regs_gpio     Puntero al bloque de registros del puerto.
  * @param[in] mascara_pin   Máscara de selección del pin o pines.
  * @param[in] valor         FALSE => poner a 0, TRUE => poner a 1.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
  */
-inline void gpio_escribir_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin, bool_t valor) {
+inline void gpio_escribir_pin(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin, bool_t valor) {
   if (valor) {
-    gpio_regs->SET = mascara_pin;
+    ptr_regs_gpio->SET = mascara_pin;
   } else {
-    gpio_regs->CLR = mascara_pin;
+    ptr_regs_gpio->CLR = mascara_pin;
   }
 }
 
@@ -155,60 +155,60 @@ inline void gpio_escribir_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin,
  * @brief   Establece el estado de todos los pines de salida de un puerto.
  * @ingroup GPIO
  *
- * @param[in] gpio_regs   Puntero al bloque de registros del puerto.
+ * @param[in] ptr_regs_gpio   Puntero al bloque de registros del puerto.
  * @param[in] valor       Valor a escribir en el puerto.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
  */
-inline void gpio_escribir_puerto(LPC_GPIO_TypeDef *gpio_regs, uint32_t valor) {
-  gpio_regs->PIN = valor;
+inline void gpio_escribir_puerto(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t valor) {
+  ptr_regs_gpio->PIN = valor;
 }
 
 /**
  * @brief   Pone a 1 uno o más pines de salida.
  * @ingroup GPIO
  *
- * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] ptr_regs_gpio     Puntero al bloque de registros del puerto.
  * @param[in] mascara_pin   Máscara de selección del pin o pines.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
  */
-inline void gpio_pin_a_1(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin) {
-  gpio_regs->SET = mascara_pin;
+inline void gpio_pin_a_1(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin) {
+  ptr_regs_gpio->SET = mascara_pin;
 }
 
 /**
  * @brief   Pone a 0 uno o más pines de salida.
  * @ingroup GPIO
  *
- * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] ptr_regs_gpio     Puntero al bloque de registros del puerto.
  * @param[in] mascara_pin   Máscara de selección del pin o pines.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
  */
-inline void gpio_pin_a_0(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin) {
-  gpio_regs->CLR = mascara_pin;
+inline void gpio_pin_a_0(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin) {
+  ptr_regs_gpio->CLR = mascara_pin;
 }
 
 /**
  * @brief   Invierte el estado de uno o más pines de salida.
  * @ingroup GPIO
  *
- * @param[in] gpio_regs     Puntero al bloque de registros del puerto.
+ * @param[in] ptr_regs_gpio     Puntero al bloque de registros del puerto.
  * @param[in] mascara_pin   Máscara de selección del pin o pines.
  *
  * @warning No se comprueba la validez de los argumentos para que el tiempo de ejecución sea
  * corto y reducir el tamaño de la expansión en línea.
  */
-inline void gpio_invertir_pin(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin) {
-  gpio_regs->PIN ^= mascara_pin;
+inline void gpio_invertir_pin(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin) {
+  ptr_regs_gpio->PIN ^= mascara_pin;
 }
 
 // ===== Prototipos de funciones definidas en gpio_lpc40xx.c =====
-void gpio_ajustar_dir(LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin, uint32_t direccion);
-uint32_t gpio_obtener_dir(const LPC_GPIO_TypeDef *gpio_regs, uint32_t mascara_pin);
+void gpio_ajustar_dir(LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin, uint32_t direccion);
+uint32_t gpio_obtener_dir(const LPC_GPIO_TypeDef *ptr_regs_gpio, uint32_t mascara_pin);
 
 #endif  // GPIO_LPC40XX_H

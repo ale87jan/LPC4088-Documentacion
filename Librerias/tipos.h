@@ -130,7 +130,7 @@ typedef struct{
  * ej. "(_BIT(3) | _BIT(7))".
  */
 #undef  _BIT
-#define _BIT(n) (1u << n)
+#define _BIT(n) (1u << (n))
 
 /**
  * @brief   _CAMPO(f, v) establece a el campo que empieza en la posicion 'f' al valor 'v'.
@@ -143,7 +143,7 @@ typedef struct{
  * ej. "(_CAMPO(5, 3) | _CAMPO(12, 7))".
  */
 #undef  _CAMPO
-#define _CAMPO(f, v) (v << f)
+#define _CAMPO(f, v) ((v) << (f))
 
 /**
  * @brief   Redondea un número 'x' hacia +infinito (techo).

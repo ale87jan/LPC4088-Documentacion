@@ -62,13 +62,13 @@ void spi_inicializar(LPC_SSP_TypeDef *ssp_regs, uint32_t numero_bits_datos,
 
   // Asegurar que la interfaz seleccionado no está en modo de bajo consumo
   if (ssp_regs == SSP0) {
-    LPC_SC->PCONP |= 1u << 21;
+    LPC_SC->PCONP |= (1u << 21);
 
   } else if (ssp_regs == SSP1) {
-    LPC_SC->PCONP |= 1u << 10;
+    LPC_SC->PCONP |= (1u << 10);
 
   } else if (ssp_regs == SSP2) {
-    LPC_SC->PCONP |= 1u << 20;
+    LPC_SC->PCONP |= (1u << 20);
   }
 
   // Asegurarse de que la interfaz está deshabilitado mientras se configura

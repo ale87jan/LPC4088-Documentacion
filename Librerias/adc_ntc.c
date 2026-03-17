@@ -57,7 +57,9 @@
  */
 float32_t adc_ntc_tension_a_temperatura(float32_t tension) {
 
-  float32_t R_ntc, ln_R_ntc, temp;
+  float32_t r_ntc;
+  float32_t ln_r_ntc;
+  float32_t temp;
 
   // Coeficientes Steinhart-Hart usados
 
@@ -71,9 +73,9 @@ float32_t adc_ntc_tension_a_temperatura(float32_t tension) {
   const float32_t b = 2.484818972E-4f;
   const float32_t c = 1.313142875E-8f;
 
-  R_ntc = (10000.0f * tension) / (3.3f - tension);
-  ln_R_ntc = log(R_ntc);
-  temp = (1.0f / (a + (b * ln_R_ntc) + (c * powf(ln_R_ntc, 3.0f)))) - 273.16f;
+  r_ntc = (10000.0f * tension) / (3.3f - tension);
+  ln_r_ntc = log(r_ntc);
+  temp = (1.0f / (a + (b * ln_r_ntc) + (c * powf(ln_r_ntc, 3.0f)))) - 273.16f;
 
   return temp;
 }

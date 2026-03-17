@@ -29,7 +29,8 @@
   "C_Cpp.intelliSenseEngine": "disabled",
   "yaml.format.printWidth": 100,
   "yaml.schemas": {
-    "https://squidfunk.github.io/mkdocs-material/schema.json": "mkdocs.yml"
+    "https://squidfunk.github.io/mkdocs-material/schema.json": "mkdocs.yml",
+    "https://www.schemastore.org/clangd.json": "file:///c%3A/GitHub/LPC4088-Documentacion/.clangd"
   },
   "yaml.customTags": [
     "!ENV scalar",
@@ -56,5 +57,21 @@
     "system_lpc407x_8x_177x_8x.h": "c"
   },
   "diffEditor.ignoreTrimWhitespace": false,
-  "github.copilot.nextEditSuggestions.enabled": true
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "clangd.fallbackFlags": [
+    "-DCORE_M4",
+    "-D_RTE_",
+    "-xc",
+    "-std=gnu11",
+    "--target=arm-none-eabi",
+    "-mcpu=cortex-m4",
+    "-mfpu=fpv4-sp-d16",
+    "-mfloat-abi=hard",
+    "-IC:/Keil_v5/ARM/ARMCLANG/include",
+    "-IC:/Keil_v5/Local/Arm/Packs/Keil/LPC4000_DFP/2.2.2/Device/Include",
+    "-IC:/Keil_v5/Local/Arm/Packs/ARM/CMSIS/6.2.0/CMSIS/Core/Include",
+    "-IC:/Users/ale87/AppData/Local/Keil_v5/ARM/ARMCLANG/include",
+    "-IC:/Users/ale87/AppData/Local/Arm/Packs/Keil/LPC4000_DFP/2.2.2/Device/Include",
+    "-IC:/Users/ale87/AppData/Local/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include"
+  ]
 }

@@ -314,13 +314,14 @@ void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bo
  */
 static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t baudrate) {
 
-  uint8_t mejor_divaddval = 0, mejor_mulval = 1;
+  uint8_t mejor_divaddval = 0;
+  uint8_t mejor_mulval = 1;
 
   // Constante que se utiliza muchas veces en los cálculos
-  const float32_t baudrate_16 = (16.0f * (float32_t) baudrate);
+  const float32_t kBaudrate16 = (16.0f * (float32_t) baudrate);
 
   // Primero, calcular el divisor de baudrate suponiendo DIVADDVAL = 0 y MULVAL = 1
-  float32_t dlmdll_f = (float32_t) PeripheralClock / baudrate_16;
+  float32_t dlmdll_f = (float32_t) PeripheralClock / kBaudrate16;
 
   uint32_t dlmdll = (uint32_t) dlmdll_f; // Convertir a entero
 
@@ -336,7 +337,7 @@ static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t ba
 
     // 1 - Calculamos el error actual suponiendo divaddval = 0 y mulval = 1
     float32_t mejor_error_relativo = fabs(1.0f - ((float32_t) PeripheralClock /
-                                     (baudrate_16 * (float32_t) dlmdll)));
+                                     (kBaudrate16 * (float32_t) dlmdll)));
 
     // 2 - Buscar los valores de divaddval y mulval que hacen mínimo el error
     for (uint32_t divisor_entero = dlmdll - 1; divisor_entero <= dlmdll + 1; divisor_entero++) {
@@ -346,7 +347,7 @@ static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t ba
         for (uint8_t divaddval = 1; divaddval < mulval; divaddval++) {
 
           float32_t error_relativo = fabs((1.0f - ((float32_t) PeripheralClock /
-                                     (baudrate_16 * (float32_t) divisor_entero *
+                                     (kBaudrate16 * (float32_t) divisor_entero *
                                      (1.0f + (float32_t) divaddval/ (float32_t) mulval)))));
 
           if (error_relativo < mejor_error_relativo) {

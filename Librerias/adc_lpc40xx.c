@@ -19,29 +19,29 @@
  *
  * @details Los pines que pueden usarse como canales de entrada para el convertidor A/D son:
  *
- *    Pin         Canal     Valor del campo FUNC
- *    ------------------------------------------
- *    P0[23]      0         1
- *    P0[24]      1         1
- *    P0[25]      2         1
- *    P0[26]      3         1
- *    P1[30]      4         3
- *    P1[31]      5         3
- *    P0[12]      6         3
- *    P0[13]      7         3
+ *     Pin   |  Canal  | Valor del campo FUNC
+ *   ------- | :-----: | :-------------------:
+ *   P0[23]  |    0    |      1
+ *   P0[24]  |    1    |      1
+ *   P0[25]  |    2    |      1
+ *   P0[26]  |    3    |      1
+ *   P1[30]  |    4    |      3
+ *   P1[31]  |    5    |      3
+ *   P0[12]  |    6    |      3
+ *   P0[13]  |    7    |      3
  *
  * La columna "Valor del campo FUNC" se refiere al valor que hay que poner en los bits FUNC del
  * registro IOCON correspondiente al pin de la primera columna para conseguir seleccionar la
  * función de entrada analógica en ese pin.
  *
- * @param[in]   frecuencia_adc  Frecuencia de reloj a la que funcionará el ADC. Esta debe estar
- *                              comprendida entre 234 kHz y 12.4 MHz.
- * @param[in]   canales         Indica qué canales de entrada analógicos queremos usar. Los pines
- *                              correspondientes a los canales indicados se configurarán con
- *                              función analógica. Cada bit de 0 a 7 de canales indica si se usará
- *                              el correspondiente canal analógico.
+ * @param[in] frecuencia_adc  Frecuencia de reloj a la que funcionará el ADC. Esta debe estar
+ *                            comprendida entre 234 kHz y 12.4 MHz.
+ * @param[in] canal           Indica qué canal de entrada analógico queremos usar. El pin
+ *                            correspondiente al canal indicado se configurará con función
+ *                            analógica. El bit seleccionado de 0 a 7 indica el canal analógico
+ *                            que se utilizará.
  */
-void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canales) {
+void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canal) {
   // El array puertos contiene el puerto en el que está cada pin de entrada analógico
   const uint32_t puertos[8] = {0, 0, 0, 0, 1, 1, 0, 0};
 
@@ -49,7 +49,7 @@ void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canales) {
    * donde está cada pin de entrada analógico. */
   const uint32_t pines[8] = {23, 24, 25, 26, 30, 31, 12, 13};
 
-  /* El array funciones contiene el valor del campo FUNC para seleccionar la función analógica en 
+  /* El array funciones contiene el valor del campo FUNC para seleccionar la función analógica en
    * el registro IOCON del puerto y pin de los pines con función de entrada analógica. */
   const uint32_t funciones[8] = {1, 1, 1, 1, 3, 3, 3, 3};
 
@@ -60,7 +60,7 @@ void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canales) {
 
   ASSERT(frecuencia_adc < 12.4e6, "La frecuencia de reloj del ADC debe ser < 12.4 MHz.");
 
-  ASSERT(canales > 0, "Selecciona al menos 1 canal. Utiliza las constantes ADC_CANAL_#.");
+  ASSERT(canal > 0, "Selecciona al menos 1 canal. Utiliza las constantes ADC_CANAL_#.");
 
   // Activar el bit PCADC en el registro PCONP
   LPC_SC->PCONP |= (1u << 12);
@@ -68,10 +68,10 @@ void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canales) {
   // Registro de CR del ADC: activar PDN, ajustar CLKDIV según frecuencia_adc, resto de bits a 0
   LPC_ADC->CR = (1u << 21) | ((PeripheralClock/frecuencia_adc - 1) << 8);
 
-  // Configurar como entradas analógicas los pines indicados por canales
+  // Configurar como entradas analógicas los pines indicados por canal
   for (i = 0; i < 8; i++) {
-    if ((canales & (1u << i)) != 0) {
-      /* Si el bit i de `canales` está a 1, seleccionar la función de canal analógico i en el
+    if ((canal) != 0) {
+      /* Si el bit i de `canal` está a 1, seleccionar la función de canal analógico i en el
        * pin adecuado.
        *
        * Obtenemos un puntero al registro IOCON que configura la función del pin en el que está el
@@ -94,8 +94,8 @@ void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canales) {
  * @brief   Realizar un conversión A/D de uno de los canales.
  * @ingroup ADC
  *
- * @param[in]   canal   Canal de entrada. El bit seleccionado de 0 a 7 indica el canal analógico
- *                      que se utilizará.
+ * @param[in] canal   Canal de entrada. El bit seleccionado de 0 a 7 indica el canal analógico que
+ *                    se utilizará.
  *
  * @return  Resultado de la conversión de 12 bits.
  */
@@ -106,12 +106,16 @@ uint16_t adc_convertir(adc_canal_t canal) {
          canal == ADC_CANAL_6 || canal == ADC_CANAL_7,
          "Canal ADC incorrecto. Utiliza las constantes ADC_CANAL_#.");
 
+  /* Lanzar la conversión en el canal indicado activando el bit de START (solo puede estar activo el
+   * canal indicado). */
   LPC_ADC->CR = (LPC_ADC->CR & ~0xFF) | (1u << 24) | canal;
 
+  // Espera que se active el bit de DONE
   while ((LPC_ADC->GDR & (1u << 31)) == 0) {
     ;
   }
 
+  // Devuelve el resultado de 12 bits
   return (LPC_ADC->GDR >> 4) & 0xFFF;
 }
 
@@ -125,9 +129,10 @@ uint16_t adc_convertir(adc_canal_t canal) {
  * @return  Tensión correspondiente a resultado_adc en Voltios.
  */
 float32_t adc_traducir_a_tension(uint16_t resultado_adc) {
-
+  // Comprobar que el valor está en el rango de los 12 bits
   ASSERT(resultado_adc < 4096u, "Valor de resultado_adc de entrada superior a 4096 (12bits).");
 
+  // Devolver el valor convertido a voltios
   return (3.30f * (float32_t) resultado_adc) / 4096.0f;
 }
 
@@ -136,10 +141,8 @@ float32_t adc_traducir_a_tension(uint16_t resultado_adc) {
  * hardware (mediante Timers) o modo ráfaga (Burst).
  * @ingroup ADC
  *
- * @param[in]   canales   Indica qué canales de entrada analógicos queremos usar. Los pines
- *                        correspondientes a los canales indicados se configurarán con función
- *                        analógica. Cada bit de 0 a 7 de canales indica si se usará el
- *                        correspondiente canal analógico.
+ * @param[in] canales   Indica qué canales de entrada analógicos queremos usar. Cada bit de 0 a 7 de
+ *                      canales indica si se usará el correspondiente canal analógico.
  */
 void adc_seleccionar_canales(uint8_t canales) {
 
@@ -152,9 +155,9 @@ void adc_seleccionar_canales(uint8_t canales) {
  * @brief   Activa en INTEN los canales que generarán una interrupción al terminar la conversión.
  * @ingroup ADC
  *
- * @param[in]   canales     Indica qué canales de entrada analógicos queremos habilitar. Cada bit de
- *                          0 a 7 de canales indica si se habilitará la correspondiente interrupción.
- * @param[in]   int_global  Habilita o deshabilita las interrupciones del ADC para cualquier canal.
+ * @param[in] canales     Indica qué canales de entrada analógicos queremos habilitar. Cada bit de
+ *                        0 a 7 de canales indica si se habilitará la correspondiente interrupción.
+ * @param[in] int_global  Habilita o deshabilita las interrupciones del ADC para cualquier canal.
  */
 void adc_configurar_interrupciones(uint8_t canales, bool_t int_global) {
   LPC_ADC->INTEN = canales | (int_global ? ADC_INT_GLOBAL : 0);
@@ -164,7 +167,7 @@ void adc_configurar_interrupciones(uint8_t canales, bool_t int_global) {
  * @brief   Habilita o deshabilita el modo ráfaga del ADC.
  * @ingroup ADC
  *
- * @param[in]   estado  TRUE => Activar el modo ráfaga.
+ * @param[in] estado  TRUE => Activar el modo ráfaga.
  */
 void adc_modo_burst(bool_t estado) {
 
@@ -194,9 +197,9 @@ void adc_modo_burst(bool_t estado) {
  *  0x6   | Iniciar conversión por flanco de TIMER1.MR0
  *  0x7   | Iniciar conversión por flanco de TIMER1.MR1
  *
- * @param[in]   modo    Indica el modo de inicio de la conversión que realizará el ADC (bits START).
- * @param[in]   flanco  Indica si la conversión se inicará en el flanco de subida (0) de la señal
- *                      CAP/MAT seleccionada mediante `modo` o el flanco de bajada (1).
+ * @param[in] modo    Indica el modo de inicio de la conversión que realizará el ADC (bits START).
+ * @param[in] flanco  Indica si la conversión se inicará en el flanco de subida (0) de la señal
+ *                    CAP/MAT seleccionada mediante `modo` o flanco de bajada (1).
  *
  * @note  Se desactiva el modo ráfaga.
  */

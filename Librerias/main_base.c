@@ -20,14 +20,12 @@
 #include "leds.h"
 
 int main(void) {
-
   // Inicializar el LCD
   glcd_inicializar();
 
   // Imprimir el reloj por primera vez en la posición GLCD_TAMANO_X/2 - 64, GLCD_TAMANO_Y / 2 - 16
-  glcd_xprintf(GLCD_TAMANO_X / 2 - 4 * 16, GLCD_TAMANO_Y / 2 - 16,
-               BLANCO, NEGRO, FUENTE16X32, "00:00:00");
-
+  glcd_xprintf(GLCD_TAMANO_X / 2 - 4 * 16, GLCD_TAMANO_Y / 2 - 16, BLANCO, NEGRO, FUENTE16X32,
+               "00:00:00");
 
   // Inicializar los LEDs
   leds_inicializar();
@@ -35,7 +33,7 @@ int main(void) {
   // Inicializar el TIMER0
   timer_inicializar(TIMER0);
 
-  // Configuración del TIMER0 en el NVIC
+  // Configuración de la interrupción del TIMER0 en el NVIC
   NVIC_ClearPendingIRQ(TIMER0_IRQn);
   NVIC_SetPriority(TIMER0_IRQn, 1);
   NVIC_EnableIRQ(TIMER0_IRQn);
@@ -72,12 +70,12 @@ int main(void) {
  * @brief   Manejador de interrupción del TIMER0.
  */
 void TIMER0_IRQHandler(void) {
-
   // Variables estáticas para mantener el tiempo
   static uint32_t horas = 0;
   static uint32_t minutos = 0;
   static uint32_t segundos = 0;
 
+  // Incrementar las variables
   segundos++;
 
   if (segundos > 59) {
@@ -94,10 +92,11 @@ void TIMER0_IRQHandler(void) {
     }
   }
 
-  glcd_xprintf(GLCD_TAMANO_X / 2 - 4 * 16, GLCD_TAMANO_Y / 2 - 16,
-               BLANCO, NEGRO, FUENTE16X32,
+  // Imprimir el reloj en la posición GLCD_TAMANO_X/2 - 64, GLCD_TAMANO_Y / 2 - 16
+  glcd_xprintf(GLCD_TAMANO_X / 2 - 4 * 16, GLCD_TAMANO_Y / 2 - 16, BLANCO, NEGRO, FUENTE16X32,
                "%02d:%02d:%02d", horas, minutos, segundos);
 
+  // Limpiar la interrupción del timer
   TIMER0->IR = 1;
 }
 
@@ -108,14 +107,20 @@ void GPIO_IRQHandler(void) {
 
   // Comprobar si la interrupción la ha generado el P2[25]->Joystick Arriba
   if (LPC_GPIOINT->STATF2 & PIN25) {
-    TIMER0->TCR = 1;            // Activar la cuenta del TIMER0
-    LPC_GPIOINT->CLR2 = PIN25;  // Limpiar la interrupción de Joystick Arriba
+    // Activar la cuenta del TIMER0
+    TIMER0->TCR = 1;
+
+    // Limpiar la interrupción del pin de Joystick Arriba
+    LPC_GPIOINT->CLR2 = PIN25;
   }
 
   // Comprobar si la interrupción la ha generado el P2[27]->Joystick Abajo
   if (LPC_GPIOINT->STATF2 & PIN27) {
-    TIMER0->TCR = 0;            // Detener la cuenta del TIMER0
-    LPC_GPIOINT->CLR2 = PIN27;  // Limpiar la interrupción de Joystick Abajo
+    // Detener la cuenta del TIMER0
+    TIMER0->TCR = 0;
+
+    // Limpiar la interrupción del pin de Joystick Abajo
+    LPC_GPIOINT->CLR2 = PIN27;
   }
 
   // No es necesario limpiar la interrupción en el NVIC, ya se realiza automáticamente

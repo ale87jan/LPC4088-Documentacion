@@ -910,8 +910,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\main_ntc.c</PathWithFileName>
-      <FilenameWithoutPath>main_ntc.c</FilenameWithoutPath>
+      <PathWithFileName>.\main_adc_ntc.c</PathWithFileName>
+      <FilenameWithoutPath>main_adc_ntc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -922,8 +922,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\ntc.c</PathWithFileName>
-      <FilenameWithoutPath>ntc.c</FilenameWithoutPath>
+      <PathWithFileName>.\adc_ntc.c</PathWithFileName>
+      <FilenameWithoutPath>adc_ntc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -942,8 +942,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\main_ldr.c</PathWithFileName>
-      <FilenameWithoutPath>main_ldr.c</FilenameWithoutPath>
+      <PathWithFileName>.\adc_ldr.c</PathWithFileName>
+      <FilenameWithoutPath>adc_ldr.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -954,8 +954,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\ldr.c</PathWithFileName>
-      <FilenameWithoutPath>ldr.c</FilenameWithoutPath>
+      <PathWithFileName>.\main_adc_ldr.c</PathWithFileName>
+      <FilenameWithoutPath>main_adc_ldr.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

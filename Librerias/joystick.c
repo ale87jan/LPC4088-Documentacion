@@ -40,34 +40,39 @@
  * @retval  JOYSTICK_CENTRO/5 si el joystick está pulsado hacia el CENTRO.
  */
 uint8_t joystick_leer(void) {
-  
+
   leds_inicializar();
-  
+
   if (!gpio_leer_pin(PUERTO2, PIN23)) {
     leds_encender(LED1);
     return JOYSTICK_IZQUIERDA;
+  }
 
-  } else if (!gpio_leer_pin(PUERTO2, PIN25)) {
+  if (!gpio_leer_pin(PUERTO2, PIN25)) {
 
     leds_encender(LED2);
     return JOYSTICK_ARRIBA;
+  }
 
-  } else if (!gpio_leer_pin(PUERTO2, PIN26)) {
+  if (!gpio_leer_pin(PUERTO2, PIN26)) {
     leds_encender(LED3);
     return JOYSTICK_DERECHA;
 
-  } else if (!gpio_leer_pin(PUERTO2, PIN27)) {
+  }
+
+  if (!gpio_leer_pin(PUERTO2, PIN27)) {
     leds_encender(LED4);
     return JOYSTICK_ABAJO;
+  }
 
-  } else if (!gpio_leer_pin(PUERTO2, PIN22)) {
+  if (!gpio_leer_pin(PUERTO2, PIN22)) {
     leds_encender(LED1);
     leds_encender(LED2);
     leds_encender(LED3);
     leds_encender(LED4);
     return JOYSTICK_CENTRO;
   }
-  
+
   // Todos los pines del joystick son del PUERTO2
   // uint32_t valor_puerto = PUERTO2->PIN;
 
@@ -94,12 +99,12 @@ uint8_t joystick_leer(void) {
     // leds_encender(LED4);
     // return JOYSTICK_CENTRO;
   // }
-  
+
   leds_apagar(LED1);
   leds_apagar(LED2);
   leds_apagar(LED3);
   leds_apagar(LED4);
-  
+
   return JOYSTICK_NADA;
 }
 

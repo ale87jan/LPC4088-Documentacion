@@ -1,5 +1,5 @@
 /**
- * @file    main_ntc.c
+ * @file    main_adc_ntc.c
  * @brief   Programa principal de lectura de una NTC conectada al ADC del LPC4088.
  *
  * @author  Alejandro Lara Doña - alejandro.lara@uca.es

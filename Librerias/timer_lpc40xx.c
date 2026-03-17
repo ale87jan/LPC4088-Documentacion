@@ -23,16 +23,16 @@
 void timer_inicializar(const LPC_TIM_TypeDef *timer_regs) {
 
   if (timer_regs == TIMER0) {
-    LPC_SC->PCONP |= 1 << 1;
+    LPC_SC->PCONP |= (1u << 1);
 
   } else if (timer_regs == TIMER1) {
-    LPC_SC->PCONP |= 1 << 2;
+    LPC_SC->PCONP |= (1u << 2);
 
   } else if (timer_regs == TIMER2) {
-    LPC_SC->PCONP |= 1 << 22;
+    LPC_SC->PCONP |= (1u << 22);
 
   } else if (timer_regs == TIMER3) {
-    LPC_SC->PCONP |= 1 << 23;
+    LPC_SC->PCONP |= (1u << 23);
 
   } else {
     ERROR("timer_regs incorrecto");
@@ -66,7 +66,7 @@ void timer_retardo_ms(LPC_TIM_TypeDef *timer_regs, uint32_t retardo_en_ms) {
   timer_regs->TCR = 0;                          // Detener cuenta (bit CEN a 0)
   timer_regs->TC = 0;                           // Reset de la cuenta del TIMER
   timer_regs->PC = 0;                           // Reset de la cuenta de Preescala
-  timer_regs->PR = PeripheralClock * 1e-4 - 1;  // 0.0001s = 0.1 ms
+  timer_regs->PR = PeripheralClock * 0.1e-3 - 1;  // 0.0001s = 0.1 ms
   timer_regs->MR0 = 10 * retardo_en_ms - 1;     // Convertir ms a decimas de ms
   timer_regs->MCR |= 7;                         // Bits de STOP, RESET e INTERRUPCIÓN de MR0 activos
   timer_regs->IR = 1;                           // Resetear bit de interrupción de MR0
@@ -104,7 +104,7 @@ void timer_retardo_us(LPC_TIM_TypeDef *timer_regs, uint32_t retardo_en_us) {
   timer_regs->TCR = 0;
   timer_regs->TC = 0;
   timer_regs->PC = 0;
-  timer_regs->PR = PeripheralClock * 1e-7 - 1;
+  timer_regs->PR = PeripheralClock * 0.1e-6 - 1;
   timer_regs->MR0 = 10 * retardo_en_us - 1;
   timer_regs->MCR |= 7;
   timer_regs->IR = 1;
@@ -140,7 +140,7 @@ void timer_iniciar_ciclos_ms(LPC_TIM_TypeDef *timer_regs, uint32_t periodo_en_ms
   timer_regs->PC = 0;
 
   // Programar una preescala para que cuente en ms
-  timer_regs->PR = PeripheralClock * 1e-4 - 1;
+  timer_regs->PR = PeripheralClock * 0.1e-3 - 1;
   timer_regs->MR0 = 10 * periodo_en_ms - 1;
 
   // Poner los bits 1 (MR0R) y 0 (MR0R) del registro MCR a 1
@@ -175,7 +175,7 @@ void timer_iniciar_ciclos_us(LPC_TIM_TypeDef *timer_regs, uint32_t periodo_en_us
   timer_regs->TCR = 0;
   timer_regs->TC = 0;
   timer_regs->PC = 0;
-  timer_regs->PR = PeripheralClock * 1e-7 - 1;
+  timer_regs->PR = PeripheralClock * 0.1e-6 - 1;
   timer_regs->MR0 = 10 * periodo_en_us - 1;
   timer_regs->MCR = 3;
   timer_regs->IR = 1;

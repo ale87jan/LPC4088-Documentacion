@@ -22,7 +22,6 @@
 
 #include <LPC407x_8x_177x_8x.h>
 #include "tipos.h"
-#include "gpio_lpc40xx.h"
 
 // ===== UART - Macros Publicas =====
 /**
@@ -93,8 +92,8 @@ typedef enum {
  * @ingroup UART
  */
 typedef enum {
-  kUARTBitsStop1,   //!< 1 bit de Stop.
-  kUARTBitsStop2    //!< 2 bit de Stop.
+  UART_BITS_STOP_1,  //!< 1 bit de Stop.
+  UART_BITS_STOP_2    //!< 2 bit de Stop.
 } uart_bits_stop_t;
 
 /**
@@ -102,11 +101,11 @@ typedef enum {
  * @ingroup UART
  */
 typedef enum {
-  kUARTParidadNinguna  = 0,    //!< No se envia bit de paridad.
-  kUARTParidadImpar    = 1u,   //!< Bit de paridad impar.
-  kUARTParidadPar      = 3u,   //!< Bit de paridad par.
-  kUARTParidadUno      = 5u,   //!< Bit de paridad forzado a 1.
-  kUARTParidadCero     = 7u    //!< Bit de paridad forzado a 0.
+  UART_PARIDAD_NINGUNA  = 0,    //!< No se envia bit de paridad.
+  UART_PARIDAD_IMPAR    = 1u,   //!< Bit de paridad impar.
+  UART_PARIDAD_PAR      = 3u,   //!< Bit de paridad par.
+  UART_PARIDAD_UNO      = 5u,   //!< Bit de paridad forzado a 1.
+  UART_PARIDAD_CERO     = 7u    //!< Bit de paridad forzado a 0.
 } uart_paridad_t;
 
 /**
@@ -114,10 +113,10 @@ typedef enum {
  * @ingroup UART
  */
 typedef enum {
-  kUARTNivelFIFO1,  //!< Nivel 0: 1 carácter.
-  kUARTNivelFIFO4,  //!< Nivel 1: 4 caracteres.
-  kUARTNivelFIFO8,  //!< Nivel 2: 8 caracteres.
-  kUARTNivelFIFO14  //!< Nivel 3: 14 caracteres.
+  UART_NIVEL_FIFO_1,  //!< Nivel 0: 1 carácter.
+  UART_NIVEL_FIFO_4,  //!< Nivel 1: 4 caracteres.
+  UART_NIVEL_FIFO_8,  //!< Nivel 2: 8 caracteres.
+  UART_NIVEL_FIFO_14  //!< Nivel 3: 14 caracteres.
 } uart_nivel_fifo_t;
 
 
@@ -222,7 +221,7 @@ uint8_t uart_esperar_recibir_dato(const LPC_UART_TypeDef *uart_regs);
 
 void uart_transmitir_cadena(LPC_UART_TypeDef *uart_regs, const char *cadena);
 void uart_recibir_cadena(const LPC_UART_TypeDef *uart_regs, char *ptr_buffer,
-                       uint32_t tamano_buffer);
+                         uint32_t tamano_buffer);
 
 void uart_habilitar_interrupciones_dato_recibido(LPC_UART_TypeDef *uart_regs, bool_t estado);
 
