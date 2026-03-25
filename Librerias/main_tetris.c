@@ -20,8 +20,6 @@
 int main(void) {
 
   glcd_inicializar();
-  
-  ERROR("MENSAJE DE ERROR");
 
   configurar_bucle_juego();
   configurar_lectura_pulsaciones();
