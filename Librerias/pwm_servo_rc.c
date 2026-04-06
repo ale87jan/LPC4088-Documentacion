@@ -12,6 +12,7 @@
 #include "pwm_servo_rc.h"
 #include <LPC407x_8x_177x_8x.h>
 #include "tipos.h"
+#include "gpio_lpc40xx.h"
 #include "iocon_lpc40xx.h"
 
 // ===== PWM_SERVO_RC - Funciones Publicas =====

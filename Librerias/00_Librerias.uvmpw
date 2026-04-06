@@ -33,6 +33,7 @@
 
   <project>
     <PathAndName>.\06_PWM.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>
@@ -57,7 +58,6 @@
 
   <project>
     <PathAndName>.\13_Sonido.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>

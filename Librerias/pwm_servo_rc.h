@@ -19,7 +19,7 @@
  * @brief   Macro para evitar la zona muerta en la cual el servo no se mueve desde reposo.
  * @ingroup PWM_SERVO_RC
  */
-#define PWM_SERVO_RC_EVITAR_ZONA_MUERTA FALSE
+#define PWM_SERVO_RC_EVITAR_ZONA_MUERTA 0
 
 /**
  * @brief   Parámetros PWM del servo de rotación continua HSR-1425CR.

@@ -71,14 +71,26 @@ bool_t lm75b_inicializar(LPC_I2C_TypeDef *i2c_regs, uint32_t frecuencia_scl,
    * dirección del dispositivo para utilizarlos en el resto de funciones.
    */
 
-  //===== COMPLETAR =====
+  bool_t respuesta;
+
+  i2c_inicializar(i2c_regs, frecuencia_scl, puerto_sda, mascara_pin_sda,
+                  puerto_scl, mascara_pin_scl);
+
+  lm75b_interfaz_i2c = i2c_regs;
+  lm75b_dir_i2c = dir_i2c;
 
   /* Comprobar la comunicación con el LM75B transmitiendo su dirección y retornando el valor
    * devuelto por la función i2c_transmitir_byte. No olvidar enviar la señal de stop para liberar
    * el bus antes de regresar al programa principal.
    */
 
-  //===== COMPLETAR =====
+  i2c_start(lm75b_interfaz_i2c);
+
+  respuesta = i2c_transmitir_byte(lm75b_interfaz_i2c, (lm75b_dir_i2c << 1) | I2C_BIT_ESCRIBIR);
+
+  i2c_stop(I2C0);
+
+  return respuesta;
 }
 
 /**
@@ -92,7 +104,30 @@ bool_t lm75b_inicializar(LPC_I2C_TypeDef *i2c_regs, uint32_t frecuencia_scl,
  */
 void lm75b_escribir_registro(uint8_t dir_registro, uint16_t dato) {
 
-  //===== COMPLETAR =====
+  if (dir_registro == LM75B_REG_CONF) {
+    i2c_start(lm75b_interfaz_i2c);
+    i2c_transmitir_byte(lm75b_interfaz_i2c, (lm75b_dir_i2c << 1) | I2C_BIT_ESCRIBIR);
+
+    i2c_transmitir_byte(lm75b_interfaz_i2c, LM75B_REG_CONF);
+    
+    i2c_transmitir_byte(lm75b_interfaz_i2c, dato);
+
+    i2c_stop(lm75b_interfaz_i2c);
+
+  } else if (dir_registro == LM75B_REG_THYST || dir_registro == LM75B_REG_TOS) {
+    i2c_start(lm75b_interfaz_i2c);
+    i2c_transmitir_byte(lm75b_interfaz_i2c, (lm75b_dir_i2c << 1) | I2C_BIT_ESCRIBIR);
+
+    i2c_transmitir_byte(lm75b_interfaz_i2c, dir_registro);
+
+    i2c_transmitir_byte(lm75b_interfaz_i2c, ((dato >> 8) & 0xFF));
+    i2c_transmitir_byte(lm75b_interfaz_i2c, (dato & 0xFF));
+
+    i2c_stop(lm75b_interfaz_i2c);
+    
+  } else {
+    ERROR("Registro no valido");
+  }
 }
 
 /**
@@ -107,7 +142,52 @@ void lm75b_escribir_registro(uint8_t dir_registro, uint16_t dato) {
  */
 uint16_t lm75b_leer_registro(uint8_t dir_registro) {
 
-  //===== COMPLETAR =====
+  if (dir_registro == LM75B_REG_CONF) {
+    uint8_t byte_recibido;
+
+    i2c_start(lm75b_interfaz_i2c);
+    i2c_transmitir_byte(lm75b_interfaz_i2c, (lm75b_dir_i2c << 1) | I2C_BIT_ESCRIBIR);
+
+    i2c_transmitir_byte(lm75b_interfaz_i2c, LM75B_REG_CONF);
+
+    i2c_start(lm75b_interfaz_i2c);
+    i2c_transmitir_byte(lm75b_interfaz_i2c, ((lm75b_dir_i2c << 1) | I2C_BIT_LEER));
+
+    byte_recibido = i2c_recibir_byte(lm75b_interfaz_i2c, FALSE);
+
+    i2c_stop(lm75b_interfaz_i2c);
+
+    return byte_recibido;
+  }
+  
+  if (dir_registro == LM75B_REG_THYST || dir_registro == LM75B_REG_TOS ||
+      dir_registro == LM75B_REG_TEMP ) {
+
+    uint8_t byte_recibido_alto, byte_recibido_bajo;
+    uint16_t dato_recibido_suma;
+
+    i2c_start(lm75b_interfaz_i2c);
+    i2c_transmitir_byte(lm75b_interfaz_i2c, (lm75b_dir_i2c << 1) | I2C_BIT_ESCRIBIR);
+
+    i2c_transmitir_byte(lm75b_interfaz_i2c, dir_registro);
+
+    i2c_start(lm75b_interfaz_i2c);
+    i2c_transmitir_byte(lm75b_interfaz_i2c, ((lm75b_dir_i2c << 1) | I2C_BIT_LEER));
+
+    byte_recibido_alto = i2c_recibir_byte(lm75b_interfaz_i2c, TRUE);
+    byte_recibido_bajo = i2c_recibir_byte(lm75b_interfaz_i2c, FALSE);
+
+    dato_recibido_suma = (byte_recibido_alto << 8) | byte_recibido_bajo;
+
+    i2c_stop(lm75b_interfaz_i2c);
+
+    return dato_recibido_suma;
+
+  }
+
+  ERROR("Registro no valido");
+
+  return 0;  // Al utilizar ERROR() esta instrucción nunca se ejecutará
 }
 
 /**
@@ -120,5 +200,10 @@ uint16_t lm75b_leer_registro(uint8_t dir_registro) {
  */
 float32_t lm75b_leer_temperatura(void) {
 
-  //===== COMPLETAR =====
+  int16_t registro_leido_temp = lm75b_leer_registro(LM75B_REG_TEMP);
+
+  // La temperatura son los 11 bits más significativos
+  registro_leido_temp = (registro_leido_temp >> 5);
+
+  return registro_leido_temp * 0.125f;
 }

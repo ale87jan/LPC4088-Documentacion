@@ -740,8 +740,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\main_servo_pwm.c</PathWithFileName>
-      <FilenameWithoutPath>main_servo_pwm.c</FilenameWithoutPath>
+      <PathWithFileName>.\main_pwm_servo_rc.c</PathWithFileName>
+      <FilenameWithoutPath>main_pwm_servo_rc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -752,8 +752,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\servo_pwm.c</PathWithFileName>
-      <FilenameWithoutPath>servo_pwm.c</FilenameWithoutPath>
+      <PathWithFileName>.\pwm_servo_rc.c</PathWithFileName>
+      <FilenameWithoutPath>pwm_servo_rc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -772,8 +772,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\main_led_rgb.c</PathWithFileName>
-      <FilenameWithoutPath>main_led_rgb.c</FilenameWithoutPath>
+      <PathWithFileName>.\main_pwm_led_rgb.c</PathWithFileName>
+      <FilenameWithoutPath>main_pwm_led_rgb.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -784,8 +784,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\led_rgb.c</PathWithFileName>
-      <FilenameWithoutPath>led_rgb.c</FilenameWithoutPath>
+      <PathWithFileName>.\pwm_led_rgb.c</PathWithFileName>
+      <FilenameWithoutPath>pwm_led_rgb.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

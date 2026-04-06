@@ -13,7 +13,7 @@
 #include "glcd.h"
 #include "timer_lpc40xx.h"
 #include "joystick.h"
-#include "servo_pwm.h"
+#include "pwm_servo_rc.h"
 
 int main(void){
 
@@ -22,7 +22,7 @@ int main(void){
   timer_inicializar(TIMER0);
 
   // Inicializar la generación PWM y dejar el motor parado
-  servo_pwm_inicializar();
+  pwm_servo_rc_inicializar();
 
   while (1){
     uint8_t estado_joystick = joystick_leer();;
@@ -50,7 +50,7 @@ int main(void){
     /* Muestra la velocidad en el display y realiza un retardo breve (por ejemplo 50ms) para
      * evitar que la velocidad cambie demasiado rápido.
      */
-    servo_pwm_ajustar_velocidad(porciento_velocidad);
+    pwm_servo_rc_ajustar_velocidad(porciento_velocidad);
     glcd_xprintf(0,  0, BLANCO, NEGRO, FUENTE16X32, "Velocidad: %6d%%", porciento_velocidad);
     glcd_xprintf(0, 32, BLANCO, NEGRO, FUENTE16X32, "Velocidad: %6d",   LPC_PWM1->MR1);
 
