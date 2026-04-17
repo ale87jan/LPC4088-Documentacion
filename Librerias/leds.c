@@ -152,13 +152,13 @@ void leds_invertir(uint8_t numero_led) {
   if (numero_led == LED1) {
     gpio_invertir_pin(PUERTO1, PIN5);
     
-  } else if  (numero_led == LED2) {
+  } else if (numero_led == LED2) {
     gpio_invertir_pin(PUERTO0, PIN14);
     
-  } else if  (numero_led == LED3) {
+  } else if (numero_led == LED3) {
     gpio_invertir_pin(PUERTO0, PIN13);
     
-  } else if  (numero_led == LED4) {
+  } else if (numero_led == LED4) {
     gpio_invertir_pin(PUERTO1, PIN18);
     
   } else {

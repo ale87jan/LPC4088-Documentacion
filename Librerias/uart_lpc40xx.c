@@ -39,7 +39,7 @@ static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t ba
  * especificar un pin sea igual que la usada en los módulos gpio_lpc40xx e iocon_lpc40xx. Esto
  * permite usar los mismos símbolos PUERTOx y PINx definidos en gpio_lpc40xx.h.
  */
-void uart_inicializar(LPC_UART_TypeDef *uart_regs,uart_baudrate_t baudrate,
+void uart_inicializar(LPC_UART_TypeDef *uart_regs, uart_baudrate_t baudrate,
                       uart_bits_datos_t numero_bits_datos, uart_paridad_t tipo_paridad,
                       uart_bits_stop_t numero_bits_stop,
                       LPC_GPIO_TypeDef *puerto_txd, uint32_t mascara_pin_txd,
@@ -370,7 +370,6 @@ static float32_t uart_calcular_baudrate(LPC_UART_TypeDef *uart_regs, uint32_t ba
       }
     }  // Bucle divisor_entero
   }
-
 
   // Activar el acceso a los registros del divisor del reloj (DLM y DLL)
   uart_regs->LCR |= UART_LCR_ACCESO_DIVISOR_LATCH;
