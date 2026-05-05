@@ -36,12 +36,12 @@
  *
  * @param[in] frecuencia_adc  Frecuencia de reloj a la que funcionará el ADC. Esta debe estar
  *                            comprendida entre 234 kHz y 12.4 MHz.
- * @param[in] canal           Indica qué canal de entrada analógico queremos usar. El pin
- *                            correspondiente al canal indicado se configurará con función
- *                            analógica. El bit seleccionado de 0 a 7 indica el canal analógico
- *                            que se utilizará.
+ * @param[in] canales         Indica qué canales de entrada analógicos queremos usar. Los pines
+ *                            correspondientes a los canales indicados se configurarán con función
+ *                            analógica. Los bits seleccionados de 0 a 7 indican los canales
+ *                            analógicos que se utilizarán.
  */
-void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canal) {
+void adc_inicializar(uint32_t frecuencia_adc, uint8_t canales) {
   // El array puertos contiene el puerto en el que está cada pin de entrada analógico
   const uint32_t puertos[8] = {0, 0, 0, 0, 1, 1, 0, 0};
 
@@ -60,17 +60,17 @@ void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canal) {
 
   ASSERT(frecuencia_adc < 12.4e6, "La frecuencia de reloj del ADC debe ser < 12.4 MHz.");
 
-  ASSERT(canal > 0, "Selecciona al menos 1 canal. Utiliza las constantes ADC_CANAL_#.");
+  ASSERT(canales > 0, "Selecciona al menos 1 canal. Utiliza las constantes ADC_CANAL_#.");
 
   // Activar el bit PCADC en el registro PCONP
   LPC_SC->PCONP |= (1u << 12);
 
   // Registro de CR del ADC: activar PDN, ajustar CLKDIV según frecuencia_adc, resto de bits a 0
-  LPC_ADC->CR = (1u << 21) | ((PeripheralClock/frecuencia_adc - 1) << 8);
+  LPC_ADC->CR = ADC_POWERDOWN | ((PeripheralClock/frecuencia_adc - 1) << ADC_CLKDIV);
 
   // Configurar como entradas analógicas los pines indicados por canal
   for (i = 0; i < 8; i++) {
-    if ((canal) != 0) {
+    if (((canales >> i) & 1) != 0) {
       /* Si el bit i de `canal` está a 1, seleccionar la función de canal analógico i en el
        * pin adecuado.
        *
@@ -108,7 +108,7 @@ uint16_t adc_convertir(adc_canal_t canal) {
 
   /* Lanzar la conversión en el canal indicado activando el bit de START (solo puede estar activo el
    * canal indicado). */
-  LPC_ADC->CR = (LPC_ADC->CR & ~0xFF) | (1u << 24) | canal;
+  LPC_ADC->CR = (LPC_ADC->CR & ~0xFF) | canal | ADC_START_AHORA;
 
   // Espera que se active el bit de DONE
   while ((LPC_ADC->GDR & (1u << 31)) == 0) {
@@ -173,10 +173,10 @@ void adc_modo_burst(bool_t estado) {
 
   if (estado) {
     // Borrar los bits de configuración de START y habilitar el modo ráfaga
-    LPC_ADC->CR = (LPC_ADC->CR & ~(0x7 << 24)) | ADC_MODO_BURST;
+    LPC_ADC->CR = (LPC_ADC->CR & ~(0x7 << ADC_START)) | ADC_MODO_RAFAGA;
 
   } else {
-    LPC_ADC->CR &= ~ADC_MODO_BURST;
+    LPC_ADC->CR &= ~ADC_MODO_RAFAGA;
   }
 }
 
@@ -213,5 +213,5 @@ void adc_modo_conversion(adc_modo_start_t modo, adc_flanco_t flanco) {
          "Flanco seleccionado incorrecto.");
 
   // Borra el modo y flanco anteriores, desactiva el modo burst y activa el modo y flanco indicados
-  LPC_ADC->CR = (LPC_ADC->CR & ~(0xF << 24) & ~ADC_MODO_BURST) | modo | flanco;
+  LPC_ADC->CR = (LPC_ADC->CR & ~(0xF << ADC_START) & ~ADC_MODO_RAFAGA) | modo | flanco;
 }

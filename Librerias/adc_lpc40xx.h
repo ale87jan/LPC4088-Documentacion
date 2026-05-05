@@ -39,10 +39,15 @@ typedef enum {
 #define ADC_INT_GLOBAL  (1u << 8)
 
 /**
- * @brief   Registro CR - Constante del bit de Modo de conversión en ráfaga.
+ * @brief   Constantes del Registro de Control (CR).
  * @ingroup ADC
  */
-#define ADC_MODO_BURST  (1u << 16)
+enum adc_cr_bits {
+  ADC_CLKDIV      = 8,            //!< Posición del campo del divisor del reloj.
+  ADC_MODO_RAFAGA = (1u << 16),   //!< Constante del bit de Modo de conversión en ráfaga.
+  ADC_POWERDOWN   = (1u << 21),   //!< Constante del bit de Powerdown.
+  ADC_START       = 24            //!< Posición del campo de inicio de la conversión (START).
+};
 
 /**
  * @brief   Constantes del modo de inicio de la conversión (bits START) del registro CR.
@@ -70,7 +75,7 @@ typedef enum {
 } adc_flanco_t;
 
 // ===== ADC - Funciones públicas =====
-void adc_inicializar(uint32_t frecuencia_adc, adc_canal_t canal);
+void adc_inicializar(uint32_t frecuencia_adc, uint8_t canales);
 uint16_t adc_convertir(adc_canal_t canal);
 float32_t adc_traducir_a_tension(uint16_t resultado_adc);
 
