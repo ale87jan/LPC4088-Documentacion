@@ -1,39 +1,71 @@
-;===============================================================================
-; \file     concatenar_cadenas.s
-        THUMB
-        AREA    |.text|, CODE, READONLY
-        ALIGN   2
-        EXPORT  concatenar_cadenas
+; =================================================================================================
+; @file  concatenar_cadenas.s
+; @brief Concatena dos cadenas null-terminated en un buffer destino.
+;
+; @author  Alejandro Lara Doña [alejandro.lara@gm.uca.es]
+; @date    2026
+; @version v1.0
+; =================================================================================================
+    AREA    |.text|, CODE, READONLY
+    ALIGN   4
+    THUMB
+    EXPORT  concatenar_cadenas
 
-;===============================================================================
-; uint32_t concatenar_cadenas(char *cadena_1, char *cadena_2, char *buffer_destino);
-;    r0               r0        r1        r2
-; Entrada: R0: cadena_1
-;        R1: cadena_2
-;      R2: buffer_destino
-; Retornar: R0: longitud de la cadena concatenada
-; Modifica: r4
+; -------------------------------------------------------------------------------------------------
+; uint32_t concatenar_cadenas(char *ptr_cadena_1, char *ptr_cadena_2, char *ptr_buffer_destino);
+;
+; @brief Copia cadena_1 al buffer, luego cadena_2 y añade null-terminator. Devuelve longitud total.
+;
+; @note Procesa carácter a carácter, comparando con 0 para detectar fin de cadena.
+;
+; CONVENCIÓN DE LLAMADA (AAPCS):
+;
+; - Entradas: r0 = cadena_1, r1 = cadena_2, r2 = buffer_destino
+; - Salida:   r0 = longitud de cadena concatenada (sin contar el '\0')
+; - Registros Callee-saved (preservar): r4
+; - Registros Caller-saved (libres):    r0 a r3, r12
+
+; === Alias de Registros (RN) ===
+PTR_CADENA1     RN  r0  ; Parámetro de entrada: puntero a cadena 1
+PTR_CADENA2     RN  r1  ; Parámetro de entrada: puntero a cadena 2
+PTR_BUFFER      RN  r2  ; Parámetro de entrada: puntero al buffer destino
+CONTADOR        RN  r3  ; Registro temporal: contador de caracteres
+CARACTER        RN  r4  ; Callee-saved: carácter actual leído/escrito
 
 concatenar_cadenas PROC
-    push  {r4}    ;se reserva r4
-        mov   r3,#0     ;contador de caracteres a 0
-primera ldrb  r4,[r0],#1
-    cmp   r4,#0
-    beq   segunda   ;En caso de ser igual salto a la segunda cadena
-    strb  r4,[r2],#1  ;almacena el caracter r4 donde dice el puntero r2
-    add   r3,r3,#1  ;incrementa contador caracteres
-    b   primera
+    ; === PRÓLOGO ===
+    push    {r4}    ; Guarda r4
 
-segunda ldrb  r4,[r1],#1
-    cmp   r4,#0
-    beq   final
-    strb  r4,[r2],#1
-    add   r3,r3,#1
-    b   segunda
+    ; === CUERPO DE LA FUNCIÓN ===
+    eor     CONTADOR, CONTADOR      ; Alternativa a mov para inicializar contador a 0
 
-final   strb  r4,[r2]   ;guardamos el 0 para final de cadena
-    mov   r0,r3
-    pop   {r4}    ;se recupera valor de r4
-    bx    lr
-        ENDP
-        END
+primera
+    ; --- Bucle 1: copia cadena_1 hasta encontrar '\0' ---
+    ldrb    CARACTER, [PTR_CADENA1], #1 ; Carga carácter de cadena_1
+    cmp     CARACTER, #0                ; ¿Es fin de cadena?
+    beq     segunda                     ; Si es, salta a cadena_2
+    strb    CARACTER, [PTR_BUFFER], #1  ; Almacena carácter en el buffer destino
+    add     CONTADOR, CONTADOR, #1      ; Incrementa contador
+    b       primera                     ; Repite
+
+segunda
+    ; --- Bucle 2: copia cadena_2 hasta encontrar '\0' ---
+    ldrb    CARACTER, [PTR_CADENA2], #1 ; Carga carácter de cadena_2
+    cmp     CARACTER, #0                ; ¿Es fin de cadena?
+    beq     final                       ; Si es, salta a final
+    strb    CARACTER, [PTR_BUFFER], #1  ; Almacena carácter en el buffer destino
+    add     CONTADOR, CONTADOR, #1      ; Incrementa contador
+    b       segunda                     ; Repite
+
+
+final
+    ; --- Finalización: añade '\0' ---
+    strb    CARACTER, [PTR_BUFFER]  ; Almacena '\0' (CARACTER = 0 del último cmp)
+    mov     r0, CONTADOR            ; r0 = CONTADOR para retorno (AAPCS)
+
+    ; === EPÍLOGO ===
+    pop {r4}    ; Restaura r4
+    bx  lr      ; Retorna al llamador
+
+    ENDP
+    END

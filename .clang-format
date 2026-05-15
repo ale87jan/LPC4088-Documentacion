@@ -30,7 +30,7 @@ EmptyLineBeforeAccessModifier: LogicalBlock
 # ===== LLAVES (K&R Style) =====
 # Llave de apertura en la misma línea
 BreakBeforeBraces: Attach
-# Insertar llaves donde el estándar no las requiere (clang-format ≥ 15)
+# Insertar llaves donde el estándar no las requiere (clang-format >= 15)
 # Garantiza que todo if/for/while/do tenga bloque explícito
 InsertBraces: true
 

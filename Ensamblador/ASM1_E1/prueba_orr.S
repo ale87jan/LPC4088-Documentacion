@@ -1,56 +1,59 @@
-/** 
- * @file   asm1e1.s
- * @brief  Aprender el funcionamiento de la instruccion ORR.
- * 
- * @author  Alejandro Lara - alejandro.lara UCA
- * @date    2026-05-05
- * @version v2.0
- */
+; =================================================================================================
+; @file  prueba_orr.s
+; @brief Demuestra el funcionamiento de la operación lógica ORR (bitwise OR) con una máscara.
+;
+; @author  Alejandro Lara Doña [alejandro.lara@gm.uca.es]
+; @date    2026
+; @version v1.0
+; =================================================================================================
 
-// === Constantes (.equ) ===
-// Usamos .equ para valores que no cambian
-.equ MASCARA_BITS, 0b10010001   @ (1u << 7) | (1u << 4) | (1u << 0)
+; === Sección de Datos (Read-Only) ===
+; Máscara binaria para demostración de ORR: 0b10010001 = 0x91 = (1<<7) | (1<<4) | (1<<0)
+; Se exporta para que sea visible en depurador y en tests de C.
+    AREA    CONSTANTES, DATA, READONLY
+    ALIGN   4
+    EXPORT  mascara
 
-@ === Configuración de la sección de código ===
-    .section .text, "ax"            @ Sección de código (text), alineada (a) y ejecutable (x)
-    .syntax unified                 @ Usa la sintaxis moderna unificada de ARM
-    .thumb                          @ Obligatorio para Cortex-M (instrucciones Thumb-2)
-    .align 2                        @ Alinea el código a 32bits -> 4 bytes (2^2)
+mascara DCD 2_10010001              ; Máscara: bits 7, 4, 0 activos
 
-    .global prueba_orr              @ Hace que la función sea visible desde archivos C
-    .type   prueba_orr, %function   @ Indica que prueba_orr es una función
+; === Configuración de la sección de código ===
+    AREA    |.text|, CODE, READONLY
+    ALIGN   4
+    THUMB
+    EXPORT  prueba_orr
 
-@ -------------------------------------------------------------------------------------------------
-@ int32_t prueba_orr(int32_t param1, int32_t param2, int32_t param3, int32_t param4)
-@
-@ CONVENCIÓN DE LLAMADA (AAPCS):
-@ - Entradas: r0 = param1, r1 = param2, r2 = param3, r3 = param4
-@ - Salida:   r0 = resultado de la función
-@ - Registros Callee-saved (preservar): r4 a r11
-@ - Registros Caller-saved (libres):    r0 a r3, r12
-@ -------------------------------------------------------------------------------------------------
+; -------------------------------------------------------------------------------------------------
+; uint32_t prueba_orr(uint32_t dato);
+;
+; @brief Realiza operación ORR (bitwise OR) entre un dato y una máscara constante.
+;        Demuestra cómo los bits activados en la máscara se propagan al resultado.
+;
+; @note La instrucción ORR es fundamental para activar bits sin afectar los demás.
+;       Útil en programación de periféricos: mascara |= bits_a_activar.
+;
+; CONVENCIÓN DE LLAMADA (AAPCS):
+;
+; - Entradas: r0 = dato
+; - Salida:   r0 = dato ORR máscara
+; - Registros Callee-saved (preservar): ninguno usado
+; - Registros Caller-saved (libres):    r0 a r3 (modificados)
 
-@ === Alias de registros para mejorar la legibilidad ===
-@ Los parámetros llegan en registros, les asignamos un alias para utilizarlos más facilmente
-DATO    .req    r0
+; === Alias de Registros (RN) ===
+DATO_ENTRADA    RN  r0  ; Parámetro de entrada: valor a procesar
+PTR_MASCARA     RN  r1  ; Registro temporal: puntero a máscara
+MASCARA_VALOR   RN  r1  ; Reasignable: valor de la máscara
+RESULTADO       RN  r2  ; Registro temporal: dato ORR máscara
 
-prueba_orr:
-    @ === PRÓLOGO ===
-    @ No utilizamos ningun registro callee-saved (r4-r11)
+prueba_orr PROC
+    ldr  PTR_MASCARA, =mascara
+    ldr  MASCARA_VALOR, [PTR_MASCARA]           ; Máscara en MASCARA_VALOR
 
-    @ === CUERPO DE LA FUNCIÓN ===
-    @ Dato ya está en el registro r0 y puedo leerlo también con el alias que creamos
-    
-    orr  r0, DATO, #MASCARA_BITS    @ Realiza el OR directamente sobre r0 = r0 | MASCARA_BITS
-                                    @ Resultado final ya en r0 (registro de retorno)
+    orr  RESULTADO, DATO_ENTRADA, MASCARA_VALOR ; Operación lógica OR entre dato y mascara,
+                                                ; almacenando el resultado en RESULTADO
 
-    @ === EPÍLOGO ===
-    @ Restauramos los registros guardados.
-    
-    @ Salto incondicional a lr
-    bx  lr
-    
-    @ Desvinculamos los alias de los registros para evitar conflictos
-    .unreq DATO
-    
-    .end
+    mov  r0, RESULTADO  ; Se almacena el valor de RESULTADO en r0, para el retorno
+
+    bx   lr ; Retorno al llamador
+
+    ENDP
+    END

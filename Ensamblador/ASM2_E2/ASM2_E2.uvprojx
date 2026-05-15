@@ -385,14 +385,14 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>main_asm2e.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
+              <FilePath>.\main_asm2e.c</FilePath>
             </File>
             <File>
-              <FileName>lpc40xx_base.lib</FileName>
+              <FileName>base_lpc40xx.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>.\lpc40xx_base.lib</FilePath>
+              <FilePath>.\base_lpc40xx.lib</FilePath>
             </File>
             <File>
               <FileName>letras_dni.s</FileName>

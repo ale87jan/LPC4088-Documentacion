@@ -1,54 +1,85 @@
-;=================================================================================
-; Fichero: temperatura.s
-; Función de C:
-; uint32_t temperatura (uint32_t temp, char C_o_F)
-;  r0           r0         r1
-; ==== Código de la función =================================================
-        THUMB
-        AREA    |.text|, CODE, READONLY
-        ALIGN   2
-        EXPORT  temperatura
-;============================================================================
-;Función ensamblador: temperatura
-;Utilidad: convierte un valor de temperatura de ºC a ºF o viceversa
-;Entrada: r0: numero de dni
-;     r1; grado origen
-;Salida:  r0: valor convertido
-;Modifica: r4,r5
-;============================================================================
-temperatura   PROC
-    cmp   r1,#0
-    bne   F_C
+; =================================================================================================
+; @file  temperatura.s
+; @brief Convierte temperaturas entre Celsius y Fahrenheit con redondeo automático.
+;
+; @author  Alejandro Lara Doña [alejandro.lara@gm.uca.es]
+; @date    2026
+; @version v1.0
+; =================================================================================================
+    AREA    |.text|, CODE, READONLY
+    ALIGN   4
+    THUMB
+    EXPORT  temperatura
 
-    ; conversion de ºC a ºF
-    mov   r2,#5
-    mov   r3,#9
-    mul   r0,r0,r3  ;r0=r0*r3=temp*9
-    sdiv  r3,r0,r2  ;r4=r0/r2=r0/5
+; -------------------------------------------------------------------------------------------------
+; uint32_t temperatura(uint32_t temp, char C_o_F);
+;
+; @brief Convierte temperatura de Celsius a Fahrenheit (C_o_F=0) o viceversa (C_o_F!=0).
+;        Aplica redondeo al entero más cercano después de la división entera.
+;
+; @note Usa multiplicación y división entera con técnica de redondeo "round half up":
+;       si 2·resto >= divisor, suma 1 al cociente.
+;
+; CONVENCIÓN DE LLAMADA (AAPCS):
+; - Entradas: r0 = temperatura, r1 = C_o_F (0 = C->F, !=0 = F->C)
+; - Salida:   r0 = temperatura convertida y redondeada
+; - Registros Callee-saved (preservar): r4, r5
+; - Registros Caller-saved (libres):    r0 a r3, r12
 
-    ;fase de redondedo
-    mls   r0,r2,r3,r0 ;resto=dividendo-cociente*divisor
-    lsl   r0,r0,#1  ;r0=r0<<1=r0*2
-    cmp   r0,r2   ;comparar 2*resto y divisor
-    addgt r3,r3,#1  ;si 2*resto>divisor, redondeo hacia arriba
+; === Alias de Registros (RN) ===
+TEMP_ENTRADA    RN  r0  ; Parámetro de entrada: temperatura
+TIPO_CONVERSION RN  r1  ; Parámetro de entrada: tipo (0=C->F, otro=F->C)
+MULTIPLICADOR   RN  r2  ; Registro temporal: numerador de conversión
+DIVISOR         RN  r3  ; Registro temporal: denominador de conversión
+RESULTADO       RN  r4  ; Registro temporal (callee-saved): resultados intermedios
+RESTO           RN  r4  ; Reasignable (callee-saved): resto de la división
+COCIENTE        RN  r5  ; Registro temporal (callee-saved): cociente de la división
 
-    add   r0,r3,#32 ;r0=r0+32
-    b   fin
+temperatura PROC
+    ; === PRÓLOGO ===
+    push    {r4, r5}    ; Guarda r4, r5
 
-    ; conversion de ºF a ºC
-F_C   mov   r2,#9
-    mov   r3,#5
-    sub   r0,r0,#32 ; r0=r0-32=temp-32
-    mul   r0,r0,r3  ; r0=r0*r3=r0*5
-    sdiv  r3,r0,r2  ; r3=r0/r2=r0/9
+    ; === CUERPO DE LA FUNCIÓN ===
+    cmp TIPO_CONVERSION, #0 ; Compara tipo de conversión (0=C->F, otro=F->C)
+    bne F_a_C               ; Si no es 0, es F->C
 
-    ;fase de redondedo
-    mls   r0,r2,r3,r0 ;resto=dividendo-cociente*divisor
-    lsl   r0,r0,#1  ;r0=r0<<1=r0*2
-    cmp   r0,r2   ;comparar 2*resto y divisor
-    addgt r3,r3,#1  ;si 2*resto>divisor, redondeo cociente hacia arriba
-    mov   r0,r3
+; Etiqueta para Celsius a Fahrenheit (no es necesaria, pero mejora la legibilidad)
+C_a_F
+    ; --- Conversión de Celsius a Fahrenheit: F = (C · 9/5) + 32 ---
+    mov MULTIPLICADOR,  #9  ; Numerador (para F/C)
+    mov DIVISOR,        #5  ; Denominador
 
-fin   bx    lr
+    mul     RESULTADO, TEMP_ENTRADA, MULTIPLICADOR  ; resultado = temp · 9
+    sdiv    COCIENTE, RESULTADO, DIVISOR            ; cociente = resultado / 5
+
+    ; Redondeo al entero más cercano
+    mls     RESTO, DIVISOR, COCIENTE, RESULTADO ; resto = resultado - cociente · 5
+    cmp     DIVISOR, RESTO, LSL #1              ; Compara divisor (5) con 2·resto
+    addle   COCIENTE, COCIENTE, #1              ; Si divisor <= 2·resto, cociente+1
+
+    add r0, COCIENTE, #32   ; r0 = cociente + 32
+    b   fin                 ; Salto a fin
+
+F_a_C
+    ; --- Conversión de Fahrenheit a Celsius: C = (F - 32) · 5/9 ---
+    mov MULTIPLICADOR,  #5  ; Numerador (para F/C)
+    mov DIVISOR,        #9  ; Denominador
+
+    sub     RESULTADO, TEMP_ENTRADA, #32        ; temp = temp - 32
+    mul     RESULTADO, RESULTADO, MULTIPLICADOR ; temp = temp · 5
+    sdiv    COCIENTE, RESULTADO, DIVISOR        ; cociente = temp / 9
+
+    ; Redondeo al entero más cercano
+    mls     RESTO, DIVISOR, COCIENTE, RESULTADO ; resto = resultado - cociente · 9
+    cmp     DIVISOR, RESTO, LSL #1              ; Compara divisor (9) con 2·resto
+    addle   COCIENTE, COCIENTE, #1              ; Si divisor <= 2·resto, cociente+1
+
+    mov r0, COCIENTE    ; r0 = COCIENTE para retorno
+
+fin
+    ; === EPÍLOGO ===
+    pop {r4, r5}    ; Restaura r4, r5
+    bx  lr          ; Retorna al llamador
+
     ENDP
     END

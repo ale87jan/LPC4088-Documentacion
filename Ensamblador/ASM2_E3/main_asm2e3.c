@@ -1,37 +1,52 @@
-/*****************************************************************************
- * \file	main.c
- * \brief	Función main para ejercicio 3 practica 10
+/**
+ * @file  main_asm2e3.c
+ *
+ * @brief FunciÃ³n en ensamblador que convierte temperaturas entre Celsius y Fahrenheit. Recibe
+ * como parÃ¡metros la temperatura y un cÃ³digo que indica si se convierte a Fahrenheit o a
+ * Celsius, devolviendo el resultado de la conversiÃ³n.
+ *
+ * @author  Alejandro Lara DoÃ±a - alejandro.lara@uca.es
+ * @date    2026
+ * @version 2.0
+ *
+ * @copyright GNU General Public License version 3 or later
  */
 
 #include <LPC407x_8x_177x_8x.h>
 #include <stdlib.h>
 #include "glcd.h"
+#include "tipos.h"
 
 // Prototipos de las funciones en ensamblador
-uint32_t temperatura(uint32_t temp, uint32_t C_o_F);
+uint32_t temperatura(uint32_t temp, uint32_t c_o_f);
+uint32_t temperatura_subf(uint32_t temp, uint32_t c_o_f);
 
-/******************************************************************************/
-int main(void){
-	
-	uint32_t temp, temp2, temp3, C_o_F; //C_o_F==0->ºC; C_o_F==1->ºF
-	uint8_t i = 0;
-	char buffer[10], grados_F[] = "ºF", grados_C[] = "ºC";
+int main(void) {
 
-	glcd_inicializar();
-	glcd_seleccionar_fuente(FUENTE12X24);
-	
-	glcd_borrar(NEGRO);
-	glcd_xy_texto(0,0);
-	glcd_printf("Iniciando\n");
-	
-	for(i=0;i<5;i++){
-		temp = (rand()%50);				//Temperatura en el rango de 0,50 ºC
-		temp2 = temperatura(temp,0);	//Convierto a Farenheit
-		temp3 = temperatura(temp2,1);	//Convierto de nuevo en Celsius
-		glcd_printf("%2uºC -> %2uºF -> %2uºC\n", temp, temp2, temp3);
-	}
-	
-	while(TRUE){
-		;
-	}
+  uint32_t temp_grados_original;
+  uint32_t temp_farenheit;
+  uint32_t temp_grados;
+  uint8_t  i = 0;
+
+  glcd_inicializar();
+  glcd_seleccionar_fuente(FUENTE12X24);
+
+  glcd_borrar(NEGRO);
+  glcd_xy_texto(0, 0);
+  glcd_printf("Iniciando\n");
+
+  for (i = 0; i < 4; i++) {
+    temp_grados_original = (rand() % 50);  //Temperatura en el rango de 0,50 ÂºC
+    temp_farenheit       = temperatura(temp_grados_original, 0);  //Convierto a Farenheit
+    temp_grados          = temperatura(temp_farenheit, 1);        //Convierto a Celsius
+    glcd_printf("%2uC -> %2uF -> %2uC\n", temp_grados_original, temp_farenheit, temp_grados);
+    
+    temp_farenheit       = temperatura_subf(temp_grados_original, 0); //Convierto a Farenheit
+    temp_grados          = temperatura_subf(temp_farenheit, 1);       //Convierto a Celsius
+    glcd_printf("%2uC -> %2uF -> %2uC\n", temp_grados_original, temp_farenheit, temp_grados);
+  }
+
+  while (TRUE) {
+    ;
+  }
 }

@@ -40,11 +40,6 @@ dkms.conf
 # Custom files
 *.lnk
 ~$*
-LPC Remoto/*.7z
-TestDoxygen/
-cppcheck-build-dir/
-Docs/
-SCORBOT/SCORBOT_ER_III.zip
 
 # Keil µVision Project
 Listings/
@@ -95,3 +90,9 @@ JLinkLog.txt
 
 # Other Files
 EventRecorderStub.scvd
+cppcheck-build-dir/
+Docs/
+
+# CLAUDE CODE files
+.claude/settings.local.json
+.claude/plans/

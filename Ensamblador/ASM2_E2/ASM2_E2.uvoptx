@@ -207,8 +207,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\main.c</PathWithFileName>
-      <FilenameWithoutPath>main.c</FilenameWithoutPath>
+      <PathWithFileName>.\main_asm2e.c</PathWithFileName>
+      <FilenameWithoutPath>main_asm2e.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -219,8 +219,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\lpc40xx_base.lib</PathWithFileName>
-      <FilenameWithoutPath>lpc40xx_base.lib</FilenameWithoutPath>
+      <PathWithFileName>.\base_lpc40xx.lib</PathWithFileName>
+      <FilenameWithoutPath>base_lpc40xx.lib</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

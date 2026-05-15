@@ -18,7 +18,6 @@
                 "CORE_M4"
             ],
             "compilerPath": "%LOCALAPPDATA%/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
-            // "compilerPath": "C:/Keil_v5/ARM/ARMCLANG/bin/armclang.exe"
             "cStandard": "gnu11",
             "cppStandard": "gnu++11"
         }

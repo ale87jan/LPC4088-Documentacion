@@ -10,7 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6180000::V6.18::ARMCLANG</pCCUsed>
+      <pCCUsed>6240000::V6.24::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -385,19 +385,19 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>main_asm3e4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>lpc40xx_base.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>.\lpc40xx_base.lib</FilePath>
+              <FilePath>.\main_asm3e4.c</FilePath>
             </File>
             <File>
               <FileName>eval_poli.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\eval_poli.s</FilePath>
+            </File>
+            <File>
+              <FileName>base_lpc40xx.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\base_lpc40xx.lib</FilePath>
             </File>
           </Files>
         </Group>

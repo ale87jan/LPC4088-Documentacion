@@ -13,7 +13,7 @@ insert_final_newline = true
 max_line_length = 100
 
 [*.{S,s,asm}]
-indent_size = 2
+indent_size = 4
 
 [Makefile]
 indent_style = tab
